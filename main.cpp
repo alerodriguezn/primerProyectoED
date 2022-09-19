@@ -6,10 +6,17 @@ struct personas{
     string nombre;
     int cedula;
     string lugarResidencia;
-    string añoResidencia;
+    string agnoResidencia;
 
     personas* sig;
     personas* ant;
+
+    personas(string n, int c, string lr, string ar){
+        nombre = n;
+        cedula = c;
+        lugarResidencia = lr;
+        agnoResidencia = ar;
+    }
 
 };
 
@@ -19,6 +26,12 @@ struct lluvia{
     int rangoPromedioEn_mm;
 
     lluvia* sig;
+
+    lluvia(string c, string n, int rp){
+        codigo = c;
+        nombre = n;
+        rangoPromedioEn_mm = rp;
+    }
 };
 
 struct region{
@@ -29,6 +42,16 @@ struct region{
 
     region* sig;
 
+    region(int i, string n, string u){
+        id = i;
+        nombre = n; 
+        ubicacion = u;
+    }
+
+    void agregarLugar(struct lugar*sublistasLugares){
+        //Aqui iria la funcion de agregar lugar 
+        cout << "Agregando nuevo lugar";
+    }
 };
 
 struct lugar{
@@ -37,6 +60,12 @@ struct lugar{
     double metrosCuadrados;
 
     lugar* sig;
+
+    lugar(string n, int p, double mc){
+        nombre = n;
+        poblacion = p;
+        metrosCuadrados = mc;
+    }
 };
 
 struct efimeridad{
@@ -48,6 +77,12 @@ struct efimeridad{
     efimeridad* sig;
     efimeridad* ant;
 
+    efimeridad(string n, string f, string hs, string ho){
+        nombre = n;
+        fecha = f;
+        horaSalida = hs;
+        horaOcultamiento = ho;
+    }
 };
 
 
