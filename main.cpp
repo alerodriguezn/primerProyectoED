@@ -27,7 +27,7 @@ struct personas{
         //Aquí iría el metodo de agregar un tiempo a la sublista de tiempos o directamente mandar una lista de tiempos
         cout << "Agregando nuevo registro de tiempo";
     }
-};
+}*listaPersonas;
 
 struct lluvia{
     string codigo;
@@ -173,6 +173,39 @@ lugar * insertarLugar(string nom, int pob, double met, lugar * lista){
     return lista;
 }
 
+personas *insertarPersona(string nombre, int cedula, string lugarResidencia, string agnoResidencia){
+
+    personas * nuevaPersona = new personas(nombre, cedula, lugarResidencia,agnoResidencia);
+    if (listaPersonas == NULL)
+    {
+        listaPersonas = nuevaPersona;
+    }
+
+    else if (nombre[0] < listaPersonas->nombre[0])
+    {               
+        listaPersonas->ant = nuevaPersona;
+        listaPersonas = nuevaPersona;
+    }
+
+    else{
+        personas* temp = listaPersonas;
+        personas* te = listaPersonas;
+        while ((temp != NULL) &&(nombre[0] >= temp->nombre[0]))
+        {
+            te = temp;
+            temp = temp->sig;
+        }
+        nuevaPersona->ant = te;
+        te->sig = nuevaPersona;
+        if (temp != NULL)
+        {
+            nuevaPersona->sig = temp;
+        }
+        return listaPersonas;
+        
+    }
+}
+
 /*IMPRIMIR DE CADA UNO DE LOS INSERTAR*/
 
 void imprimirLluvia(lluvia * lista)
@@ -216,6 +249,29 @@ void imprimirLugar(lugar * lista){
     }
 }
 
+void imprimirPersonas(personas* lista){
+    if(lista == NULL)
+        cout << "\nLA LISTA ESTA VACIA\n";
+    else{
+        personas * temp = lista;
+        cout << "\nIMPRIMIENTO HACIA ADELANTE... \n";
+        while(temp->sig!=NULL){
+            cout<<"Nombre: "<<temp->nombre<<endl;
+            temp = temp->sig;
+        }
+        cout<<"Nombre: "<<temp->nombre<<endl;
+        //AHORA IMPRIMO HACIA ATRAS
+        cout << "\nIMPRIMIENTO HACIA ATRAS... \n";
+        while(temp!=NULL){
+            cout<<"Nombre: "<<temp->nombre<<endl;
+            temp = temp->ant;
+        }
+    }
+
+}
+
+
+
 /*  OTROS MÉTODOS   */
 void cargarDatos()
 {
@@ -233,6 +289,15 @@ void cargarDatos()
     listaLugar = insertarLugar("Lugar#2", 100, 2.5, listaLugar);
     listaLugar = insertarLugar("Lugar#3", 100, 2.5, listaLugar);
     listaLugar = insertarLugar("Lugar#4", 100, 2.5, listaLugar);
+
+
+    listaPersonas = insertarPersona("Alejandro Rodriguez", 208360735, "El Tanque","2018");
+    listaPersonas = insertarPersona("Juan Ca", 2081230735, "La Fortuna","2013");
+    listaPersonas = insertarPersona("Beto Beto", 1011230735, "San Rafael","2022");
+    listaPersonas = insertarPersona("Roberto Jimenez", 3011230735, "Florencia","2021");
+    listaPersonas = insertarPersona("Alondra", 4011230735, "Santa Clara","2024");
+    listaPersonas = insertarPersona("Carlos Ruiz", 3011230735, "Florencia","2021");
+    listaPersonas = insertarPersona("Bianca Ruiz", 4011230735, "Florencia","2022");
 }
 
 int main()
@@ -242,6 +307,7 @@ int main()
     imprimirLluvia(listaLluvia);
     imprimirRegion(listaRegion);
     imprimirLugar(listaLugar);
+    imprimirPersonas(listaPersonas);
 
     return 0;
 }
