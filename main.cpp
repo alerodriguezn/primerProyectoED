@@ -200,6 +200,7 @@ personas *insertarPersona(string nombre, int cedula, string lugarResidencia, str
         if (temp != NULL)
         {
             nuevaPersona->sig = temp;
+            temp->ant = nuevaPersona;
         }
         return listaPersonas;
         
