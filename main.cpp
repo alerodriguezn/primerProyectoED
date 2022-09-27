@@ -587,13 +587,13 @@ lugar* buscarLugar(string n){
 /*  OTROS MÉTODOS   */
 void cargarDatos()
 {
-    // listaLluvia = insertarLluvia("COD#1", "NombreL#1", 01, listaLluvia);
-    // listaLluvia = insertarLluvia("COD#2", "NombreL#2", 02, listaLluvia);
+    listaLluvia = insertarLluvia("COD#1", "NombreL#1", 01, listaLluvia);
+    listaLluvia = insertarLluvia("COD#2", "NombreL#2", 02, listaLluvia);
     // listaLluvia = insertarLluvia("COD#3", "NombreL#3", 03, listaLluvia);
     // listaLluvia = insertarLluvia("COD#4", "NombreL#4", 04, listaLluvia);
 
-    // listaRegion = insertarRegion(01, "Region#1", "Ubicaicacio1", listaRegion);
-    // listaRegion = insertarRegion(02, "Region#2", "Ubicaicacio1", listaRegion);
+    listaRegion = insertarRegion(12, "Region#1", "Ubicaicacio1", listaRegion);
+    listaRegion = insertarRegion(14, "Region#2", "Ubicaicacio1", listaRegion);
     // listaRegion = insertarRegion(03, "Region#3", "Ubicaicacio1", listaRegion);
     // listaRegion = insertarRegion(04, "Region#4", "Ubicaicacio1", listaRegion);
 
@@ -603,8 +603,8 @@ void cargarDatos()
     listaLugar = insertarLugar("San Jose", 100, 2.5, listaLugar);
 
 
-    // listaPersonas = insertarPersona("Alejandro Rodriguez", 208360735, "El Tanque","2018");
-    // listaPersonas = insertarPersona("Juan Ca", 2081230735, "La Fortuna","2013");
+    listaPersonas = insertarPersona("Alejandro Rodriguez", 208360735, "El Tanque","2018");
+    listaPersonas = insertarPersona("Juan Ca", 2081230735, "La Fortuna","2013");
     // listaPersonas = insertarPersona("Beto Beto", 1011230735, "San Rafael","2022");
     // listaPersonas = insertarPersona("Roberto Jimenez", 3011230735, "Florencia","2021");
     // listaPersonas = insertarPersona("Alondra", 4011230735, "Santa Clara","2024");
@@ -695,6 +695,15 @@ int main()
 
     buscarLugar("San Jose");
     buscarLugar("d");
+    buscarPersona(208360735);
+
+    buscarLluvia("COD#1");
+    buscarLluvia("123#1");
+
+    buscarRegion(12);
+    buscarRegion(1234);
+
+
 
 
 
