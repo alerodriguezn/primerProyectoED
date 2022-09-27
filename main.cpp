@@ -462,6 +462,126 @@ void imprimirEfimeridades(efimeridad* lista){
 
 }
 
+// =========== Metodos de Buscar ================
+
+personas* buscarPersona(int cedula){
+    cout<<"Buscando Persona...";
+    if (listaPersonas == NULL)
+    {
+        cout<<"Lista Vacia";
+    }
+
+    personas*temp = listaPersonas;
+    while (temp != NULL)
+    {
+        if (temp->cedula == cedula){
+            cout<<"\nPersonas Encontrada"<<endl;
+            return temp;
+        }
+        temp = temp->sig;
+    }
+
+    cout<<"\nPersona No Encontrada"<<endl;
+    
+    return NULL;
+}
+
+efimeridad* buscarEfemeridad(tm * fecha ){
+    cout<<"Buscando Efimeridad...";
+    if (listaEfimeridades == NULL)
+    {
+        cout<<"Lista Vacia";
+    }
+
+    efimeridad*temp = listaEfimeridades;
+    while (temp != NULL)
+    {
+        if (temp->fecha == fecha){
+            cout<<"\nEfimeridad Encontrada"<<endl;
+            return temp;
+        }
+        temp = temp->sig;
+    }
+
+    cout<<"\nEfimeridad No Encontrada"<<endl;
+    
+    return NULL;
+}
+
+
+lluvia* buscarLluvia(string codigo){
+    cout<<"Buscando Lluvia...";
+    if (listaLluvia == NULL)
+    {
+        cout<<"Lista Vacia";
+    }
+
+    lluvia*temp = listaLluvia;
+    while (temp != NULL)
+    {
+        if (temp->codigo == codigo){
+            cout<<"\nLluvia Encontrada"<<endl;
+            return temp;
+        }
+        temp = temp->sig;
+    }
+
+    cout<<"\nLluvia No Encontrada"<<endl;
+    
+    return NULL;
+}
+
+region* buscarRegion(int id){
+    cout<<"Buscando Region...";
+    if (listaRegion == NULL)
+    {
+        cout<<"Lista Vacia";
+    }
+
+    region*temp = listaRegion;
+    while (temp != NULL)
+    {
+        if (temp->id == id){
+            cout<<"\nRegion Encontrada"<<endl;
+            return temp;
+        }
+        temp = temp->sig;
+    }
+
+    cout<<"\nRegion No Encontrada"<<endl;
+    
+    return NULL;
+}
+
+
+
+
+
+lugar* buscarLugar(string n){
+    cout<<"Buscando Lugar ..."<<endl;
+    if (listaLugar == NULL){
+        cout<<"\n Lista Vacia"<<endl;
+    }else{
+        lugar*temp = listaLugar;
+        if (temp->nombre == n)
+        {
+            cout<<"Lugar Encontrado"<<endl;
+            return temp;
+        }
+        while (temp->sig != listaLugar)  
+        {
+            if (temp->nombre == n)
+            {
+                return temp;
+            }
+            temp = temp->sig;
+        }
+
+        cout<<"Lugar no encontrado "<<endl;
+        return NULL;
+    }
+}
+
 
 
 /*  OTROS MÉTODOS   */
@@ -477,10 +597,10 @@ void cargarDatos()
     // listaRegion = insertarRegion(03, "Region#3", "Ubicaicacio1", listaRegion);
     // listaRegion = insertarRegion(04, "Region#4", "Ubicaicacio1", listaRegion);
 
-    // listaLugar = insertarLugar("Lugar#1", 100, 2.5, listaLugar);
-    // listaLugar = insertarLugar("Lugar#2", 100, 2.5, listaLugar);
-    // listaLugar = insertarLugar("Lugar#3", 100, 2.5, listaLugar);
-    // listaLugar = insertarLugar("Lugar#4", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("San Carlos", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("Santa Clara", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("San Jose", 100, 2.5, listaLugar);
 
 
     // listaPersonas = insertarPersona("Alejandro Rodriguez", 208360735, "El Tanque","2018");
@@ -567,17 +687,15 @@ void cargarDatos()
 }
 
 
+
 int main()
 {
     llenarVectorMeses();
     cargarDatos();
-    imprimirEfimeridades(listaEfimeridades);
 
+    buscarLugar("San Jose");
+    buscarLugar("d");
 
-    // imprimirLluvia(listaLluvia);
-    // imprimirRegion(listaRegion);
-    // imprimirLugar(listaLugar);
-    // imprimirPersonas(listaPersonas);
 
 
     return 0;
