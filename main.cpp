@@ -703,9 +703,5 @@ int main()
     buscarRegion(12);
     buscarRegion(1234);
 
-
-
-
-
     return 0;
 }
