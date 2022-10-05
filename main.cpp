@@ -961,6 +961,5 @@ int main()
     {
         menuConsultas();
     }
-
     return 0;
 }
