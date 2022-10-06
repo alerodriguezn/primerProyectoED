@@ -35,13 +35,23 @@ struct relTiempoLugar
 
 };
 
+
+struct relTiempoPersona
+{
+    relTiempoPersona*sig;
+    struct tiempo*enlace;
+    relTiempoPersona(){
+    }
+
+};
+
 struct personas
 {
     string nombre;
     int cedula;
     string lugarResidencia;
     string agnoResidencia;
-    struct tiempo *sublistasTiempos;
+    struct relTiempoPersona *sublistasTiempos;
 
     personas *sig;
     personas *ant;
@@ -57,11 +67,7 @@ struct personas
         sublistasTiempos = NULL;
     }
 
-    void agregarTiempo(tiempo *nuevoTiempo)
-    {
-        // Aquí iría el metodo de agregar un tiempo a la sublista de tiempos o directamente mandar una lista de tiempos
-        cout << "Agregando nuevo registro de tiempo";
-    }
+    
 } * listaPersonas;
 
 struct lluvia
@@ -350,10 +356,6 @@ efimeridad *insertarEfimeridad(string nombre, tm *fecha, tm *horaSalida, tm *hor
     }
     return listaEfimeridades;
 }
-
-
-
-
 
 // Se encarga de pedir una fecha y la valida. Ademas crea y retorna una nueva instancia de tipo tm para manipular la fecha mas facil.
 
@@ -980,9 +982,9 @@ tm *crearHora(int h, int m)
 
 //Retorna la fecha apartir de un string
 tm *obtenerFechadeString(string fecha){
-    int agno = fecha[0] -48 + fecha[1] -48 ;
-    int mes = fecha[3] -48 + fecha[4] -48 ;
-    int dia = fecha[6] -48 + fecha[7] -48 ;
+    int agno = (fecha[0] -48)*1000 + (fecha[1] -48)*100 + (fecha[2] -48)*10 + fecha[3] -48;
+    int mes =  (fecha[5] -48)*10 + fecha[6] -48 ;
+    int dia = (fecha[8] -48)*10 + fecha[9] -48 ;
 
     return crearFecha(agno,mes,dia);
 
@@ -1167,9 +1169,7 @@ void imprimirExtremos()
 }
 
 
-
-
-void RelacionarTiempoLugar(tm*fecha,string nombre){
+void relacionarTiempoLugar(tm*fecha,string nombre){
     lugar*l = buscarLugar(nombre);
     tiempo*t = buscarTiempo(fecha->tm_year,fecha->tm_mon,fecha->tm_mday);
     if (l == NULL)
@@ -1187,6 +1187,33 @@ void RelacionarTiempoLugar(tm*fecha,string nombre){
     nuevo->enlace = t;
     nuevo->sig = l->sublistasTiempos;
     l->sublistasTiempos = nuevo;
+    cout<<"====================";
+    cout<<"Relacion Completada";
+    cout<<"====================";
+}
+
+void relacionarTiempoPersona(tm*fecha,int cedula){
+    personas*p = buscarPersona(cedula);
+    tiempo*t = buscarTiempo(fecha->tm_year,fecha->tm_mon,fecha->tm_mday);
+    if (p == NULL)
+    {
+        cout<<"Personas no valida";
+        return;
+    }
+    if (t == NULL)
+    {
+        cout<<"Tiempo no valido";
+        return;
+    }
+
+    relTiempoPersona*nuevo = new relTiempoPersona;
+    nuevo->enlace = t;
+    nuevo->sig = p->sublistasTiempos;
+    p->sublistasTiempos = nuevo;
+    cout<<"====================";
+    cout<<"Relacion Completada";
+    cout<<"====================";
+
 }
 
 //Menu de Borrado
@@ -1271,9 +1298,9 @@ void menuModificar(){
 
         cout <<"==== Modificando Persona ==="<<endl;
         cout << "\nCedula de la persona a modificar: "; cin >> cedula; cout << endl;
-        cout << "\nNuevo Nombre: "; cin >> nombre; cout << endl;
+        cout << "\nNuevo Nombre: "; getline(cin >> ws,nombre); cout << endl;
         cout << "\nNueva Cedula: "; cin >> cedulaN; cout << endl;
-        cout << "\nNuevo Lugar Residencia: "; cin >> lugarResidencia; cout << endl;
+        cout << "\nNuevo Lugar Residencia: "; getline(cin >> ws,lugarResidencia); cout << endl;
         cout << "\nNuevo Año Residencia: "; cin >> agnoResidencia; cout << endl;
 
         if (buscarPersona(cedula) != NULL){
@@ -1290,7 +1317,7 @@ void menuModificar(){
         cout <<"==== Modificando Lluvia ==="<<endl;
         cout << "\nCodigo de la lluvia a modificar: "; cin >> codigo; cout << endl;
         cout << "\nNuevo Codigo: "; cin >> codigoN; cout << endl;
-        cout << "\nNuevo Nombre: "; cin >> nombre; cout << endl;
+        cout << "\nNuevo Nombre: "; getline(cin >> ws,nombre); cout << endl;
         cout << "\nNuevo Rango en Promedio(en MM): "; cin >> rangoPromedioEn_MM; cout << endl;
 
         if (buscarLluvia(codigo) != NULL){
@@ -1307,8 +1334,8 @@ void menuModificar(){
         cout <<"==== Modificando Region ==="<<endl;
         cout << "\nID de la region a modificar: "; cin >> id; cout << endl;
         cout << "\nNuevo ID: "; cin >> idN; cout << endl;
-        cout << "\nNuevo Nombre: "; cin >> nombre; cout << endl;
-        cout << "\nNueva Ubicacion: "; cin >> ubicacion; cout << endl;
+        cout << "\nNuevo Nombre: "; getline(cin >> ws,nombre); cout << endl;
+        cout << "\nNueva Ubicacion: "; getline(cin >> ws,ubicacion); cout << endl;
 
         if (buscarRegion(id) != NULL){
             modificarRegion(id,idN,nombre,ubicacion);
@@ -1323,8 +1350,8 @@ void menuModificar(){
         int poblacion;
         double metrosCuadrados;
         cout <<"==== Modificando Lugar ==="<<endl;
-        cout << "\nNombre del lugar a modificar: "; cin >> nombre; cout << endl;
-        cout << "\nNuevo Nombre: "; cin >> nombreN; cout << endl;
+        cout << "\nNombre del lugar a modificar: "; getline(cin >> ws,nombre); cout << endl;
+        cout << "\nNuevo Nombre: "; getline(cin >> ws,nombreN); cout << endl;
         cout << "\nNueva Poblacion: "; cin >> poblacion; cout << endl;
         cout << "\nNuevo Metros Cuadrados: "; cin >> metrosCuadrados; cout << endl;
 
@@ -1338,7 +1365,7 @@ void menuModificar(){
         string nombre,fecha,fechaN,horaSalida,horaOcultamiento;
         cout <<"==== Modificando Efimeridad ==="<<endl;
         cout << "\nFecha de efimeridad a modificar: "; cin >> fecha; cout << endl;
-        cout << "\nNuevo Nombre: "; cin >> nombre; cout << endl;
+        cout << "\nNuevo Nombre: "; getline(cin >> ws,nombre); cout << endl;
         cout << "\nNueva Fecha(YYYY/MM/DD): "; cin >> fechaN; cout << endl;
         cout << "\nNueva Hora Salida(HH:MM): "; cin >> horaSalida; cout << endl;
         cout << "\nNueva Hora Ocultamieto(HH:MM): "; cin >> horaOcultamiento; cout << endl;
@@ -1391,7 +1418,7 @@ void menuModificar(){
 
 
 
-void menuInserciones()
+void menuInserciones(personas* personaLogeada)
 {
     
     cout << "\n--------------------BIENVENIDO AL MENU DE INSERCIONES------------------------" << endl;
@@ -1401,7 +1428,11 @@ void menuInserciones()
     cout << "\n3. Insertar en lista de region";
     cout << "\n4. Insertar en lista de lugar";
     cout << "\n5. Insertar en lista de efimeridad";
-    cout << "\n6. Insertar en lista tiempo" << endl;
+    cout << "\n6. Insertar en lista tiempo";
+    cout << "\n7. Insertar en sublista tiempo (Lugar)";
+    cout << "\n8. Insertar en sublista tiempo (Personas)" << endl;
+
+
 
     cout << "\nDigite su opción a ejecutar: ";
     cin >> opcion;
@@ -1413,9 +1444,9 @@ void menuInserciones()
         int cedula;
 
         cout <<"==== Insertando Persona ==="<<endl;
-        cout << "\nNombre: "; cin >> nombre; cout << endl;
+        cout << "\nNombre: "; getline(cin >> ws,nombre); cout << endl;
         cout << "\nCedula: "; cin >> cedula; cout << endl;
-        cout << "\nLugar Residencia: "; cin >> lugarResidencia; cout << endl;
+        cout << "\nLugar Residencia: "; getline(cin >> ws,lugarResidencia); cout << endl;
         cout << "\nAño Residencia: "; cin >> agnoResidencia; cout << endl;
 
         if (buscarPersona(cedula) == NULL){
@@ -1432,7 +1463,7 @@ void menuInserciones()
         int rangoPromedioEn_MM;
         cout <<"==== Insertando Lluvia ==="<<endl;
         cout << "\nCodigo: "; cin >> codigo; cout << endl;
-        cout << "\nNombre: "; cin >> nombre; cout << endl;
+        cout << "\nNombre: "; getline(cin >> ws,nombre); cout << endl;
         cout << "\nRango en Promedio(en MM): "; cin >> rangoPromedioEn_MM; cout << endl;
 
         if (buscarLluvia(codigo) == NULL){
@@ -1449,8 +1480,8 @@ void menuInserciones()
         int id;
         cout <<"==== Insertando Region ==="<<endl;
         cout << "\nID: "; cin >> id; cout << endl;
-        cout << "\nNombre: "; cin >> nombre; cout << endl;
-        cout << "\nUbicacion: "; cin >> ubicacion; cout << endl;
+        cout << "\nNombre: "; getline(cin >> ws,nombre); cout << endl;
+        cout << "\nUbicacion: "; getline(cin >> ws,ubicacion); cout << endl;
 
         if (buscarRegion(id) == NULL){
             listaRegion = insertarRegion(id,nombre,ubicacion,listaRegion);
@@ -1465,7 +1496,7 @@ void menuInserciones()
         int poblacion;
         double metrosCuadrados;
         cout <<"==== Insertando Lugar ==="<<endl;
-        cout << "\nNombre: "; cin >> nombre; cout << endl;
+        cout << "\nNombre: "; getline(cin >> ws,nombre); cout << endl;
         cout << "\nPoblacion: "; cin >> poblacion; cout << endl;
         cout << "\nMetros Cuadrados: "; cin >> metrosCuadrados; cout << endl;
 
@@ -1481,7 +1512,7 @@ void menuInserciones()
     
 
         cout <<"==== Insertando Efimeridad ==="<<endl;
-        cout << "\nNombre: "; cin >> nombre; cout << endl;
+        cout << "\nNombre: "; getline(cin >> ws,nombre); cout << endl;
         cout << "\nFecha(YYYY/MM/DD): "; cin >> fecha; cout << endl;
         cout << "\nHora Salida(HH:MM): "; cin >> horaSalida; cout << endl;
         cout << "\nHora Ocultamieto(HH:MM): "; cin >> horaOcultamiento; cout << endl;
@@ -1526,6 +1557,30 @@ void menuInserciones()
             cout<<"No se pudo inserta el tiempo, al parecer YA EXISTE";
         }
 
+    }else if(opcion == 7){
+        string nombreLugar,fecha;
+
+        cout <<"==== Insertando en Sublista de Tiempo(Lugar) ==="<<endl;
+        cout << "\nFecha del tiempo(YYYY/MM/DD):"; cin >> fecha; cout << endl;
+        cout << "\nNombre del lugar: "; getline(cin >> ws,nombreLugar); cout << endl;
+        
+    
+        tm* f = obtenerFechadeString(fecha);
+
+        relacionarTiempoLugar(f,nombreLugar);
+
+    }
+    else if(opcion ==8){
+        string fecha;
+        int cedula;
+
+        cout <<"==== Insertando en Sublista de Tiempo(Persona) ==="<<endl;
+        cout << "\nFecha del tiempo(YYYY/MM/DD): "; cin >> fecha; cout << endl;
+    
+        tm* f = obtenerFechadeString(fecha);
+
+        relacionarTiempoPersona(f,personaLogeada->cedula);
+
     }
     else
     {
@@ -1565,19 +1620,20 @@ void menuConsultas()
     }
 }
 
-personas *loginPersona;
 
 
-
-
+personas*loginPersona;
 int main()
 {
 
     llenarVectorMeses();
     cargarDatos();
 
-    
-
+    /* Pruebas
+    tm *fecha = obtenerFechadeString("2020/10/02");
+    relacionarTiempoLugar(fecha,"San Jose");
+    lugar * listaLugarPrueba = listaLugar;
+    relacionarTiempoPersona(fecha,208360735);*/
 
     cout << "\n--------------------BIENVENIDO AL SISTEMA------------------------" << endl;
     
@@ -1610,7 +1666,7 @@ int main()
             
                 if (opcion == 1)
                 {
-                    menuInserciones();
+                    menuInserciones(loginPersona);
                 }
 
                 else if (opcion == 2)
