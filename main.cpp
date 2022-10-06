@@ -24,6 +24,17 @@ void llenarVectorMeses()
 }
 
 /*  ESTRUCTURAS   */
+
+
+struct relTiempoLugar
+{
+    relTiempoLugar*sig;
+    struct tiempo*enlace;
+    relTiempoLugar(){
+    }
+
+};
+
 struct personas
 {
     string nombre;
@@ -98,7 +109,7 @@ struct lugar
     string nombre;
     int poblacion;
     double metrosCuadrados;
-    struct tiempo *sublistasTiempos;
+    struct relTiempoLugar *sublistasTiempos;
 
     lugar *sig;
 
@@ -1155,6 +1166,30 @@ void imprimirExtremos()
    }
 }
 
+
+
+
+void RelacionarTiempoLugar(tm*fecha,string nombre){
+    lugar*l = buscarLugar(nombre);
+    tiempo*t = buscarTiempo(fecha->tm_year,fecha->tm_mon,fecha->tm_mday);
+    if (l == NULL)
+    {
+        cout<<"Lugar no valido";
+        return;
+    }
+    if (t == NULL)
+    {
+        cout<<"Tiempo no valido";
+        return;
+    }
+
+    relTiempoLugar*nuevo = new relTiempoLugar;
+    nuevo->enlace = t;
+    nuevo->sig = l->sublistasTiempos;
+    l->sublistasTiempos = nuevo;
+}
+
+//Menu de Borrado
 void menuBorrado(){
     cout << "\n--------------------BIENVENIDO AL MENU DE BORRADO------------------------" << endl;
     int opcion;
@@ -1351,6 +1386,8 @@ void menuModificar(){
         }
     }
 }
+
+
 
 
 
