@@ -848,6 +848,107 @@ void borrarLugar(string nombre){
         cout << "No se encontro el lugar";
 }
 
+//Metodos para modificaar en la lista
+
+
+void modificarPersona(int cedula,int cedulaN, string nombreN,string lugarResidenciaN,string agnoResidenciaN){
+
+    personas*aux = buscarPersona(cedula);
+    if (aux != NULL)
+    {
+        aux->nombre = nombreN;
+        aux->cedula = cedulaN;
+        aux->lugarResidencia = lugarResidenciaN;
+        aux->agnoResidencia = agnoResidenciaN;
+        //Aqui faltaria ver si le borramos las sublistas(Supongo que es opcional)
+    }else{
+        cout<<"No se encontro a la Persona";
+    }
+
+}
+
+void modificarLluvia(string codigo,string codigoN, string nombreN, int rangoPromedioEn_mmN){
+
+    lluvia*aux = buscarLluvia(codigo);
+    if (aux != NULL)
+    {
+        aux->codigo = codigoN;
+        aux->nombre = nombreN;
+        aux->rangoPromedioEn_mm = rangoPromedioEn_mmN;
+        //Aqui faltaria ver si le borramos las sublistas(Supongo que es opcional)
+    }else{
+        cout<<"No se encontro la lluvia";
+    }
+
+}
+void modificarEfimeridad(string nombreN, tm*fecha,tm*fechaN,tm*horaSalidan,tm*horaOcultamientoN){
+
+    efimeridad*aux = buscarEfemeridad(fecha);
+    if (aux != NULL)
+    {
+        aux->nombre = nombreN;
+        aux->fecha = fechaN;
+        aux->horaSalida = horaSalidan;
+        aux->horaOcultamiento = horaOcultamientoN;
+
+        //Aqui faltaria ver si le borramos las sublistas(Supongo que es opcional)
+    }else{
+        cout<<"No se encontro la lluvia";
+    }
+
+}
+
+void modificarRegion(int id,int idN, string nombreN, string ubicacionN){
+
+    region*aux = buscarRegion(id);
+    if (aux != NULL)
+    {
+        aux->id = idN;
+        aux->nombre = nombreN;
+        aux->ubicacion = ubicacionN;
+        //Aqui faltaria ver si le borramos las sublistas(Supongo que es opcional)
+    }else{
+        cout<<"No se encontro la region";
+    }
+}
+
+void modificarLugar(string nombre,string nombreN, int poblacionN, double metrosCuadradosN){
+
+    lugar*aux = buscarLugar(nombre);
+    if (aux != NULL)
+    {
+        aux->nombre = nombreN;
+        aux->poblacion = poblacionN;
+        aux->metrosCuadrados = metrosCuadradosN;
+        //Aqui faltaria ver si le borramos las sublistas(Supongo que es opcional)
+    }else{
+        cout<<"No se encontro el lugar";
+    }
+}
+
+
+void modificarTiempo(tm *fecha,tm *fechaN, int precipitacionN, int tempMaximaN, int tempMinimaN, int velocidadVientoN, int direccionVientoN, int humedadRelativaN, bool siLlovioN){
+
+    tiempo*aux = buscarTiempo(fecha->tm_year,fecha->tm_mon,fecha->tm_mday);
+    if (aux != NULL)
+    {
+        aux->fecha = fechaN;
+        aux->precipitacion = precipitacionN;
+        aux->tempMaxima = tempMaximaN;
+        aux->tempMinima = tempMinimaN;
+        aux->velocidadViento = velocidadVientoN;
+        aux->direccionViento = direccionVientoN;
+        aux->siLlovio = siLlovioN;
+
+        //Aqui faltaria ver si le borramos las sublistas(Supongo que es opcional)
+    }else{
+        cout<<"No se encontro el tiempo";
+    }
+
+}
+
+
+
 // Métodos que permiten guardar las fechas y las horas de los datos quemados
 tm *crearFecha(int y, int m, int d)
 {
@@ -1300,6 +1401,10 @@ int main()
 
     llenarVectorMeses();
     cargarDatos();
+
+    
+
+
     cout << "\n--------------------BIENVENIDO AL SISTEMA------------------------" << endl;
     
 
