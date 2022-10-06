@@ -340,6 +340,10 @@ efimeridad *insertarEfimeridad(string nombre, tm *fecha, tm *horaSalida, tm *hor
     return listaEfimeridades;
 }
 
+
+
+
+
 // Se encarga de pedir una fecha y la valida. Ademas crea y retorna una nueva instancia de tipo tm para manipular la fecha mas facil.
 
 tm *pedirFecha()
@@ -704,6 +708,146 @@ tiempo *buscarTiempo(int anio, int mes, int dia)
     return NULL;
 }
 
+// Metodos de borrado en la listas
+
+void borrarPersona(int cedula){
+    personas*buscado = buscarPersona(cedula);
+    if(buscado == NULL){
+        cout<<"No se puede borrar";
+        return;
+    }else{
+        if(buscado == listaPersonas){
+            listaPersonas = listaPersonas->sig;
+            if (listaPersonas != NULL){
+                listaPersonas->ant = NULL;
+            }    
+        }else{//Borra medio o al final
+            buscado->ant->sig = buscado->sig;
+            if (buscado->sig != NULL)
+            {
+                buscado->sig->ant = buscado->ant;
+            }
+            
+        }
+    }
+}
+
+void borrarEfimeridad(tm* fecha){
+    efimeridad*buscado = buscarEfemeridad(fecha);
+    if(buscado == NULL){
+        cout<<"No se puede borrar";
+        return;
+    }else{
+        if(buscado == listaEfimeridades){
+            listaEfimeridades = listaEfimeridades->sig;
+            if (listaEfimeridades != NULL){
+                listaEfimeridades->ant = NULL;
+            }    
+        }else{//Borra medio o al final
+            buscado->ant->sig = buscado->sig;
+            if (buscado->sig != NULL)
+            {
+                buscado->sig->ant = buscado->ant;
+            }
+            
+        }
+    }
+}
+
+void borrarLluvia(string codigo){
+    lluvia* temp = listaLluvia;
+    lluvia* prev = NULL;
+    if (temp != NULL && temp->codigo == codigo)
+    {
+        listaLluvia = temp->sig; 
+        return;
+    }
+    else{
+    while (temp != NULL && temp->codigo != codigo){
+        prev = temp;
+        temp = temp->sig;
+    }
+    if (temp == NULL){
+        return;
+    }
+    prev->sig = temp->sig;
+    }
+}
+
+void borrarRegion(int id){
+    region* temp = listaRegion;
+    region* prev = NULL;
+    if (temp != NULL && temp->id == id)
+    {
+        listaRegion = temp->sig; 
+        return;
+    }
+    else{
+    while (temp != NULL && temp->id != id){
+        prev = temp;
+        temp = temp->sig;
+    }
+    if (temp == NULL){
+        return;
+    }
+    prev->sig = temp->sig;
+    }
+}
+
+void borrarTiempo(tm* fecha){
+    tiempo* temp = listaTiempo;
+    tiempo* prev = NULL;
+    if ((temp != NULL) && (temp->fecha->tm_year == fecha->tm_year) && (temp->fecha->tm_mon == fecha->tm_mon)&& (temp->fecha->tm_mday == fecha->tm_mday))
+    {
+        listaTiempo = temp->sig; 
+        return;
+    }
+    else{
+    while ((temp != NULL) && (temp->fecha->tm_year != fecha->tm_year) && (temp->fecha->tm_mon != fecha->tm_mon)&& (temp->fecha->tm_mday != fecha->tm_mday)){
+        prev = temp;
+        temp = temp->sig;
+    }
+    if (temp == NULL){
+        return;
+    }
+    prev->sig = temp->sig;
+    }
+}
+
+void borrarLugar(string nombre){
+ 
+    if (listaLugar == NULL)
+        return;
+ 
+    //Si solo hay un dato la lista pasa a ser NULL
+    if (listaLugar->nombre == nombre && listaLugar->sig == listaLugar) {
+        listaLugar = NULL;
+        return;
+    }
+    lugar *ultimo = listaLugar, *d;
+    if (listaLugar->nombre == nombre) {
+ 
+        while (ultimo->sig != listaLugar){
+            ultimo = ultimo->sig;
+        }
+
+        ultimo->sig = listaLugar->sig;
+        
+        listaLugar= ultimo->sig;
+        return;
+    }
+    while (ultimo->sig != listaLugar && ultimo->sig->nombre != nombre) {
+        ultimo = ultimo->sig;
+    }
+ 
+    if (ultimo->sig->nombre == nombre) {
+        d = ultimo->sig;
+        ultimo->sig = d->sig;
+    }
+    else
+        cout << "No se encontro el lugar";
+}
+
 // Métodos que permiten guardar las fechas y las horas de los datos quemados
 tm *crearFecha(int y, int m, int d)
 {
@@ -910,6 +1054,66 @@ void imprimirExtremos()
    }
 }
 
+void menuBorrado(){
+    cout << "\n--------------------BIENVENIDO AL MENU DE BORRADO------------------------" << endl;
+    int opcion;
+    cout << "\n1. Borrar Personas";
+    cout << "\n2. Borrar Lluvia";
+    cout << "\n3. Borrar Region";
+    cout << "\n4. Borrar tiempo";
+    cout << "\n5. Borrar lugar";
+    cout << "\n6. Borrar efimeridad"<<endl;
+    
+    cout << "\nDigite su opción a ejecutar: ";
+    cin >> opcion;
+    cout << endl;
+
+    if (opcion == 1){
+        int cedula;
+        cout <<"==== Borrando Persona ==="<<endl;
+        cout << "\nCedula: "; cin >> cedula; cout << endl;
+        borrarPersona(cedula);
+        cout<<"=== Se ha borrado la persona ===";
+
+    }else if (opcion == 2){
+        string codigo;
+        cout <<"==== Borrando Lluvia ==="<<endl;
+        cout << "\nCodigo: "; cin >> codigo; cout << endl;
+        borrarLluvia(codigo);
+        cout<<"=== Se ha borrado la lluvia ===";
+        
+    }else if (opcion == 3){
+        int id;
+        cout <<"==== Borrando Region ==="<<endl;
+        cout << "\n ID: "; cin >> id; cout << endl;
+        borrarRegion(id);
+        cout<<"=== Se ha borrado la region ===";
+        
+    }else if (opcion == 4){
+        string fecha;
+        cout <<"==== Borrando Tiempo ==="<<endl;
+        cout << "\n Fecha(YYYY/MM/DD): "; cin >> fecha; cout << endl;
+        borrarTiempo(obtenerFechadeString(fecha));
+        cout<<"=== Se ha borrado el Tiempo ===";
+        
+    }else if (opcion == 5){
+        string nombre;
+        cout <<"==== Borrando Lugar ==="<<endl;
+        cout << "\nNombre: "; cin >> nombre; cout << endl;
+        borrarLugar(nombre);
+        cout<<"=== Se ha borrado el lugar ===";
+        
+    }else if (opcion == 6){
+        string fechaE;
+        cout <<"==== Borrando Efimeridad ==="<<endl;
+        cout << "\n Fecha(YYYY/MM/DD): "; cin >> fechaE; cout << endl;
+        borrarTiempo(obtenerFechadeString(fechaE));
+        cout<<"=== Se ha borrado la Efimeridad ===";
+        
+    }
+
+}
+
 
 
 void menuInserciones()
@@ -1096,7 +1300,6 @@ int main()
 
     llenarVectorMeses();
     cargarDatos();
-
     cout << "\n--------------------BIENVENIDO AL SISTEMA------------------------" << endl;
     
 
@@ -1133,7 +1336,7 @@ int main()
 
                 else if (opcion == 2)
                 {
-                    
+                    menuBorrado();               
                     
                 }
                 else if (opcion == 3)
