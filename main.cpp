@@ -881,14 +881,14 @@ void modificarLluvia(string codigo,string codigoN, string nombreN, int rangoProm
     }
 
 }
-void modificarEfimeridad(string nombreN, tm*fecha,tm*fechaN,tm*horaSalidan,tm*horaOcultamientoN){
+void modificarEfimeridad(string nombreN, tm*fecha,tm*fechaN,tm*horaSalidaN,tm*horaOcultamientoN){
 
     efimeridad*aux = buscarEfemeridad(fecha);
     if (aux != NULL)
     {
         aux->nombre = nombreN;
         aux->fecha = fechaN;
-        aux->horaSalida = horaSalidan;
+        aux->horaSalida = horaSalidaN;
         aux->horaOcultamiento = horaOcultamientoN;
 
         //Aqui faltaria ver si le borramos las sublistas(Supongo que es opcional)
@@ -1215,6 +1215,143 @@ void menuBorrado(){
 
 }
 
+void menuModificar(){
+    cout << "\n--------------------BIENVENIDO AL MENU DE MODIFICAR------------------------" << endl;
+    int opcion;
+    cout << "\n1. Modificar Persona";
+    cout << "\n2. Modificar luvia";
+    cout << "\n3. Modificar Region";
+    cout << "\n4. Modifcar Lugar";
+    cout << "\n5. Modificar Efimeridad";
+    cout << "\n6. Modificar Tiempo" << endl;
+
+    cout << "\nDigite su opción a ejecutar: ";
+    cin >> opcion;
+    cout << endl;
+
+    if (opcion == 1)
+    {
+        string nombre, lugarResidencia,agnoResidencia;
+        int cedula,cedulaN;
+
+        cout <<"==== Modificando Persona ==="<<endl;
+        cout << "\nCedula de la persona a modificar: "; cin >> cedula; cout << endl;
+        cout << "\nNuevo Nombre: "; cin >> nombre; cout << endl;
+        cout << "\nNueva Cedula: "; cin >> cedulaN; cout << endl;
+        cout << "\nNuevo Lugar Residencia: "; cin >> lugarResidencia; cout << endl;
+        cout << "\nNuevo Año Residencia: "; cin >> agnoResidencia; cout << endl;
+
+        if (buscarPersona(cedula) != NULL){
+            modificarPersona(cedula,cedulaN,nombre,lugarResidencia,agnoResidencia);
+            cout<<"Personas Modificada Correctamente";
+        }else{
+            cout<<"No se puede modificar a la persona, al parecer no existe";
+        }
+    }else if (opcion == 2)
+    {
+
+        string codigo, codigoN, nombre;
+        int rangoPromedioEn_MM;
+        cout <<"==== Modificando Lluvia ==="<<endl;
+        cout << "\nCodigo de la lluvia a modificar: "; cin >> codigo; cout << endl;
+        cout << "\nNuevo Codigo: "; cin >> codigoN; cout << endl;
+        cout << "\nNuevo Nombre: "; cin >> nombre; cout << endl;
+        cout << "\nNuevo Rango en Promedio(en MM): "; cin >> rangoPromedioEn_MM; cout << endl;
+
+        if (buscarLluvia(codigo) != NULL){
+            modificarLluvia(codigo,codigoN,nombre,rangoPromedioEn_MM);
+            cout<<"Lluvia Modificada Correctamente";
+        }else{
+            cout<<"No se pudo modificar la lluvia";
+        }
+        
+    }else if (opcion == 3)
+    {
+        string nombre, ubicacion;
+        int id,idN;
+        cout <<"==== Modificando Region ==="<<endl;
+        cout << "\nID de la region a modificar: "; cin >> id; cout << endl;
+        cout << "\nNuevo ID: "; cin >> idN; cout << endl;
+        cout << "\nNuevo Nombre: "; cin >> nombre; cout << endl;
+        cout << "\nNueva Ubicacion: "; cin >> ubicacion; cout << endl;
+
+        if (buscarRegion(id) != NULL){
+            modificarRegion(id,idN,nombre,ubicacion);
+            cout<<"Region Modificada Correctamente";
+        }else{
+            cout<<"No se pudo modificar la region";
+        }
+        
+        
+    }else if(opcion == 4){
+        string nombre,nombreN;
+        int poblacion;
+        double metrosCuadrados;
+        cout <<"==== Modificando Lugar ==="<<endl;
+        cout << "\nNombre del lugar a modificar: "; cin >> nombre; cout << endl;
+        cout << "\nNuevo Nombre: "; cin >> nombreN; cout << endl;
+        cout << "\nNueva Poblacion: "; cin >> poblacion; cout << endl;
+        cout << "\nNuevo Metros Cuadrados: "; cin >> metrosCuadrados; cout << endl;
+
+        if (buscarLugar(nombre) != NULL){
+            modificarLugar(nombre,nombreN,poblacion,metrosCuadrados);
+            cout<<"Lugar Modificado Correctamente";
+        }else{
+            cout<<"No se pudo modificar el lugar";
+        }
+    }else if(opcion == 5){
+        string nombre,fecha,fechaN,horaSalida,horaOcultamiento;
+        cout <<"==== Modificando Efimeridad ==="<<endl;
+        cout << "\nFecha de efimeridad a modificar: "; cin >> fecha; cout << endl;
+        cout << "\nNuevo Nombre: "; cin >> nombre; cout << endl;
+        cout << "\nNueva Fecha(YYYY/MM/DD): "; cin >> fechaN; cout << endl;
+        cout << "\nNueva Hora Salida(HH:MM): "; cin >> horaSalida; cout << endl;
+        cout << "\nNueva Hora Ocultamieto(HH:MM): "; cin >> horaOcultamiento; cout << endl;
+        tm* fechaB = obtenerFechadeString(fecha);
+        tm* fechaNN = obtenerFechadeString(fechaN);
+        tm* horaS = obtenerHoradeString(horaSalida);
+        tm* horaO = obtenerHoradeString(horaOcultamiento); 
+
+        if (buscarEfemeridad(fechaB) != NULL){
+            modificarEfimeridad(nombre,fechaB,fechaNN,horaS,horaO);
+            cout<<"Efimeridad Modificada Correctamente";
+        }else{
+            cout<<"No se pudo modificar la Efimeridad";
+        }
+
+    }else if(opcion == 6){
+        string fecha,fechaN;
+        bool siLlovio = false;
+        int precipitacion,tempMaxima,tempMinima,velocidadViento,direccionViento,humedadRelativa;
+        string lluvia;
+        cout <<"==== Insertando Tiempo ==="<<endl;
+        cout << "\nFecha del tiempo a modificar(YYYY/MM/DD): "; cin >> fecha; cout << endl;
+        cout << "\nNueva Fecha(YYYY/MM/DD): "; cin >> fechaN; cout << endl;
+        cout << "\nNueva Precipitacion: "; cin >> precipitacion; cout << endl;
+        cout << "\nNueva Temperatura Maxima: "; cin >> tempMaxima; cout << endl;
+        cout << "\nNueva Temperatura Minima: "; cin >> tempMinima; cout << endl;
+        cout << "\nNueva Velocidad del viento: "; cin >> velocidadViento; cout << endl;
+        cout << "\nNueva Direccion del viento: "; cin >> direccionViento; cout << endl;
+        cout << "\nNueva Humedad del viento: "; cin >> humedadRelativa; cout << endl;
+        cout << "\nNuevo Llovio(s/n): "; cin >> lluvia;cout<< endl;
+        if(siLlovio == 's'){
+            siLlovio = true;
+        }
+        tm*fB = obtenerFechadeString(fecha);
+        tm*fN = obtenerFechadeString(fecha);
+        int agno = fB->tm_year;
+        int mes = fB->tm_mon;
+        int dia = fB->tm_mday;
+
+        if (buscarTiempo(agno,mes,dia) != NULL){
+            modificarTiempo(fB,fN,precipitacion,tempMaxima,tempMinima,velocidadViento,direccionViento,humedadRelativa,siLlovio);
+            cout<<"Tiempo Modificado Correctamente";
+        }else{
+            cout<<"No se pudo modificar el tiempo";
+        }
+    }
+}
+
 
 
 void menuInserciones()
@@ -1446,7 +1583,7 @@ int main()
                 }
                 else if (opcion == 3)
                 {
-                    
+                    menuModificar();
                 }
                 else if (opcion == 4)
                 {
