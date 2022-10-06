@@ -43,6 +43,7 @@ struct personas
         this->agnoResidencia = agnoResidencia;
         sig = NULL;
         ant = NULL;
+        sublistasTiempos = NULL;
     }
 
     void agregarTiempo(tiempo *nuevoTiempo)
@@ -107,6 +108,7 @@ struct lugar
         this->poblacion = poblacion;
         this->metrosCuadrados = metrosCuadrados;
         sig = NULL;
+        sublistasTiempos = NULL;
     }
 
     void agregarTiempo(tiempo *nuevoTiempo)
@@ -148,7 +150,6 @@ struct tiempo
     int humedadRelativa;
     bool siLlovio;
     lluvia *sublistasLluvias;
-
     tiempo *sig;
 
     tiempo(tm *fecha, int precipitacion, int tempMaxima, int tempMinima, int velocidadViento, int direccionViento, int humedadRelativa, bool siLlovio)
@@ -171,6 +172,8 @@ struct tiempo
     }
 
 } * listaTiempo;
+
+
 
 /*  INSERTAR DE CADA UNA DE LAS ESTRUCTURAS */
 
@@ -554,7 +557,7 @@ void imprimirEfimeridades(efimeridad *lista)
 
 personas *buscarPersona(int cedula)
 {
-    cout << "Buscando Persona...";
+    //cout << "Buscando Persona...";
     if (listaPersonas == NULL)
     {
         cout << "Lista Vacia";
@@ -571,7 +574,7 @@ personas *buscarPersona(int cedula)
         temp = temp->sig;
     }
 
-    cout << "\nPersona No Encontrada" << endl;
+    //cout << "\nPersona No Encontrada" << endl;
 
     return NULL;
 }
@@ -697,7 +700,7 @@ tiempo *buscarTiempo(int anio, int mes, int dia)
             temp = temp->sig;
         }
     }
-    cout << "\nNo se encontró el lugar" << endl;
+    //cout << "\nNo se encontró el lugar" << endl;
     return NULL;
 }
 
@@ -717,6 +720,24 @@ tm *crearHora(int h, int m)
     hora->tm_hour = h;
     hora->tm_min = m;
     return hora;
+}
+
+//Retorna la fecha apartir de un string
+tm *obtenerFechadeString(string fecha){
+    int agno = fecha[0] -48 + fecha[1] -48 ;
+    int mes = fecha[3] -48 + fecha[4] -48 ;
+    int dia = fecha[6] -48 + fecha[7] -48 ;
+
+    return crearFecha(agno,mes,dia);
+
+}
+//Retorna la hora apartir de un string
+tm *obtenerHoradeString(string hora){
+    int h = hora[0] -48 + hora[1] -48 ;
+    int m = hora[3] -48 + hora[4] -48 ;
+
+    return crearHora(h,m);
+
 }
 
 /*  OTROS MÉTODOS   */
@@ -889,6 +910,151 @@ void imprimirExtremos()
    }
 }
 
+
+
+void menuInserciones()
+{
+    
+    cout << "\n--------------------BIENVENIDO AL MENU DE INSERCIONES------------------------" << endl;
+    int opcion;
+    cout << "\n1. Insertar en lista de personas";
+    cout << "\n2. Insertar en lista de lluvia";
+    cout << "\n3. Insertar en lista de region";
+    cout << "\n4. Insertar en lista de lugar";
+    cout << "\n5. Insertar en lista de efimeridad";
+    cout << "\n6. Insertar en lista tiempo" << endl;
+
+    cout << "\nDigite su opción a ejecutar: ";
+    cin >> opcion;
+    cout << endl;
+
+    if (opcion == 1)
+    {
+        string nombre, lugarResidencia,agnoResidencia;
+        int cedula;
+
+        cout <<"==== Insertando Persona ==="<<endl;
+        cout << "\nNombre: "; cin >> nombre; cout << endl;
+        cout << "\nCedula: "; cin >> cedula; cout << endl;
+        cout << "\nLugar Residencia: "; cin >> lugarResidencia; cout << endl;
+        cout << "\nAño Residencia: "; cin >> agnoResidencia; cout << endl;
+
+        if (buscarPersona(cedula) == NULL){
+            listaPersonas = insertarPersona(nombre,cedula,lugarResidencia,agnoResidencia);
+            cout<<"Personas Insertada Correctamente";
+        }else{
+            cout<<"No se pudo inserta a la persona, al parecer YA EXISTE";
+        }
+    }
+    else if (opcion == 2)
+    {
+
+        string codigo, nombre;
+        int rangoPromedioEn_MM;
+        cout <<"==== Insertando Lluvia ==="<<endl;
+        cout << "\nCodigo: "; cin >> codigo; cout << endl;
+        cout << "\nNombre: "; cin >> nombre; cout << endl;
+        cout << "\nRango en Promedio(en MM): "; cin >> rangoPromedioEn_MM; cout << endl;
+
+        if (buscarLluvia(codigo) == NULL){
+            listaLluvia= insertarLluvia(codigo,nombre,rangoPromedioEn_MM,listaLluvia);
+            cout<<"Lluvia Insertada Correctamente";
+        }else{
+            cout<<"No se pudo inserta la lluvia, al parecer YA EXISTE";
+        }
+        
+    }
+    else if (opcion == 3)
+    {
+        string nombre, ubicacion;
+        int id;
+        cout <<"==== Insertando Region ==="<<endl;
+        cout << "\nID: "; cin >> id; cout << endl;
+        cout << "\nNombre: "; cin >> nombre; cout << endl;
+        cout << "\nUbicacion: "; cin >> ubicacion; cout << endl;
+
+        if (buscarRegion(id) == NULL){
+            listaRegion = insertarRegion(id,nombre,ubicacion,listaRegion);
+            cout<<"Region Insertada Correctamente";
+        }else{
+            cout<<"No se pudo inserta la region, al parecer YA EXISTE";
+        }
+        
+        
+    }else if(opcion == 4){
+        string nombre;
+        int poblacion;
+        double metrosCuadrados;
+        cout <<"==== Insertando Lugar ==="<<endl;
+        cout << "\nNombre: "; cin >> nombre; cout << endl;
+        cout << "\nPoblacion: "; cin >> poblacion; cout << endl;
+        cout << "\nMetros Cuadrados: "; cin >> metrosCuadrados; cout << endl;
+
+        if (buscarLugar(nombre) == NULL){
+            listaLugar = insertarLugar(nombre,poblacion,metrosCuadrados,listaLugar);
+            cout<<"Lugar Insertado Correctamente";
+        }else{
+            cout<<"No se pudo inserta el lugar, al parecer YA EXISTE";
+        }
+
+    }else if(opcion == 5){
+        string nombre,fecha,horaSalida,horaOcultamiento;
+    
+
+        cout <<"==== Insertando Efimeridad ==="<<endl;
+        cout << "\nNombre: "; cin >> nombre; cout << endl;
+        cout << "\nFecha(YYYY/MM/DD): "; cin >> fecha; cout << endl;
+        cout << "\nHora Salida(HH:MM): "; cin >> horaSalida; cout << endl;
+        cout << "\nHora Ocultamieto(HH:MM): "; cin >> horaOcultamiento; cout << endl;
+        tm* f = obtenerFechadeString(fecha);
+        tm* horaS = obtenerHoradeString(horaSalida);
+        tm* horaO = obtenerHoradeString(horaOcultamiento); 
+
+        if (buscarEfemeridad(f) == NULL){
+            listaEfimeridades = insertarEfimeridad(nombre,f,horaS,horaO);
+            cout<<"Efimeridad Insertada Correctamente";
+        }else{
+            cout<<"No se pudo inserta la Efimeridad, al parecer YA EXISTE";
+        }
+
+    }else if(opcion == 6){
+        string fecha;
+        bool siLlovio = false;
+        int precipitacion,tempMaxima,tempMinima,velocidadViento,direccionViento,humedadRelativa;
+        string lluvia;
+        cout <<"==== Insertando Tiempo ==="<<endl;
+        cout << "\nFecha(YYYY/MM/DD): "; cin >> fecha; cout << endl;
+        cout << "\nPrecipitacion: "; cin >> precipitacion; cout << endl;
+        cout << "\nTemperatura Maxima: "; cin >> tempMaxima; cout << endl;
+        cout << "\nTemperatura Minima: "; cin >> tempMinima; cout << endl;
+        cout << "\nVelocidad del viento: "; cin >> velocidadViento; cout << endl;
+        cout << "\nDireccion del viento: "; cin >> direccionViento; cout << endl;
+        cout << "\nHumedad del viento: "; cin >> humedadRelativa; cout << endl;
+        cout << "\nLlovio(s/n): "; cin >> lluvia;cout<< endl;
+        if(siLlovio == 's'){
+            siLlovio = true;
+        }
+
+        tm*f = obtenerFechadeString(fecha);
+        int agno = f->tm_year;
+        int mes = f->tm_mon;
+        int dia = f->tm_mday;
+
+        if (buscarTiempo(agno,mes,dia) == NULL){
+            listaTiempo = insertarTiempo(f,precipitacion,tempMaxima,tempMinima,velocidadViento,direccionViento,humedadRelativa,siLlovio);
+            cout<<"Tiempo insertado Correctamente";
+        }else{
+            cout<<"No se pudo inserta el tiempo, al parecer YA EXISTE";
+        }
+
+    }
+    else
+    {
+        cout << "La opción digitada es inválida";
+        //main();
+    }
+}
+
 void menuConsultas()
 {
     cout << "\n--------------------BIENVENIDO AL MENU DE CONSULTAS------------------------" << endl;
@@ -916,17 +1082,27 @@ void menuConsultas()
     else
     {
         cout << "La opción digitada es inválida";
-        main();
+        //main();
     }
 }
 
 personas *loginPersona;
-void login() 
+
+
+
+
+int main()
 {
-    bool log = true;
-    while (log)
+
+    llenarVectorMeses();
+    cargarDatos();
+
+    cout << "\n--------------------BIENVENIDO AL SISTEMA------------------------" << endl;
+    
+
+    while (true)
     {
-        cout << "\n------------ESCRIBA SU NÚMERO DE CÉDULA PARA INGRESAR AL SISTEMA-------------" << endl;
+        cout << "\n------------ESCRIBA SU NÚMERO DE CÉDULA PARA INGRESAR -------------" << endl;
         int cedula;
         cout << "\nCédula: "; cin >> cedula; cout << endl;
         loginPersona = buscarPersona(cedula);
@@ -936,30 +1112,52 @@ void login()
         }
         else
         {
-            cout << "\nPersona que ingresa: ";
-            cin >> loginPersona->nombre; cout << endl;
-            main();
+            while (true){
+                int opcion;
+                cout << "\n========================";
+                cout << "\n1. Menu de Inserciones.";
+                cout << "\n2. Menu de Borrar.";
+                cout << "\n3. Menu de Modificar.";
+                cout << "\n4. Menu de consultas.";
+                cout << "\n4. Menu de reportes.";
+                cout << "\n5. Salir" << endl;
+                cout << "\n========================";
+                cout << "\nDigite su opción: ";
+                cin >> opcion;
+                cout << endl;
+            
+                if (opcion == 1)
+                {
+                    menuInserciones();
+                }
+
+                else if (opcion == 2)
+                {
+                    
+                    
+                }
+                else if (opcion == 3)
+                {
+                    
+                }
+                else if (opcion == 4)
+                {
+                    menuConsultas();
+                    
+                }
+                else if (opcion == 5)
+                {
+                    break;
+                    
+                }
+                
+            }                       
+
+            
         }
     }
-}
 
-int main()
-{
 
-    cout << "\n--------------------BIENVENIDO AL SISTEMA------------------------" << endl;
-    llenarVectorMeses();
-    cargarDatos();
-
-    int opcion;
-    cout << "\n1. Para ingresar al menu de consultas.";
-    cout << "\n2. Para ingresar al menu de reportes." << endl;
-    cout << "\nDigite su opción: ";
-    cin >> opcion;
-    cout << endl;
-
-    if (opcion == 1)
-    {
-        menuConsultas();
-    }
+   
     return 0;
 }
