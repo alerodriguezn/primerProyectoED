@@ -765,6 +765,7 @@ void imprimirTiempoPorLugar(string nombre) {
                 
             }
             contador = contador + 1;
+            
         } while (temp->sig != NULL);
     }
 }
@@ -1159,6 +1160,80 @@ tm *obtenerHoradeString(string hora){
 
 }
 
+//Metodo que relacion Tiempo y Lugar
+void relacionarTiempoLugar(tm*fecha,string nombre){
+    lugar*l = buscarLugar(nombre);
+    tiempo*t = buscarTiempo(fecha->tm_year,fecha->tm_mon,fecha->tm_mday);
+
+    if (l == NULL)
+    {
+        cout<<"Lugar no valido";
+        return;
+    }
+    if (t == NULL)
+    {
+        cout<<"Tiempo no valido";
+        return;
+    }
+
+    relTiempoLugar*nuevo = new relTiempoLugar;
+    nuevo->enlace = t;
+    nuevo->sig = l->sublistasTiempos;
+    l->sublistasTiempos = nuevo;
+    cout<<"====================";
+    cout<<"Relacion Completada";
+    cout<<"====================";
+}
+
+//Metodo que relacion Tiempo y Persona
+void relacionarTiempoPersona(tm*fecha,int cedula){
+    personas*p = buscarPersona(cedula);
+    tiempo*t = buscarTiempo(fecha->tm_year,fecha->tm_mon,fecha->tm_mday);
+    if (p == NULL)
+    {
+        cout<<"Personas no valida";
+        return;
+    }
+    if (t == NULL)
+    {
+        cout<<"Tiempo no valido";
+        return;
+    }
+
+    relTiempoPersona*nuevo = new relTiempoPersona;
+    nuevo->enlace = t;
+    nuevo->sig = p->sublistasTiempos;
+    p->sublistasTiempos = nuevo;
+    cout<<"====================";
+    cout<<"Relacion Completada";
+    cout<<"====================";
+
+}
+
+void relacionarLugarRegion(string nombre,int id){
+    region*r = buscarRegion(id);
+    lugar*l = buscarLugar(nombre);
+    if (l == NULL)
+    {
+        cout<<"Lugar no valida";
+        return;
+    }
+    if (r == NULL)
+    {
+        cout<<"Region no valida";
+        return;
+    }
+
+    relRegionLugar*nuevo = new relRegionLugar;
+    nuevo->enlace = l;
+    nuevo->sig = r->sublistasLugares;
+    r->sublistasLugares = nuevo;
+    cout<<"====================";
+    cout<<"Relacion Completada";
+    cout<<"====================";
+
+}
+
 /*  OTROS MÉTODOS   */
 void cargarDatos()
 {
@@ -1181,27 +1256,31 @@ void cargarDatos()
     listaLluvia = insertarLluvia("COD-4-27", "Lluvia fuerte", 27, listaLluvia);
     listaLluvia = insertarLluvia("COD-4-22", "Lluvia fuerte", 22, listaLluvia);
 
-    listaRegion = insertarRegion(12, "Quesada", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
-    listaRegion = insertarRegion(14, "Florencia", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
-    listaRegion = insertarRegion(3, "Buenavista", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
-    listaRegion = insertarRegion(4, "Aguas Zarcas", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
-    listaRegion = insertarRegion(4, "Venecia", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
-    listaRegion = insertarRegion(4, "Pital", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
-    listaRegion = insertarRegion(4, "La Fortuna", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
-    listaRegion = insertarRegion(4, "La Tigra", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
-    listaRegion = insertarRegion(4, "La Palmera", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
-    listaRegion = insertarRegion(4, "Pocosol", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(12, "San José", "Provincia de San José, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(14, "Escazú", "Provincia de San José, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(3, "San Carlos", "Provincia de Alajuela, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "Palmares", "Provincia de Alajuela, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "Paraíso", "Provincia de Cartago, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "La unión", "Provincia de Cartago, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "Belén", "Provincia de Heredia, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "Puntarenas", "Provincia de Puntarenas, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "Nicoya", "Provincia de Guanacaste, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "Talamanca", "Provincia de Limón, de Costa Rica", listaRegion);
 
-    listaLugar = insertarLugar("Santa Rosa", 100, 2.5, listaLugar);
-    listaLugar = insertarLugar("Buenos Aires", 100, 2.5, listaLugar);
-    listaLugar = insertarLugar("Santa Clara", 100, 2.5, listaLugar);
-    listaLugar = insertarLugar("Barrio Baltazar", 100, 2.5, listaLugar);
-    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
-    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
-    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
-    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
-    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
-    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("Carmen", 370, 1.47, listaLugar); //San josé
+    listaLugar = insertarLugar("Merced", 446, 2.17, listaLugar);
+
+    listaLugar = insertarLugar("Pocosol", 164, 1.54, listaLugar); //san carlos
+    listaLugar = insertarLugar("Aguas Zarcas", 474, 1.18, listaLugar);
+
+    listaLugar = insertarLugar("Zaragoza", 386, 3.76, listaLugar); //Palmares
+    listaLugar = insertarLugar("Buenos Aires", 154, 2.5, listaLugar);
+
+    listaLugar = insertarLugar("San Antonio", 300, 4.91, listaLugar); //Belen
+    listaLugar = insertarLugar("La Ribera", 389, 3.9, listaLugar);
+    listaLugar = insertarLugar("La Asunción", 433, 4.47, listaLugar);
+
+    listaLugar = insertarLugar("Quebrada Honda", 287, 3.31, listaLugar); //Nicoya
 
     listaPersonas = insertarPersona("Alejandro Rodriguez", 208360735, "El Tanque", "2018");
     listaPersonas = insertarPersona("Juan Ca", 2081230735, "La Fortuna", "2013");
@@ -1210,6 +1289,39 @@ void cargarDatos()
     listaPersonas = insertarPersona("Alondra", 4011230735, "Santa Clara","2024");
     listaPersonas = insertarPersona("Carlos Ruiz", 3011230735, "Florencia","2021");
     listaPersonas = insertarPersona("Bianca Ruiz", 1234, "Florencia","2022");
+
+    listaTiempo = insertarTiempo(crearFecha(2020, 9, 23), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2018, 11, 7), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2018, 8, 12), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2018, 3, 21), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2021, 7, 15), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2021, 8,  8), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2019, 8, 21), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2019, 2,  7), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2019, 12,15), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2018, 11,18), 4, 30, 24, 14, -45, -3, true);
+
+    relacionarTiempoPersona(crearFecha(2020, 9, 23), 208360735);
+    relacionarTiempoPersona(crearFecha(2018, 11, 7), 208360735);
+    relacionarTiempoPersona(crearFecha(2018, 8, 12), 2081230735);
+    relacionarTiempoPersona(crearFecha(2018, 3, 21), 2081230735);
+    relacionarTiempoPersona(crearFecha(2021, 7, 15), 2081230735);
+    relacionarTiempoPersona(crearFecha(2021, 8,  8), 1011230735);
+    relacionarTiempoPersona(crearFecha(2019, 8, 21), 1011230735);
+    relacionarTiempoPersona(crearFecha(2019, 2,  7), 4011230735);
+    relacionarTiempoPersona(crearFecha(2019, 12,15), 3011230735);
+    relacionarTiempoPersona(crearFecha(2018, 11,18), 3011230735);
+
+    relacionarTiempoLugar(crearFecha(2020, 9, 23), "Carmen");
+    relacionarTiempoLugar(crearFecha(2018, 11, 7), "Carmen");
+    relacionarTiempoLugar(crearFecha(2018, 8, 12), "Pocosol");
+    relacionarTiempoLugar(crearFecha(2018, 3, 21), "Pocosol");
+    relacionarTiempoLugar(crearFecha(2021, 7, 15), "Pocosol");
+    relacionarTiempoLugar(crearFecha(2021, 8,  8), "Buenos Aires");
+    relacionarTiempoLugar(crearFecha(2019, 8, 21), "San Antonio");
+    relacionarTiempoLugar(crearFecha(2019, 2,  7), "Quebrada Honda");
+    relacionarTiempoLugar(crearFecha(2019, 12,15), "La Ribera");
+    relacionarTiempoLugar(crearFecha(2018, 11,18), "Aguas Zarcas");
 
     listaEfimeridades = insertarEfimeridad("Efimeridad 1", crearFecha(2020, 9, 23), crearHora(7, 25), crearHora(17, 9));
     listaEfimeridades = insertarEfimeridad("Efimeridad 2", crearFecha(2018, 11, 7), crearHora(5, 37), crearHora(17, 20));
@@ -1221,18 +1333,6 @@ void cargarDatos()
     listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2019, 2, 7), crearHora(6, 12), crearHora(20, 12));
     listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2019, 12, 15), crearHora(6, 12), crearHora(20, 12));
     listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2018, 11, 18), crearHora(6, 12), crearHora(20, 12));
-
-    listaTiempo = insertarTiempo(crearFecha(2020, 9, 23), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2018, 11, 7), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2018, 8, 12), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2018, 3, 21), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2021, 7, 15), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2021, 8, 8), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2019, 8, 21), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2019, 2, 7), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2019, 12, 15), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2018, 11, 18), 4, 30, 24, 14, -45, -3, true);
-    
 }
 
 void impOcultamientoSalidaSol()
@@ -1400,82 +1500,6 @@ void personaMayorRegistrosTiempo()
 
     cout << "La persona con más registros de tiempo es " << masRegistros->nombre;
 }
-
-//Metodo que relacion Tiempo y Lugar
-void relacionarTiempoLugar(tm*fecha,string nombre){
-    lugar*l = buscarLugar(nombre);
-    tiempo*t = buscarTiempo(fecha->tm_year,fecha->tm_mon,fecha->tm_mday);
-
-    if (l == NULL)
-    {
-        cout<<"Lugar no valido";
-        return;
-    }
-    if (t == NULL)
-    {
-        cout<<"Tiempo no valido";
-        return;
-    }
-
-    relTiempoLugar*nuevo = new relTiempoLugar;
-    nuevo->enlace = t;
-    nuevo->sig = l->sublistasTiempos;
-    l->sublistasTiempos = nuevo;
-    cout<<"====================";
-    cout<<"Relacion Completada";
-    cout<<"====================";
-}
-
-//Metodo que relacion Tiempo y Persona
-void relacionarTiempoPersona(tm*fecha,int cedula){
-    personas*p = buscarPersona(cedula);
-    tiempo*t = buscarTiempo(fecha->tm_year,fecha->tm_mon,fecha->tm_mday);
-    if (p == NULL)
-    {
-        cout<<"Personas no valida";
-        return;
-    }
-    if (t == NULL)
-    {
-        cout<<"Tiempo no valido";
-        return;
-    }
-
-    relTiempoPersona*nuevo = new relTiempoPersona;
-    nuevo->enlace = t;
-    nuevo->sig = p->sublistasTiempos;
-    p->sublistasTiempos = nuevo;
-    cout<<"====================";
-    cout<<"Relacion Completada";
-    cout<<"====================";
-
-}
-
-void relacionarLugarRegion(string nombre,int id){
-    region*r = buscarRegion(id);
-    lugar*l = buscarLugar(nombre);
-    if (l == NULL)
-    {
-        cout<<"Lugar no valida";
-        return;
-    }
-    if (r == NULL)
-    {
-        cout<<"Region no valida";
-        return;
-    }
-
-    relRegionLugar*nuevo = new relRegionLugar;
-    nuevo->enlace = l;
-    nuevo->sig = r->sublistasLugares;
-    r->sublistasLugares = nuevo;
-    cout<<"====================";
-    cout<<"Relacion Completada";
-    cout<<"====================";
-
-}
-
-
 
 
 //Menu de Borrado
