@@ -471,7 +471,7 @@ void imprimirLluvia(lluvia *lista)
         lluvia *temp = lista;
         while (temp != NULL)
         {
-            cout << temp->codigo << "\t" << temp->nombre << "\t" << temp->rangoPromedioEn_mm << endl;
+            cout << "\nCodigo: " << temp->codigo << "\nNombre: " << temp->nombre << "\nPromedio en milimetros: " << temp->rangoPromedioEn_mm << endl;
             temp = temp->sig;
         }
         cout << endl;
@@ -489,7 +489,7 @@ void imprimirRegion(region *lista)
         region *temp = lista;
         while (temp != NULL)
         {
-            cout << temp->id << "\t" << temp->nombre << "\t" << temp->ubicacion << endl;
+            cout << "\nId: " << temp->id << "\nNombre: " << temp->nombre << "\nUbicacion: " << temp->ubicacion << endl;
             temp = temp->sig;
         }
         cout << endl;
@@ -507,7 +507,7 @@ void imprimirLugar(lugar *lista)
         lugar *temp = lista;
         do
         {
-            cout << temp->nombre << "\t" << temp->poblacion << "\t" << temp->metrosCuadrados << endl;
+            cout << "\nNombre: " << temp->nombre << "\nPoblacion: " << temp->poblacion << "\nMetros Cuadrados: " << temp->metrosCuadrados << endl;
             temp = temp->sig;
         } while (temp != lista);
     }
@@ -1589,6 +1589,67 @@ void menuInserciones(personas* personaLogeada)
     }
 }
 
+void menuImprimir()
+{
+    
+    cout << "\n--------------------BIENVENIDO AL MENU DE IMPRESIONES------------------------" << endl;
+    int opcion;
+    cout << "\n1. Imprimir lista de personas";
+    cout << "\n2. Imprimir lista de lluvia";
+    cout << "\n3. Imprimir lista de region";
+    cout << "\n4. Imprimir lista de lugar";
+    cout << "\n5. Imprimir lista de efimeridad";
+    cout << "\n6. Imprimir lista tiempo";
+    cout << "\n7. Imprimir sublista tiempo (Lugar)";
+    cout << "\n8. Imprimir sublista tiempo (Personas)" << endl;
+
+
+
+    cout << "\nDigite su opción a ejecutar: ";
+    cin >> opcion;
+    cout << endl;
+
+    if (opcion == 1)
+    {
+        imprimirPersonas(listaPersonas);
+    }
+    else if (opcion == 2)
+    {
+        imprimirLluvia(listaLluvia);
+    }
+    else if (opcion == 3)
+    {   
+        imprimirRegion(listaRegion);
+    }
+    else if(opcion == 4)
+    {    
+        imprimirLugar(listaLugar);
+    }
+    else if(opcion == 5)
+    {
+        imprimirEfimeridades(listaEfimeridades);
+    }
+    else if(opcion == 6)
+    {
+        cout << "Imprimir Tiempo" << endl;
+    }
+    else if(opcion == 7)
+    {
+        cout << "subLista tiempo(lugar)" << endl;
+        
+    }
+    else if(opcion ==8)
+    {
+        cout << "sublista tiempo(personas)" << endl;
+
+    }
+    else
+    {
+        cout << "La opción digitada es inválida";
+        //main();
+    }
+}
+
 void menuConsultas()
 {
     cout << "\n--------------------BIENVENIDO AL MENU DE CONSULTAS------------------------" << endl;
@@ -1654,41 +1715,34 @@ int main()
                 int opcion;
                 cout << "\n========================";
                 cout << "\n1. Menu de Inserciones.";
-                cout << "\n2. Menu de Borrar.";
-                cout << "\n3. Menu de Modificar.";
-                cout << "\n4. Menu de consultas.";
-                cout << "\n4. Menu de reportes.";
-                cout << "\n5. Salir" << endl;
+                cout << "\n2. Menu de Imprimir.";
+                cout << "\n3. Menu de Borrar.";
+                cout << "\n4. Menu de Modificar.";
+                cout << "\n5. Menu de consultas.";
+                cout << "\n6. Menu de reportes.";
+                cout << "\n0. Salir" << endl;
                 cout << "\n========================";
                 cout << "\nDigite su opción: ";
                 cin >> opcion;
                 cout << endl;
             
                 if (opcion == 1)
-                {
                     menuInserciones(loginPersona);
-                }
 
                 else if (opcion == 2)
-                {
-                    menuBorrado();               
+                    menuImprimir();
                     
-                }
                 else if (opcion == 3)
-                {
-                    menuModificar();
-                }
+                    menuBorrado(); 
+
                 else if (opcion == 4)
-                {
-                    menuConsultas();
-                    
-                }
+                    menuModificar();
+
                 else if (opcion == 5)
-                {
-                    break;
-                    
-                }
+                    menuConsultas();
                 
+                else if (opcion == 0)
+                    break;
             }                       
 
             
