@@ -1667,7 +1667,7 @@ void menuModificar(){
         tm*fN = obtenerFechadeString(fecha);
         int agno = fB->tm_year;
         int mes = fB->tm_mon;
-        int dia = fB->tm_mday;
+        int dia = fB->tm_mday; 
 
         if (buscarTiempo(agno,mes,dia) != NULL){
             modificarTiempo(fB,fN,precipitacion,tempMaxima,tempMinima,velocidadViento,direccionViento,humedadRelativa,siLlovio);
