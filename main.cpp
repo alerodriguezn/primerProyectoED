@@ -761,11 +761,12 @@ void imprimirTiempoPorLugar(string nombre) {
                 do
                 {
                     cout << "\t LLuvia: " << tempLluvia->codigo << endl;
+                    tempLluvia = tempLluvia->sig;
                 } while (tempLluvia->sig != NULL);
                 
             }
             contador = contador + 1;
-            
+            temp = temp->sig;
         } while (temp->sig != NULL);
     }
 }
@@ -811,8 +812,8 @@ void imprimirTimepoPorPersona(int cedula)
                 
             }
             contador = contador + 1;
-            temp->enlace = temp->enlace->sig;
-        } while (temp->enlace->sig != NULL);
+            temp = temp->sig;
+        } while (temp->sig != NULL);
     }
 }
 
@@ -839,8 +840,8 @@ void imprimirLugaresPorRegion(int id)
             cout << "Metros Cuadrados : " << temp->enlace->metrosCuadrados << endl;
        
             contador = contador + 1;
-            temp->enlace = temp->enlace->sig;
-        } while (temp->enlace->sig != NULL);
+            temp = temp->sig;
+        } while (temp->sig != NULL);
     }
 }
 
