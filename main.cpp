@@ -587,6 +587,10 @@ lugar *buscarLugar(string n)
             }
             temp = temp->sig;
         }
+        if (temp->nombre == n)
+        {
+            return temp;
+        }
     }
     cout << "Lugar no encontrado " << endl;
     return NULL;
