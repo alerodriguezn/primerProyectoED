@@ -750,16 +750,21 @@ void imprimirTiempoPorLugar(string nombre) {
     }
 }
 
-void imprimirTimepoPorPersona(personas *loginPersona)
+void imprimirTimepoPorPersona(int cedula)
 {
-    if (loginPersona->sublistasTiempos == NULL) 
+    personas *personaElegida = buscarPersona(cedula);
+    if (personaElegida == NULL)
+    {
+        cout << "\nLo sentimos, intente de nuevo" << endl;
+    }
+    else if (personaElegida->sublistasTiempos == NULL) 
     {
         cout << "\nEsta lista está vacía" << endl;
     }
     else
     {
         int contador = 1;
-        relTiempoPersona *temp = loginPersona->sublistasTiempos;
+        relTiempoPersona *temp = personaElegida->sublistasTiempos;
         do        
         {
             cout << "Tiempo número " << contador;
@@ -1107,15 +1112,29 @@ tm *obtenerHoradeString(string hora){
 /*  OTROS MÉTODOS   */
 void cargarDatos()
 {
-    listaLluvia = insertarLluvia("COD#1", "NombreL#1", 01, listaLluvia);
-    listaLluvia = insertarLluvia("COD#2", "NombreL#2", 02, listaLluvia);
-    listaLluvia = insertarLluvia("COD#3", "NombreL#3", 03, listaLluvia);
-    listaLluvia = insertarLluvia("COD#4", "NombreL#4", 04, listaLluvia);
+    /**
+     * Con 0 mm/h no hay nada de lluvia.                                    EXTREMO SECO
+     * De 1 a 2 mm/h diremos lluvias débiles.                               SECO                    
+     * De 2 a 15 mm/h será lluvia.                                          NORMAL
+     * De 15 a 30 saltaremos a lluvias fuertes.                             LLUVIOSO
+     * De 30 a 60 lluvias muy fuertes.                                      EXTREMO LLUVIOSO
+     * Finalmente más de 60 mm/h se describirán como lluvias torrenciales.  EXTREMO LLUVIOSO
+     */
+    listaLluvia = insertarLluvia("COD#1", "NombreL#1", 1, listaLluvia);
+    listaLluvia = insertarLluvia("COD#2", "NombreL#2", 2, listaLluvia);
+    listaLluvia = insertarLluvia("COD#3", "NombreL#3", 3, listaLluvia);
+    listaLluvia = insertarLluvia("COD#4", "NombreL#4", 4, listaLluvia);
+    listaLluvia = insertarLluvia("COD#4", "NombreL#4", 4, listaLluvia);
+    listaLluvia = insertarLluvia("COD#4", "NombreL#4", 4, listaLluvia);
+    listaLluvia = insertarLluvia("COD#4", "NombreL#4", 4, listaLluvia);
+    listaLluvia = insertarLluvia("COD#4", "NombreL#4", 4, listaLluvia);
+    listaLluvia = insertarLluvia("COD#4", "NombreL#4", 4, listaLluvia);
+    listaLluvia = insertarLluvia("COD#4", "NombreL#4", 4, listaLluvia);
 
     listaRegion = insertarRegion(12, "Region#1", "Ubicaicacio1", listaRegion);
     listaRegion = insertarRegion(14, "Region#2", "Ubicaicacio1", listaRegion);
-    listaRegion = insertarRegion(03, "Region#3", "Ubicaicacio1", listaRegion);
-    listaRegion = insertarRegion(04, "Region#4", "Ubicaicacio1", listaRegion);
+    listaRegion = insertarRegion(3, "Region#3", "Ubicaicacio1", listaRegion);
+    listaRegion = insertarRegion(4, "Region#4", "Ubicaicacio1", listaRegion);
 
     listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
     listaLugar = insertarLugar("San Carlos", 100, 2.5, listaLugar);
@@ -1128,17 +1147,17 @@ void cargarDatos()
     listaPersonas = insertarPersona("Roberto Jimenez", 3011230735, "Florencia","2021");
     listaPersonas = insertarPersona("Alondra", 4011230735, "Santa Clara","2024");
     listaPersonas = insertarPersona("Carlos Ruiz", 3011230735, "Florencia","2021");
-    listaPersonas = insertarPersona("Bianca Ruiz", 4011230735, "Florencia","2022");
+    listaPersonas = insertarPersona("Bianca Ruiz", 1234, "Florencia","2022");
 
 
     listaEfimeridades = insertarEfimeridad("Efimeridad 1", crearFecha(2020, 3, 16), crearHora(7, 25), crearHora(17, 9));
-    listaEfimeridades = insertarEfimeridad("Efimeridad 2", crearFecha(2020, 2, 12), crearHora(7, 25), crearHora(17, 20));
-    listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2020, 6, 11), crearHora(7, 25), crearHora(20, 12));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 2", crearFecha(2020, 2, 12), crearHora(5, 37), crearHora(17, 20));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2020, 6, 11), crearHora(6, 12), crearHora(20, 12));
 
-    listaTiempo = insertarTiempo(crearFecha(2020, 9, 28), 04, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2020, 9, 30), 04, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2020, 10, 2), 04, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2020, 10, 4), 04, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2020, 9, 28), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2020, 9, 30), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2020, 10, 2), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2020, 10, 4), 4, 30, 24, 14, -45, -3, true);
 }
 
 void impOcultamientoSalidaSol()
@@ -1198,7 +1217,7 @@ int obtenerDiferencia(tm *horaTemprano, tm *horaTarde)
         
         4-1 = 3*60 = 180 minutos
         180-53 = 127 (la primera hora no estuvo completa)
-        127+23 = 150 (la última hora tiene más de 60 minutos)
+        127+23 = 150 (los minutos que sobraron)
     */
    int diferencia = horaTarde->tm_hour - horaTemprano->tm_hour; //Saco la diferencia de horas
    diferencia = diferencia * 60; //Convierto la diferencia a minutos
@@ -1219,41 +1238,34 @@ void diferenciaSalidaSol()
     cout << "\nDigite el año en el que desea buscar las fechas: ";
     cin >> anio;
     efimeridad *temp = listaEfimeridades;
+    horaTarde = temp->horaSalida;
+    horaTemprano = temp->horaSalida;
     while (temp->sig != NULL)
     {
         if (temp->fecha->tm_year == anio)
         {
-            if ((horaTarde == NULL) && (horaTemprano == NULL))
+            //Compara con las horas tempranas
+            if (temp->horaSalida->tm_hour < horaTemprano->tm_hour)
+            {
+                horaTemprano = temp->horaSalida;
+            } else if ((temp->horaSalida->tm_hour == horaTemprano->tm_hour) && (temp->horaSalida->tm_min < horaTemprano->tm_min))
+            {
+                horaTemprano = temp->horaSalida;
+            }
+            //Compara con las horas tardías
+            if (temp->horaSalida->tm_hour > horaTarde->tm_hour)
             {
                 horaTarde = temp->horaSalida;
-                horaTemprano = temp->horaSalida;
-            } else 
+            } else if ((temp->horaSalida->tm_hour == horaTarde->tm_hour) && (temp->horaSalida->tm_min > horaTarde->tm_min))
             {
-                //Compara con las horas tempranas
-                if (temp->horaSalida->tm_hour < horaTemprano->tm_hour)
-                {
-                    horaTemprano = temp->horaSalida;
-                } else if ((temp->horaSalida->tm_hour == horaTemprano->tm_hour) && (temp->horaSalida->tm_min < horaTemprano->tm_min))
-                {
-                    horaTemprano = temp->horaSalida;
-                }
-                //Compara con las horas tardías
-                if (temp->horaSalida->tm_hour > horaTarde->tm_hour)
-                {
-                    horaTarde = temp->horaSalida;
-                } else if ((temp->horaSalida->tm_hour == horaTarde->tm_hour) && (temp->horaSalida->tm_min > horaTarde->tm_min))
-                {
-                    horaTarde = temp->horaSalida;
-                }
-                temp = temp->sig;
+                horaTarde = temp->horaSalida;
             }
+            temp = temp->sig;
         }
     }
     int diferencia = obtenerDiferencia(horaTemprano, horaTarde);
-    cout << "\nLa diferencia de la salida del sol más temprana y más tarde en el año ";
-    cin >> anio;
-    cout << " es: ";
-    cin >> diferencia;
+    cout << "\nLa diferencia de la salida del sol en  más temprana y más tarde en el año " << anio;
+    cout << " es de: " << diferencia << " minutos";
 }
 
 void imprimirExtremos() 
@@ -1264,14 +1276,52 @@ void imprimirExtremos()
     meses que tiene el empate máximo.
     */
    string lugarParaBuscar;
-   int anioParaBuscar;
-   cout << "\nDigite el lugar del que desea imprimir los extremos: ";
-   cin >> lugarParaBuscar;
-   lugar *lugarEscogido = buscarLugar(lugarParaBuscar);
-   if (lugarEscogido != NULL)
-   {
-        //
-   }
+    int anioParaBuscar;
+    cout << "\nDigite el lugar del que desea imprimir los extremos: ";
+    cin >> lugarParaBuscar;
+    lugar *lugarEscogido = buscarLugar(lugarParaBuscar);
+    if (lugarEscogido == NULL)
+    {
+        cout << "\nLo sentimos" << endl;
+    }
+    else if (lugarEscogido != NULL)
+    {
+        relTiempoLugar *tempTiempo = lugarEscogido->sublistasTiempos;
+        tiempo *extLluvioso = tempTiempo->enlace;
+        tiempo *extSeco = tempTiempo->enlace;        
+    }
+}
+
+void personaMayorRegistrosTiempo() 
+{
+    /*Determinar e imprimir la persona que más registros del tiempo tiene.*/
+    personas *tempPersona = listaPersonas;
+    personas *masRegistros;
+    int registrosAnterior = 0;
+    int contadorRegistros = 0;
+    do
+    {
+        relTiempoPersona *tempRegistro = tempPersona->sublistasTiempos;
+        if (tempRegistro != NULL)
+        {
+            do
+            {
+                contadorRegistros = contadorRegistros + 1;
+                tempRegistro = tempRegistro->sig;
+            } while (tempRegistro->sig != NULL);
+            if (contadorRegistros > registrosAnterior)
+            {
+                masRegistros = tempPersona;
+                registrosAnterior = contadorRegistros;
+                cout << "REGISTROS ANTERIOR " << registrosAnterior <<endl;
+                cout << "CONTADOR REGISTROS " << contadorRegistros <<endl;
+            }
+            contadorRegistros = 0;
+        }
+        tempPersona = tempPersona->sig;
+    } while (tempPersona->sig != NULL);
+
+    cout << "La persona con más registros de tiempo es " << masRegistros->nombre;
 }
 
 
@@ -1695,31 +1745,6 @@ void menuInserciones(personas* personaLogeada)
     }
 }
 
-void imprimirTiempo() 
-{
-    int respuesta;
-    cout << "1. Imprimir el ls lista de tiempo" << endl;
-    cout << "2. Imprimir el tiempo de un lugar" << endl;
-    cout << "3. Imprimir el tiempo registrado por una persona" << endl;
-    cout << "Digite su opción a ejecutar: "; cin >> respuesta;
-
-    if (respuesta == 1)
-    {
-        imprimirListaTiempo(listaTiempo);
-    }
-    else if (respuesta == 2)
-    {
-        string nombre;
-        cout << "\n\nEscriba el nombre del lugar: ";
-        cin >> nombre;
-        imprimirTiempoPorLugar(nombre);
-    }
-    else if (respuesta == 3)
-    {
-        imprimirTimepoPorPersona(loginPersona);
-    }
-}
-
 void menuImprimir()
 {
     
@@ -1762,17 +1787,22 @@ void menuImprimir()
     }
     else if(opcion == 6)
     {
-        imprimirTiempo();
+        imprimirListaTiempo(listaTiempo);
     }
     else if(opcion == 7)
     {
-        cout << "subLista tiempo(lugar)" << endl;
+        string nombre;
+        cout << "\n\nEscriba el nombre del lugar: ";
+        cin >> nombre;
+        imprimirTiempoPorLugar(nombre);
         
     }
     else if(opcion ==8)
     {
-        cout << "sublista tiempo(personas)" << endl;
-
+        int cedula;
+        cout << "\n\nEscriba la cédula de la persona: ";
+        cin >> cedula;
+        imprimirTimepoPorPersona(cedula);
     }
     else
     {
@@ -1787,7 +1817,8 @@ void menuConsultas()
     int opcion;
     cout << "\n1. Imprimir el día en el sol sale más temprano y el día en el que el sol se oculta más temprano.";
     cout << "\n2. Imprimir las horas con mayor diferencia de salida del sol en un año.";
-    cout << "\n3. Imprimir los extremos (seco/lluvioso) de un lugar en un determinado año." << endl;
+    cout << "\n3. Imprimir los extremos (seco/lluvioso) de un lugar en un determinado año.";
+    cout << "\n4. Imprimir la persona que ha hecho mayor caantidad de registros de tiempo." << endl;
 
     cout << "\nDigite su opción a ejecutar: ";
     cin >> opcion;
@@ -1804,6 +1835,10 @@ void menuConsultas()
     else if (opcion == 3)
     {
         imprimirExtremos();
+    }
+    else if (opcion == 4)
+    {
+        personaMayorRegistrosTiempo();
     }
     else
     {
