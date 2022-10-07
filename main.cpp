@@ -1163,33 +1163,45 @@ tm *obtenerHoradeString(string hora){
 void cargarDatos()
 {
     /**
-     * Con 0 mm/h no hay nada de lluvia.                                    EXTREMO SECO
-     * De 1 a 2 mm/h diremos lluvias débiles.                               SECO                    
-     * De 2 a 15 mm/h será lluvia.                                          NORMAL
-     * De 15 a 30 saltaremos a lluvias fuertes.                             LLUVIOSO
-     * De 30 a 60 lluvias muy fuertes.                                      EXTREMO LLUVIOSO
-     * Finalmente más de 60 mm/h se describirán como lluvias torrenciales.  EXTREMO LLUVIOSO
+     * 1. Con 0 mm/h no hay nada de lluvia.                                    EXTREMO SECO
+     * 2. De 1 a 2 mm/h diremos lluvias débiles.                               SECO                    
+     * 3. De 2 a 15 mm/h será lluvia.                                          NORMAL
+     * 4. De 15 a 30 saltaremos a lluvias fuertes.                             LLUVIOSO
+     * 5. De 30 a 60 lluvias muy fuertes.                                      EXTREMO LLUVIOSO
+     * 6. Finalmente más de 60 mm/h se describirán como lluvias torrenciales.  EXTREMO LLUVIOSO
      */
-    listaLluvia = insertarLluvia("COD#1", "NombreL#1", 1, listaLluvia);
-    listaLluvia = insertarLluvia("COD#2", "NombreL#2", 2, listaLluvia);
-    listaLluvia = insertarLluvia("COD#3", "NombreL#3", 3, listaLluvia);
-    listaLluvia = insertarLluvia("COD#4", "NombreL#4", 4, listaLluvia);
-    listaLluvia = insertarLluvia("COD#4", "NombreL#4", 4, listaLluvia);
-    listaLluvia = insertarLluvia("COD#4", "NombreL#4", 4, listaLluvia);
-    listaLluvia = insertarLluvia("COD#4", "NombreL#4", 4, listaLluvia);
-    listaLluvia = insertarLluvia("COD#4", "NombreL#4", 4, listaLluvia);
-    listaLluvia = insertarLluvia("COD#4", "NombreL#4", 4, listaLluvia);
-    listaLluvia = insertarLluvia("COD#4", "NombreL#4", 4, listaLluvia);
+    listaLluvia = insertarLluvia("COD-5-55", "Lluvia muy fuerte", 55, listaLluvia);
+    listaLluvia = insertarLluvia("COD-4-16", "Lluvia fuerte", 16, listaLluvia);
+    listaLluvia = insertarLluvia("COD-3-03", "Lluvia normal", 3, listaLluvia);
+    listaLluvia = insertarLluvia("COD-6-60", "Lluvia torrencial", 60, listaLluvia);
+    listaLluvia = insertarLluvia("COD-2-10", "Lluvia débil", 10, listaLluvia);
+    listaLluvia = insertarLluvia("COD-2-06", "Lluvia débil", 6, listaLluvia);
+    listaLluvia = insertarLluvia("COD-3-09", "Lluvia normal", 9, listaLluvia);
+    listaLluvia = insertarLluvia("COD-4-20", "Lluvia fuerte", 20, listaLluvia);
+    listaLluvia = insertarLluvia("COD-4-27", "Lluvia fuerte", 27, listaLluvia);
+    listaLluvia = insertarLluvia("COD-4-22", "Lluvia fuerte", 22, listaLluvia);
 
-    listaRegion = insertarRegion(12, "Region#1", "Ubicaicacio1", listaRegion);
-    listaRegion = insertarRegion(14, "Region#2", "Ubicaicacio1", listaRegion);
-    listaRegion = insertarRegion(3, "Region#3", "Ubicaicacio1", listaRegion);
-    listaRegion = insertarRegion(4, "Region#4", "Ubicaicacio1", listaRegion);
+    listaRegion = insertarRegion(12, "Quesada", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(14, "Florencia", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(3, "Buenavista", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "Aguas Zarcas", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "Venecia", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "Pital", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "La Fortuna", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "La Tigra", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "La Palmera", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "Pocosol", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
 
-    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
-    listaLugar = insertarLugar("San Carlos", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("Santa Rosa", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("Buenos Aires", 100, 2.5, listaLugar);
     listaLugar = insertarLugar("Santa Clara", 100, 2.5, listaLugar);
-    listaLugar = insertarLugar("San Jose", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("Barrio Baltazar", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
 
     listaPersonas = insertarPersona("Alejandro Rodriguez", 208360735, "El Tanque", "2018");
     listaPersonas = insertarPersona("Juan Ca", 2081230735, "La Fortuna", "2013");
@@ -1199,15 +1211,28 @@ void cargarDatos()
     listaPersonas = insertarPersona("Carlos Ruiz", 3011230735, "Florencia","2021");
     listaPersonas = insertarPersona("Bianca Ruiz", 1234, "Florencia","2022");
 
+    listaEfimeridades = insertarEfimeridad("Efimeridad 1", crearFecha(2020, 9, 23), crearHora(7, 25), crearHora(17, 9));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 2", crearFecha(2018, 11, 7), crearHora(5, 37), crearHora(17, 20));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2018, 8, 12), crearHora(6, 12), crearHora(20, 12));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2018, 3, 21), crearHora(6, 12), crearHora(20, 12));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2021, 7, 15), crearHora(6, 12), crearHora(20, 12));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2021, 8, 8), crearHora(6, 12), crearHora(20, 12));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2019, 8, 21), crearHora(6, 12), crearHora(20, 12));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2019, 2, 7), crearHora(6, 12), crearHora(20, 12));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2019, 12, 15), crearHora(6, 12), crearHora(20, 12));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2018, 11, 18), crearHora(6, 12), crearHora(20, 12));
 
-    listaEfimeridades = insertarEfimeridad("Efimeridad 1", crearFecha(2020, 3, 16), crearHora(7, 25), crearHora(17, 9));
-    listaEfimeridades = insertarEfimeridad("Efimeridad 2", crearFecha(2020, 2, 12), crearHora(5, 37), crearHora(17, 20));
-    listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2020, 6, 11), crearHora(6, 12), crearHora(20, 12));
-
-    listaTiempo = insertarTiempo(crearFecha(2020, 9, 28), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2020, 9, 30), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2020, 10, 2), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2020, 10, 4), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2020, 9, 23), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2018, 11, 7), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2018, 8, 12), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2018, 3, 21), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2021, 7, 15), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2021, 8, 8), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2019, 8, 21), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2019, 2, 7), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2019, 12, 15), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2018, 11, 18), 4, 30, 24, 14, -45, -3, true);
+    
 }
 
 void impOcultamientoSalidaSol()
