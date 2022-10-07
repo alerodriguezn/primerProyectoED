@@ -69,6 +69,7 @@ struct personas
 
     
 } * listaPersonas;
+personas*loginPersona;
 
 struct lluvia
 {
@@ -128,11 +129,6 @@ struct lugar
         sublistasTiempos = NULL;
     }
 
-    void agregarTiempo(tiempo *nuevoTiempo)
-    {
-        //sublistasTiempos = insertarTiempo();   
-    }
-
 } * listaLugar;
 
 struct efimeridad
@@ -182,14 +178,7 @@ struct tiempo
         sig = NULL;
     }
 
-    void agregarLluvia(lluvia *nuevaLluvia)
-    {
-        // Aquí iría el metodo de agregar la lluvia a la sublista de lluvias o directamente mandar una lista de lluvias
-        cout << "Agregando nuevo registro de lluvia";
-    }
-
 } * listaTiempo;
-
 
 
 /*  INSERTAR DE CADA UNA DE LAS ESTRUCTURAS */
@@ -458,118 +447,6 @@ string devolverHora(tm *hora)
         return to_string(hora->tm_hour) + ":" + minutos + " a.m";
 }
 
-/*IMPRIMIR DE CADA UNO DE LOS INSERTAR*/
-
-void imprimirLluvia(lluvia *lista)
-{
-    if (lista == NULL)
-    {
-        cout << "\nLa lista se encuentra vacia..." << endl;
-    }
-    else
-    {
-        lluvia *temp = lista;
-        while (temp != NULL)
-        {
-            cout << "\nCodigo: " << temp->codigo << "\nNombre: " << temp->nombre << "\nPromedio en milimetros: " << temp->rangoPromedioEn_mm << endl;
-            temp = temp->sig;
-        }
-        cout << endl;
-    }
-}
-
-void imprimirRegion(region *lista)
-{
-    if (lista == NULL)
-    {
-        cout << "\nLa lista se encuentra vacia..." << endl;
-    }
-    else
-    {
-        region *temp = lista;
-        while (temp != NULL)
-        {
-            cout << "\nId: " << temp->id << "\nNombre: " << temp->nombre << "\nUbicacion: " << temp->ubicacion << endl;
-            temp = temp->sig;
-        }
-        cout << endl;
-    }
-}
-
-void imprimirLugar(lugar *lista)
-{
-    if (lista == NULL)
-    {
-        cout << "\nLa lista está vacía";
-    }
-    else
-    {
-        lugar *temp = lista;
-        do
-        {
-            cout << "\nNombre: " << temp->nombre << "\nPoblacion: " << temp->poblacion << "\nMetros Cuadrados: " << temp->metrosCuadrados << endl;
-            temp = temp->sig;
-        } while (temp != lista);
-    }
-}
-
-void imprimirPersonas(personas *lista)
-{
-    if (lista == NULL)
-        cout << "\nLA LISTA ESTA VACIA\n";
-    else
-    {
-        personas *temp = lista;
-        cout << "\nIMPRIMIENTO HACIA ADELANTE... \n";
-        while (temp->sig != NULL)
-        {
-            cout << "Nombre: " << temp->nombre << endl;
-            temp = temp->sig;
-        }
-        cout << "Nombre: " << temp->nombre << endl;
-        // AHORA IMPRIMO HACIA ATRAS
-        cout << "\nIMPRIMIENTO HACIA ATRAS... \n";
-        while (temp != NULL)
-        {
-            cout << "Nombre: " << temp->nombre << endl;
-            temp = temp->ant;
-        }
-    }
-}
-
-void imprimirEfimeridades(efimeridad *lista)
-{
-    if (lista == NULL)
-        cout << "\nLA LISTA ESTA VACIA\n";
-    else
-    {
-        efimeridad *temp = lista;
-        cout << "\nIMPRIMIENTO HACIA ADELANTE... \n";
-        while (temp->sig != NULL)
-        {
-            cout << "Nombre: " << temp->nombre << endl;
-            cout << "Fecha: " << devolverFecha(temp->fecha) << endl;
-            cout << "Hora Salida: " << devolverHora(temp->horaSalida) << endl;
-            cout << "Hora Ocultamiento: " << devolverHora(temp->horaOcultamiento) << endl;
-            temp = temp->sig;
-        }
-        cout << "Nombre: " << temp->nombre << endl;
-        cout << "Fecha: " << devolverFecha(temp->fecha) << endl;
-        cout << "Hora Salida: " << devolverHora(temp->horaSalida) << endl;
-        cout << "Hora Ocultamiento: " << devolverHora(temp->horaOcultamiento) << endl;
-        // AHORA IMPRIMO HACIA ATRAS
-        cout << "\nIMPRIMIENTO HACIA ATRAS... \n";
-        while (temp != NULL)
-        {
-            cout << "Nombre: " << temp->nombre << endl;
-            cout << "Fecha: " << devolverFecha(temp->fecha) << endl;
-            cout << "Hora Salida: " << devolverHora(temp->horaSalida) << endl;
-            cout << "Hora Ocultamiento: " << devolverHora(temp->horaOcultamiento) << endl;
-            temp = temp->ant;
-        }
-    }
-}
-
 // =========== Metodos de Buscar ================
 
 personas *buscarPersona(int cedula)
@@ -719,6 +596,235 @@ tiempo *buscarTiempo(int anio, int mes, int dia)
     }
     //cout << "\nNo se encontró el lugar" << endl;
     return NULL;
+}
+
+/*IMPRIMIR DE CADA UNO DE LOS INSERTAR*/
+
+void imprimirLluvia(lluvia *lista)
+{
+    if (lista == NULL)
+    {
+        cout << "\nLa lista se encuentra vacia..." << endl;
+    }
+    else
+    {
+        lluvia *temp = lista;
+        while (temp != NULL)
+        {
+            cout << "\nCodigo: " << temp->codigo << "\nNombre: " << temp->nombre << "\nPromedio en milimetros: " << temp->rangoPromedioEn_mm << endl;
+            temp = temp->sig;
+        }
+        cout << endl;
+    }
+}
+
+void imprimirRegion(region *lista)
+{
+    if (lista == NULL)
+    {
+        cout << "\nLa lista se encuentra vacia..." << endl;
+    }
+    else
+    {
+        region *temp = lista;
+        while (temp != NULL)
+        {
+            cout << "\nId: " << temp->id << "\nNombre: " << temp->nombre << "\nUbicacion: " << temp->ubicacion << endl;
+            temp = temp->sig;
+        }
+        cout << endl;
+    }
+}
+
+void imprimirLugar(lugar *lista)
+{
+    if (lista == NULL)
+    {
+        cout << "\nLa lista está vacía";
+    }
+    else
+    {
+        lugar *temp = lista;
+        do
+        {
+            cout << "\nNombre: " << temp->nombre << "\nPoblacion: " << temp->poblacion << "\nMetros Cuadrados: " << temp->metrosCuadrados << endl;
+            temp = temp->sig;
+        } while (temp != lista);
+    }
+}
+
+void imprimirPersonas(personas *lista)
+{
+    if (lista == NULL)
+        cout << "\nLA LISTA ESTA VACIA\n";
+    else
+    {
+        personas *temp = lista;
+        cout << "\nIMPRIMIENTO HACIA ADELANTE... \n";
+        while (temp->sig != NULL)
+        {
+            cout << "Nombre: " << temp->nombre << endl;
+            temp = temp->sig;
+        }
+        cout << "Nombre: " << temp->nombre << endl;
+        // AHORA IMPRIMO HACIA ATRAS
+        cout << "\nIMPRIMIENTO HACIA ATRAS... \n";
+        while (temp != NULL)
+        {
+            cout << "Nombre: " << temp->nombre << endl;
+            temp = temp->ant;
+        }
+    }
+}
+
+void imprimirEfimeridades(efimeridad *lista)
+{
+    if (lista == NULL)
+        cout << "\nLA LISTA ESTA VACIA\n";
+    else
+    {
+        efimeridad *temp = lista;
+        cout << "\nIMPRIMIENTO HACIA ADELANTE... \n";
+        while (temp->sig != NULL)
+        {
+            cout << "Nombre: " << temp->nombre << endl;
+            cout << "Fecha: " << devolverFecha(temp->fecha) << endl;
+            cout << "Hora Salida: " << devolverHora(temp->horaSalida) << endl;
+            cout << "Hora Ocultamiento: " << devolverHora(temp->horaOcultamiento) << endl;
+            temp = temp->sig;
+        }
+        cout << "Nombre: " << temp->nombre << endl;
+        cout << "Fecha: " << devolverFecha(temp->fecha) << endl;
+        cout << "Hora Salida: " << devolverHora(temp->horaSalida) << endl;
+        cout << "Hora Ocultamiento: " << devolverHora(temp->horaOcultamiento) << endl;
+        // AHORA IMPRIMO HACIA ATRAS
+        cout << "\nIMPRIMIENTO HACIA ATRAS... \n";
+        while (temp != NULL)
+        {
+            cout << "Nombre: " << temp->nombre << endl;
+            cout << "Fecha: " << devolverFecha(temp->fecha) << endl;
+            cout << "Hora Salida: " << devolverHora(temp->horaSalida) << endl;
+            cout << "Hora Ocultamiento: " << devolverHora(temp->horaOcultamiento) << endl;
+            temp = temp->ant;
+        }
+    }
+}
+
+void imprimirTiempoPorLugar(string nombre) {
+    //Función que se encarga de imprimir el tiempo
+    lugar *lugar = buscarLugar(nombre);
+    if (lugar->sublistasTiempos == NULL) 
+    {
+        cout << "\nEsta lista está vacía" << endl;
+    }
+    else
+    {
+        int contador = 1;
+        relTiempoLugar *temp = lugar->sublistasTiempos;
+        do        
+        {
+            cout << "Tiempo número " << contador;
+            cout << "Fecha: " << devolverFecha(temp->enlace->fecha) << endl;
+            cout << "Precipitación: " << temp->enlace->precipitacion << endl;
+            cout << "Temperatura máxima: " << temp->enlace->tempMaxima << endl;
+            cout << "Temperatura mínima: " << temp->enlace->tempMinima << endl;
+            cout << "Velocidad del viento: " << temp->enlace->velocidadViento << endl;
+            cout << "Dirección del viento: " << temp->enlace->direccionViento << endl;
+            cout << "Lluvia: " << temp->enlace->siLlovio << endl;
+            cout << "Lista de lluvias: " << temp->enlace->tempMinima << endl;
+            if (temp->enlace->sublistasLluvias == NULL)
+            {
+                cout << "No tiene sublistas de lluvia" << endl;
+            }
+            else
+            {
+                lluvia *tempLluvia = temp->enlace->sublistasLluvias;
+                do
+                {
+                    cout << "\t LLuvia: " << tempLluvia->codigo << endl;
+                } while (tempLluvia->sig != NULL);
+                
+            }
+            contador = contador + 1;
+        } while (temp->sig != NULL);
+    }
+}
+
+void imprimirTimepoPorPersona(personas *loginPersona)
+{
+    if (loginPersona->sublistasTiempos == NULL) 
+    {
+        cout << "\nEsta lista está vacía" << endl;
+    }
+    else
+    {
+        int contador = 1;
+        relTiempoPersona *temp = loginPersona->sublistasTiempos;
+        do        
+        {
+            cout << "Tiempo número " << contador;
+            cout << "Fecha: " << devolverFecha(temp->enlace->fecha) << endl;
+            cout << "Precipitación: " << temp->enlace->precipitacion << endl;
+            cout << "Temperatura máxima: " << temp->enlace->tempMaxima << endl;
+            cout << "Temperatura mínima: " << temp->enlace->tempMinima << endl;
+            cout << "Velocidad del viento: " << temp->enlace->velocidadViento << endl;
+            cout << "Dirección del viento: " << temp->enlace->direccionViento << endl;
+            cout << "Lluvia: " << temp->enlace->siLlovio << endl;
+            cout << "Lista de lluvias: " << temp->enlace->tempMinima << endl;
+            if (temp->enlace->sublistasLluvias == NULL)
+            {
+                cout << "No tiene sublistas de lluvia" << endl;
+            }
+            else
+            {
+                lluvia *tempLluvia = temp->enlace->sublistasLluvias;
+                do
+                {
+                    cout << "\t LLuvia: " << tempLluvia->codigo << endl;
+                } while (tempLluvia->sig != NULL);
+                
+            }
+            contador = contador + 1;
+        } while (temp->sig != NULL);
+    }
+}
+
+void imprimirListaTiempo(tiempo *listaTiempoParametro) {
+    if (listaTiempoParametro == NULL) 
+    {
+        cout << "\nEsta lista está vacía" << endl;
+    }
+    else
+    {
+        int contador = 1;
+        tiempo *temp = listaTiempoParametro;
+        do        
+        {
+            cout << "Tiempo número " << contador;
+            cout << "Fecha: " << devolverFecha(temp->fecha) << endl;
+            cout << "Precipitación: " << temp->precipitacion << endl;
+            cout << "Temperatura máxima: " << temp->tempMaxima << endl;
+            cout << "Temperatura mínima: " << temp->tempMinima << endl;
+            cout << "Velocidad del viento: " << temp->velocidadViento << endl;
+            cout << "Dirección del viento: " << temp->direccionViento << endl;
+            cout << "Lluvia: " << temp->siLlovio << endl;
+            cout << "Lista de lluvias: " << temp->tempMinima << endl;
+            if (temp->sublistasLluvias == NULL)
+            {
+                cout << "No tiene sublistas de lluvia" << endl;
+            }
+            else
+            {
+                lluvia *tempLluvia = temp->sublistasLluvias;
+                do
+                {
+                    cout << "\t LLuvia: " << tempLluvia->codigo << endl;
+                } while (tempLluvia->sig != NULL);
+                
+            }
+            contador = contador + 1;
+        } while (temp->sig != NULL);
+    }
 }
 
 // Metodos de borrado en la listas
@@ -1589,6 +1695,31 @@ void menuInserciones(personas* personaLogeada)
     }
 }
 
+void imprimirTiempo() 
+{
+    int respuesta;
+    cout << "1. Imprimir el ls lista de tiempo" << endl;
+    cout << "2. Imprimir el tiempo de un lugar" << endl;
+    cout << "3. Imprimir el tiempo registrado por una persona" << endl;
+    cout << "Digite su opción a ejecutar: "; cin >> respuesta;
+
+    if (respuesta == 1)
+    {
+        imprimirListaTiempo(listaTiempo);
+    }
+    else if (respuesta == 2)
+    {
+        string nombre;
+        cout << "\n\nEscriba el nombre del lugar: ";
+        cin >> nombre;
+        imprimirTiempoPorLugar(nombre);
+    }
+    else if (respuesta == 3)
+    {
+        imprimirTimepoPorPersona(loginPersona);
+    }
+}
+
 void menuImprimir()
 {
     
@@ -1631,7 +1762,7 @@ void menuImprimir()
     }
     else if(opcion == 6)
     {
-        cout << "Imprimir Tiempo" << endl;
+        imprimirTiempo();
     }
     else if(opcion == 7)
     {
@@ -1682,8 +1813,6 @@ void menuConsultas()
 }
 
 
-
-personas*loginPersona;
 int main()
 {
 
