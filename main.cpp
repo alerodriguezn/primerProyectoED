@@ -806,11 +806,13 @@ void imprimirTimepoPorPersona(int cedula)
                 do
                 {
                     cout << "\t LLuvia: " << tempLluvia->codigo << endl;
+                    tempLluvia = tempLluvia->sig;
                 } while (tempLluvia->sig != NULL);
                 
             }
             contador = contador + 1;
-        } while (temp->sig != NULL);
+            temp->enlace = temp->enlace->sig;
+        } while (temp->enlace->sig != NULL);
     }
 }
 
@@ -837,7 +839,8 @@ void imprimirLugaresPorRegion(int id)
             cout << "Metros Cuadrados : " << temp->enlace->metrosCuadrados << endl;
        
             contador = contador + 1;
-        } while (temp->sig != NULL);
+            temp->enlace = temp->enlace->sig;
+        } while (temp->enlace->sig != NULL);
     }
 }
 
@@ -871,10 +874,12 @@ void imprimirListaTiempo(tiempo *listaTiempoParametro) {
                 do
                 {
                     cout << "\t LLuvia: " << tempLluvia->codigo << endl;
+                    tempLluvia = tempLluvia->sig;
                 } while (tempLluvia->sig != NULL);
                 
             }
             contador = contador + 1;
+            temp = temp->sig;
         } while (temp->sig != NULL);
     }
 }
