@@ -26,6 +26,7 @@ void llenarVectorMeses()
 /*  ESTRUCTURAS   */
 
 
+// Estructura que relaciona Tiempo y Lugar
 struct relTiempoLugar
 {
     relTiempoLugar*sig;
@@ -35,7 +36,7 @@ struct relTiempoLugar
 
 };
 
-
+// Estructura que relaciona Tiempo y Personas
 struct relTiempoPersona
 {
     relTiempoPersona*sig;
@@ -45,6 +46,17 @@ struct relTiempoPersona
 
 };
 
+struct relRegionLugar
+{
+    relRegionLugar*sig;
+    struct lugar*enlace;
+    relRegionLugar(){
+    }
+
+};
+
+
+// Estructura de Personas
 struct personas
 {
     string nombre;
@@ -71,6 +83,7 @@ struct personas
 } * listaPersonas;
 personas*loginPersona;
 
+// Estructura de lluvia
 struct lluvia
 {
     string codigo;
@@ -87,12 +100,14 @@ struct lluvia
     }
 } * listaLluvia;
 
+
+//Estructura de Region
 struct region
 {
     int id;
     string nombre;
     string ubicacion;
-    struct lugar *sublistasLugares;
+    struct relRegionLugar *sublistasLugares;
 
     region *sig;
 
@@ -102,6 +117,7 @@ struct region
         this->nombre = nombre;
         this->ubicacion = ubicacion;
         sig = NULL;
+        sublistasLugares = NULL;
     }
 
     void agregarLugar(struct lugar *nuevoLugar)
@@ -111,6 +127,7 @@ struct region
     }
 } * listaRegion;
 
+//Estructura de lugar
 struct lugar
 {
     string nombre;
@@ -131,6 +148,7 @@ struct lugar
 
 } * listaLugar;
 
+//Estructura de Efimeridad
 struct efimeridad
 {
     string nombre;
@@ -152,6 +170,7 @@ struct efimeridad
     }
 } * listaEfimeridades;
 
+//Estructura de Tiempo
 struct tiempo
 {
     tm *fecha;
@@ -794,6 +813,33 @@ void imprimirTimepoPorPersona(int cedula)
     }
 }
 
+void imprimirLugaresPorRegion(int id)
+{
+    region *regionElegida = buscarRegion(id);
+    if (regionElegida == NULL)
+    {
+        cout << "\nLo sentimos, intente de nuevo" << endl;
+    }
+    else if (regionElegida->sublistasLugares == NULL) 
+    {
+        cout << "\nEsta lista está vacía" << endl;
+    }
+    else
+    {
+        int contador = 1;
+        relRegionLugar *temp = regionElegida->sublistasLugares;
+        do        
+        {
+            cout << "Lugar número: " << contador;
+            cout << "Nombre: " << temp->enlace->nombre << endl;
+            cout << "Poblacion: " << temp->enlace->poblacion << endl;
+            cout << "Metros Cuadrados : " << temp->enlace->metrosCuadrados << endl;
+       
+            contador = contador + 1;
+        } while (temp->sig != NULL);
+    }
+}
+
 void imprimirListaTiempo(tiempo *listaTiempoParametro) {
     if (listaTiempoParametro == NULL) 
     {
@@ -974,7 +1020,7 @@ void borrarLugar(string nombre){
 
 //Metodos para modificaar en la lista
 
-
+//Modifica una persona, recibiendo la cedula
 void modificarPersona(int cedula,int cedulaN, string nombreN,string lugarResidenciaN,string agnoResidenciaN){
 
     personas*aux = buscarPersona(cedula);
@@ -991,6 +1037,7 @@ void modificarPersona(int cedula,int cedulaN, string nombreN,string lugarResiden
 
 }
 
+//Modifica una lluvia, recibiendo el codigo
 void modificarLluvia(string codigo,string codigoN, string nombreN, int rangoPromedioEn_mmN){
 
     lluvia*aux = buscarLluvia(codigo);
@@ -1005,6 +1052,8 @@ void modificarLluvia(string codigo,string codigoN, string nombreN, int rangoProm
     }
 
 }
+
+//Modifica una Efimeridad, recibiendo la fecha
 void modificarEfimeridad(string nombreN, tm*fecha,tm*fechaN,tm*horaSalidaN,tm*horaOcultamientoN){
 
     efimeridad*aux = buscarEfemeridad(fecha);
@@ -1021,7 +1070,7 @@ void modificarEfimeridad(string nombreN, tm*fecha,tm*fechaN,tm*horaSalidaN,tm*ho
     }
 
 }
-
+//Modifica una region, recibiendo el ID
 void modificarRegion(int id,int idN, string nombreN, string ubicacionN){
 
     region*aux = buscarRegion(id);
@@ -1036,6 +1085,7 @@ void modificarRegion(int id,int idN, string nombreN, string ubicacionN){
     }
 }
 
+//Modifica un lugar, recibiendo el nombre
 void modificarLugar(string nombre,string nombreN, int poblacionN, double metrosCuadradosN){
 
     lugar*aux = buscarLugar(nombre);
@@ -1050,7 +1100,7 @@ void modificarLugar(string nombre,string nombreN, int poblacionN, double metrosC
     }
 }
 
-
+//Modifica un tiempo, recibiendo la fecha
 void modificarTiempo(tm *fecha,tm *fechaN, int precipitacionN, int tempMaximaN, int tempMinimaN, int velocidadVientoN, int direccionVientoN, int humedadRelativaN, bool siLlovioN){
 
     tiempo*aux = buscarTiempo(fecha->tm_year,fecha->tm_mon,fecha->tm_mday);
@@ -1225,13 +1275,13 @@ int obtenerDiferencia(tm *horaTemprano, tm *horaTarde)
    diferencia = diferencia  + horaTarde->tm_min;
    return diferencia;
 }
-
-void diferenciaSalidaSol()
-{
-    /*
+/*
     Determinar e imprimir las fechas que generan la mayor diferencia en minutos de la salidadel sol,
     indicar las dos fechas que producen la mayor diferencia, para un año Y.
-    */
+*/
+void diferenciaSalidaSol()
+{
+    
     int anio;
     tm *horaTemprano;
     tm *horaTarde;
@@ -1268,6 +1318,7 @@ void diferenciaSalidaSol()
     cout << " es de: " << diferencia << " minutos";
 }
 
+
 void imprimirExtremos() 
 {
     /*
@@ -1275,10 +1326,10 @@ void imprimirExtremos()
     Debe imprimir ambos:extremo seco y extremo lluvioso. En caso de empate imprimir todos los
     meses que tiene el empate máximo.
     */
-   string lugarParaBuscar;
+    string lugarParaBuscar;
     int anioParaBuscar;
     cout << "\nDigite el lugar del que desea imprimir los extremos: ";
-    cin >> lugarParaBuscar;
+    getline(cin >> ws,lugarParaBuscar);
     lugar *lugarEscogido = buscarLugar(lugarParaBuscar);
     if (lugarEscogido == NULL)
     {
@@ -1292,9 +1343,10 @@ void imprimirExtremos()
     }
 }
 
+/*Determinar e imprimir la persona que más registros del tiempo tiene.*/
 void personaMayorRegistrosTiempo() 
 {
-    /*Determinar e imprimir la persona que más registros del tiempo tiene.*/
+    
     personas *tempPersona = listaPersonas;
     personas *masRegistros;
     int registrosAnterior = 0;
@@ -1324,10 +1376,11 @@ void personaMayorRegistrosTiempo()
     cout << "La persona con más registros de tiempo es " << masRegistros->nombre;
 }
 
-
+//Metodo que relacion Tiempo y Lugar
 void relacionarTiempoLugar(tm*fecha,string nombre){
     lugar*l = buscarLugar(nombre);
     tiempo*t = buscarTiempo(fecha->tm_year,fecha->tm_mon,fecha->tm_mday);
+
     if (l == NULL)
     {
         cout<<"Lugar no valido";
@@ -1348,6 +1401,7 @@ void relacionarTiempoLugar(tm*fecha,string nombre){
     cout<<"====================";
 }
 
+//Metodo que relacion Tiempo y Persona
 void relacionarTiempoPersona(tm*fecha,int cedula){
     personas*p = buscarPersona(cedula);
     tiempo*t = buscarTiempo(fecha->tm_year,fecha->tm_mon,fecha->tm_mday);
@@ -1371,6 +1425,33 @@ void relacionarTiempoPersona(tm*fecha,int cedula){
     cout<<"====================";
 
 }
+
+void relacionarLugarRegion(string nombre,int id){
+    region*r = buscarRegion(id);
+    lugar*l = buscarLugar(nombre);
+    if (l == NULL)
+    {
+        cout<<"Lugar no valida";
+        return;
+    }
+    if (r == NULL)
+    {
+        cout<<"Region no valida";
+        return;
+    }
+
+    relRegionLugar*nuevo = new relRegionLugar;
+    nuevo->enlace = l;
+    nuevo->sig = r->sublistasLugares;
+    r->sublistasLugares = nuevo;
+    cout<<"====================";
+    cout<<"Relacion Completada";
+    cout<<"====================";
+
+}
+
+
+
 
 //Menu de Borrado
 void menuBorrado(){
@@ -1433,6 +1514,8 @@ void menuBorrado(){
 
 }
 
+
+//Menu de Modificado
 void menuModificar(){
     cout << "\n--------------------BIENVENIDO AL MENU DE MODIFICAR------------------------" << endl;
     int opcion;
@@ -1573,7 +1656,7 @@ void menuModificar(){
 
 
 
-
+//Menu de Inserciones
 void menuInserciones(personas* personaLogeada)
 {
     
@@ -1586,7 +1669,9 @@ void menuInserciones(personas* personaLogeada)
     cout << "\n5. Insertar en lista de efimeridad";
     cout << "\n6. Insertar en lista tiempo";
     cout << "\n7. Insertar en sublista tiempo (Lugar)";
-    cout << "\n8. Insertar en sublista tiempo (Personas)" << endl;
+    cout << "\n8. Insertar en sublista tiempo (Personas)";
+    cout << "\n9. Insertar en sublista Lugar (Region)" << endl;
+
 
 
 
@@ -1738,13 +1823,24 @@ void menuInserciones(personas* personaLogeada)
         relacionarTiempoPersona(f,personaLogeada->cedula);
 
     }
+    else if(opcion ==9){
+        string nombre;
+        int id;
+
+        cout <<"==== Insertando en Sublista de Lugar(Region) ==="<<endl;
+        cout << "\nNombre del Lugar: "; getline(cin >> ws,nombre); cout << endl;
+        cout << "\nID de la Region: "; cin >> id; cout << endl;
+
+        relacionarLugarRegion(nombre,id);
+
+    }
     else
     {
         cout << "La opción digitada es inválida";
-        //main();
+        
     }
 }
-
+//Menu impresiones
 void menuImprimir()
 {
     
@@ -1757,7 +1853,9 @@ void menuImprimir()
     cout << "\n5. Imprimir lista de efimeridad";
     cout << "\n6. Imprimir lista tiempo";
     cout << "\n7. Imprimir sublista tiempo (Lugar)";
-    cout << "\n8. Imprimir sublista tiempo (Personas)" << endl;
+    cout << "\n8. Imprimir sublista tiempo (Personas)";
+    cout << "\n9. Imprimir sublista Lugar (Region)" << endl;
+
 
 
 
@@ -1793,7 +1891,7 @@ void menuImprimir()
     {
         string nombre;
         cout << "\n\nEscriba el nombre del lugar: ";
-        cin >> nombre;
+        getline(cin >> ws,nombre);
         imprimirTiempoPorLugar(nombre);
         
     }
@@ -1804,13 +1902,20 @@ void menuImprimir()
         cin >> cedula;
         imprimirTimepoPorPersona(cedula);
     }
+    else if(opcion ==9)
+    {
+        int id;
+        cout << "\n\nEscriba el ID de de la region : ";
+        cin >> id;
+        imprimirLugaresPorRegion(id);
+    }
     else
     {
         cout << "La opción digitada es inválida";
         //main();
     }
 }
-
+//Menu Consultas
 void menuConsultas()
 {
     cout << "\n--------------------BIENVENIDO AL MENU DE CONSULTAS------------------------" << endl;
@@ -1853,6 +1958,8 @@ int main()
 
     llenarVectorMeses();
     cargarDatos();
+
+
 
     /* Pruebas
     tm *fecha = obtenerFechadeString("2020/10/02");
