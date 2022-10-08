@@ -1,7 +1,7 @@
 #include <iostream>
 #include <ctime>  //Libreria utilizada para el manejo de las fechas
 #include <vector> //Libreria utilizada para el manejo de las fechas.
-#include <string> //Librería utilizada para la función "to_string"
+#include <string> //Libreria utilizada para la funcion "to_string"
 
 using namespace std;
 
@@ -234,7 +234,7 @@ lugar *insertarLugar(string nom, int pob, double met, lugar *lista)
     else
     {
         nuevoDato->sig = lista;
-        // BUSCAR AL ÚLTIMO PARA QUE APUNTE AL NUEVO NODO.
+        // BUSCAR AL ULTIMO PARA QUE APUNTE AL NUEVO NODO.
         lugar *temp = lista;
         while (temp->sig != lista)
         {
@@ -399,7 +399,7 @@ tm *pedirFecha()
         cin >> agno;
         if (to_string(agno).length() == 4)
             break;
-        cout << "\nError: El año debe tener 4 digitos. Ej: 2022\n";
+        cout << "\nError: El anio debe tener 4 digitos. Ej: 2022\n";
     }
     tm *nuevaFecha = new tm();
     nuevaFecha->tm_mday = dia;
@@ -450,13 +450,13 @@ tm *pedirHora()
     return nuevaHora;
 }
 
-// Devuelve la fecha de la instancia tm dada en los parametros. La retorna así: "25 de Septiembre del 2022"
+// Devuelve la fecha de la instancia tm dada en los parametros. La retorna asi: "25 de Septiembre del 2022"
 string devolverFecha(tm *fecha)
 {
     return to_string(fecha->tm_mday) + " de " + mes[fecha->tm_mon] + " del " + to_string(fecha->tm_year);
 }
 
-// Devuelve la hora de la instancia tm dada en los parametros. La retorna así: "4:00 p.m"
+// Devuelve la hora de la instancia tm dada en los parametros. La retorna asi: "4:00 p.m"
 string devolverHora(tm *hora)
 {
     string minutos = to_string(hora->tm_min);
@@ -604,7 +604,7 @@ tiempo *buscarTiempo(int anio, int mes, int dia)
 
     if (listaTiempo == NULL)
     {
-        cout << "\nLa lista está vacía" << endl;
+        cout << "\nLa lista esta vacia" << endl;
     }
     else
     {
@@ -619,7 +619,7 @@ tiempo *buscarTiempo(int anio, int mes, int dia)
             temp = temp->sig;
         }
     }
-    // cout << "\nNo se encontró el lugar" << endl;
+    // cout << "\nNo se encontro el lugar" << endl;
     return NULL;
 }
 
@@ -665,7 +665,7 @@ void imprimirLugar(lugar *lista)
 {
     if (lista == NULL)
     {
-        cout << "\nLa lista está vacía";
+        cout << "\nLa lista esta vacia";
     }
     else
     {
@@ -727,11 +727,11 @@ void imprimirEfimeridades(efimeridad *lista)
 
 void imprimirTiempoPorLugar(string nombre)
 {
-    // Función que se encarga de imprimir el tiempo
+    // Funcion que se encarga de imprimir el tiempo
     lugar *lugar = buscarLugar(nombre);
     if (lugar->sublistasTiempos == NULL)
     {
-        cout << "\nEsta lista está vacía" << endl;
+        cout << "\nEsta lista esta vacia" << endl;
     }
     else
     {
@@ -741,13 +741,13 @@ void imprimirTiempoPorLugar(string nombre)
         {
             cout << "=================================" << endl;
 
-            cout << "Tiempo número " << contador << endl;
+            cout << "Tiempo numero " << contador << endl;
             cout << "Fecha: " << devolverFecha(temp->enlace->fecha) << endl;
-            cout << "Precipitación: " << temp->enlace->precipitacion << endl;
-            cout << "Temperatura máxima: " << temp->enlace->tempMaxima << endl;
-            cout << "Temperatura mínima: " << temp->enlace->tempMinima << endl;
+            cout << "Precipitacion: " << temp->enlace->precipitacion << endl;
+            cout << "Temperatura maxima: " << temp->enlace->tempMaxima << endl;
+            cout << "Temperatura minima: " << temp->enlace->tempMinima << endl;
             cout << "Velocidad del viento: " << temp->enlace->velocidadViento << endl;
-            cout << "Dirección del viento: " << temp->enlace->direccionViento << endl;
+            cout << "Direccion del viento: " << temp->enlace->direccionViento << endl;
             cout << "Lluvia: " << temp->enlace->siLlovio << endl;
             cout << "Lista de lluvias: " << temp->enlace->tempMinima << endl;
             if (temp->enlace->sublistasLluvias == NULL)
@@ -779,7 +779,7 @@ void imprimirTimepoPorPersona(int cedula)
     }
     else if (personaElegida->sublistasTiempos == NULL)
     {
-        cout << "\nEsta lista está vacía" << endl;
+        cout << "\nEsta lista esta vacia" << endl;
     }
     else
     {
@@ -789,13 +789,13 @@ void imprimirTimepoPorPersona(int cedula)
         {
             cout << "=================================" << endl;
 
-            cout << "Tiempo número " << contador << endl;
+            cout << "Tiempo numero " << contador << endl;
             cout << "Fecha: " << devolverFecha(temp->enlace->fecha) << endl;
-            cout << "Precipitación: " << temp->enlace->precipitacion << endl;
-            cout << "Temperatura máxima: " << temp->enlace->tempMaxima << endl;
-            cout << "Temperatura mínima: " << temp->enlace->tempMinima << endl;
+            cout << "Precipitacion: " << temp->enlace->precipitacion << endl;
+            cout << "Temperatura maxima: " << temp->enlace->tempMaxima << endl;
+            cout << "Temperatura minima: " << temp->enlace->tempMinima << endl;
             cout << "Velocidad del viento: " << temp->enlace->velocidadViento << endl;
-            cout << "Dirección del viento: " << temp->enlace->direccionViento << endl;
+            cout << "Direccion del viento: " << temp->enlace->direccionViento << endl;
             cout << "Lluvia: " << temp->enlace->siLlovio << endl;
             cout << "Lista de lluvias: " << temp->enlace->tempMinima << endl;
             if (temp->enlace->sublistasLluvias == NULL)
@@ -827,7 +827,7 @@ void imprimirLugaresPorRegion(int id)
     }
     else if (regionElegida->sublistasLugares == NULL)
     {
-        cout << "\nEsta lista está vacía" << endl;
+        cout << "\nEsta lista esta vacia" << endl;
     }
     else
     {
@@ -836,7 +836,7 @@ void imprimirLugaresPorRegion(int id)
         do
         {
             cout << "=================================" << endl;
-            cout << "Lugar número: " << contador;
+            cout << "Lugar numero: " << contador;
             cout << "Nombre: " << temp->enlace->nombre << endl;
             cout << "Poblacion: " << temp->enlace->poblacion << endl;
             cout << "Metros Cuadrados : " << temp->enlace->metrosCuadrados << endl;
@@ -857,7 +857,7 @@ void imprimirLluviasPorTiempo(tm *fecha)
     }
     else if (tiempoElegido->sublistasLluvias == NULL)
     {
-        cout << "\nEsta lista está vacía" << endl;
+        cout << "\nEsta lista esta vacia" << endl;
     }
     else
     {
@@ -866,7 +866,7 @@ void imprimirLluviasPorTiempo(tm *fecha)
         do
         {
             cout << "=================================" << endl;
-            cout << "Lluvia número: " << contador;
+            cout << "Lluvia numero: " << contador;
             cout << "Codigo: " << temp->enlace->codigo << endl;
             cout << "Nombre: " << temp->enlace->nombre << endl;
             cout << "Rango Promedio en MM : " << temp->enlace->rangoPromedioEn_mm << endl;
@@ -882,7 +882,7 @@ void imprimirListaTiempo(tiempo *listaTiempoParametro)
 {
     if (listaTiempoParametro == NULL)
     {
-        cout << "\nEsta lista está vacía" << endl;
+        cout << "\nEsta lista esta vacia" << endl;
     }
     else
     {
@@ -890,13 +890,13 @@ void imprimirListaTiempo(tiempo *listaTiempoParametro)
         tiempo *temp = listaTiempoParametro;
         do
         {
-            cout << "Tiempo número " << contador;
+            cout << "Tiempo numero " << contador;
             cout << "Fecha: " << devolverFecha(temp->fecha) << endl;
-            cout << "Precipitación: " << temp->precipitacion << endl;
-            cout << "Temperatura máxima: " << temp->tempMaxima << endl;
-            cout << "Temperatura mínima: " << temp->tempMinima << endl;
+            cout << "Precipitacion: " << temp->precipitacion << endl;
+            cout << "Temperatura maxima: " << temp->tempMaxima << endl;
+            cout << "Temperatura minima: " << temp->tempMinima << endl;
             cout << "Velocidad del viento: " << temp->velocidadViento << endl;
-            cout << "Dirección del viento: " << temp->direccionViento << endl;
+            cout << "Direccion del viento: " << temp->direccionViento << endl;
             cout << "Lluvia: " << temp->siLlovio << endl;
             cout << "Lista de lluvias: " << temp->tempMinima << endl;
             if (temp->sublistasLluvias == NULL)
@@ -1207,7 +1207,7 @@ void modificarTiempo(tm *fecha, tm *fechaN, int precipitacionN, int tempMaximaN,
     }
 }
 
-// Métodos que permiten guardar las fechas y las horas de los datos quemados
+// Metodos que permiten guardar las fechas y las horas de los datos quemados
 tm *crearFecha(int y, int m, int d)
 {
     tm *fecha = new tm();
@@ -1343,23 +1343,23 @@ void relacionarLugarRegion(string nombre, int id)
     cout << "====================";
 }
 
-/*  OTROS MÉTODOS   */
+/*  OTROS METODOS   */
 void cargarDatos()
 {
     /**
      * 1. Con 0 mm/h no hay nada de lluvia.                                    EXTREMO SECO
-     * 2. De 1 a 2 mm/h diremos lluvias débiles.                               SECO
-     * 3. De 2 a 15 mm/h será lluvia.                                          NORMAL
+     * 2. De 1 a 2 mm/h diremos lluvias debiles.                               SECO
+     * 3. De 2 a 15 mm/h sera lluvia.                                          NORMAL
      * 4. De 15 a 30 saltaremos a lluvias fuertes.                             LLUVIOSO
      * 5. De 30 a 60 lluvias muy fuertes.                                      EXTREMO LLUVIOSO
-     * 6. Finalmente más de 60 mm/h se describirán como lluvias torrenciales.  EXTREMO LLUVIOSO
+     * 6. Finalmente mas de 60 mm/h se describiran como lluvias torrenciales.  EXTREMO LLUVIOSO
      */
     listaLluvia = insertarLluvia("COD-5-55", "Lluvia muy fuerte", 55, listaLluvia);
     listaLluvia = insertarLluvia("COD-4-16", "Lluvia fuerte", 16, listaLluvia);
     listaLluvia = insertarLluvia("COD-3-03", "Lluvia normal", 3, listaLluvia);
     listaLluvia = insertarLluvia("COD-6-60", "Lluvia torrencial", 60, listaLluvia);
-    listaLluvia = insertarLluvia("COD-2-10", "Lluvia débil", 10, listaLluvia);
-    listaLluvia = insertarLluvia("COD-2-06", "Lluvia débil", 6, listaLluvia);
+    listaLluvia = insertarLluvia("COD-2-10", "Lluvia debil", 10, listaLluvia);
+    listaLluvia = insertarLluvia("COD-2-06", "Lluvia debil", 6, listaLluvia);
     listaLluvia = insertarLluvia("COD-3-09", "Lluvia normal", 9, listaLluvia);
     listaLluvia = insertarLluvia("COD-4-20", "Lluvia fuerte", 20, listaLluvia);
     listaLluvia = insertarLluvia("COD-4-27", "Lluvia fuerte", 27, listaLluvia);
@@ -1387,18 +1387,18 @@ void cargarDatos()
     listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
     listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
 
-    listaRegion = insertarRegion(1, "San José", "Provincia de San José, Costa Rica", listaRegion);
-    listaRegion = insertarRegion(2, "Escazú", "Provincia de San José, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(1, "San Jose", "Provincia de San Jose, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(2, "Escazu", "Provincia de San Jose, Costa Rica", listaRegion);
     listaRegion = insertarRegion(3, "San Carlos", "Provincia de Alajuela, Costa Rica", listaRegion);
     listaRegion = insertarRegion(4, "Palmares", "Provincia de Alajuela, Costa Rica", listaRegion);
-    listaRegion = insertarRegion(5, "Paraíso", "Provincia de Cartago, Costa Rica", listaRegion);
-    listaRegion = insertarRegion(6, "La unión", "Provincia de Cartago, Costa Rica", listaRegion);
-    listaRegion = insertarRegion(7, "Belén", "Provincia de Heredia, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(5, "Paraiso", "Provincia de Cartago, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(6, "La union", "Provincia de Cartago, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(7, "Belen", "Provincia de Heredia, Costa Rica", listaRegion);
     listaRegion = insertarRegion(8, "Puntarenas", "Provincia de Puntarenas, Costa Rica", listaRegion);
     listaRegion = insertarRegion(9, "Nicoya", "Provincia de Guanacaste, de Costa Rica", listaRegion);
-    listaRegion = insertarRegion(10, "Talamanca", "Provincia de Limón, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(10, "Talamanca", "Provincia de Limon, de Costa Rica", listaRegion);
 
-    listaLugar = insertarLugar("Carmen", 370, 1.47, listaLugar); // San josé
+    listaLugar = insertarLugar("Carmen", 370, 1.47, listaLugar); // San jose
     listaLugar = insertarLugar("Merced", 446, 2.17, listaLugar);
 
     listaLugar = insertarLugar("Pocosol", 164, 1.54, listaLugar); // san carlos
@@ -1492,15 +1492,15 @@ void cargarDatos()
 void impOcultamientoSalidaSol()
 {
     /*
-    Determinar e imprimir el día(fecha completa)con la salida de “sol”más temprano de un año Y,
-    y el ocultamientomástardío del “sol”en el año Y.
+    Determinar e imprimir el dia(fecha completa)con la salida de “sol”mas temprano de un año Y,
+    y el ocultamientomastardio del “sol”en el año Y.
     */
     tm *horaTempranoOcultamiento = new tm;
     tm *horaTardioSalida = new tm;
 
     if (listaEfimeridades == NULL)
     {
-        cout << "\nLa lista está vacía" << endl;
+        cout << "\nLa lista esta vacia" << endl;
     }
     else
     {
@@ -1510,7 +1510,7 @@ void impOcultamientoSalidaSol()
         while (temp->sig != NULL)
         {
             temp = temp->sig;
-            // Comparando las horas para determinar el ocultamiento más temprano
+            // Comparando las horas para determinar el ocultamiento mas temprano
             if (temp->horaOcultamiento->tm_hour < horaTempranoOcultamiento->tm_hour)
             {
                 horaTempranoOcultamiento = temp->horaOcultamiento;
@@ -1519,7 +1519,7 @@ void impOcultamientoSalidaSol()
             {
                 horaTempranoOcultamiento = temp->horaOcultamiento;
             }
-            // Comparando las horas para determinar la salida del sol más tranquila
+            // Comparando las horas para determinar la salida del sol mas tranquila
             if (temp->horaSalida->tm_hour > horaTardioSalida->tm_hour)
             {
                 horaTardioSalida = temp->horaSalida;
@@ -1530,13 +1530,13 @@ void impOcultamientoSalidaSol()
             }
         }
     }
-    cout << "\nLa hora de ocultamiento del sol más temprano es: " << devolverHora(horaTempranoOcultamiento);
-    cout << "\nLa hora de salida del sol más tardía es: " << devolverHora(horaTardioSalida) << endl;
+    cout << "\nLa hora de ocultamiento del sol mas temprano es: " << devolverHora(horaTempranoOcultamiento);
+    cout << "\nLa hora de salida del sol mas tardia es: " << devolverHora(horaTardioSalida) << endl;
 }
 
 void impReporteEfimeridadAnio(int anio, string nombreEfimeridad)
 {
-    cout << "\n\t** REPORTES HORARIOS DE SALIDA DE '" << nombreEfimeridad << "' EN EL AÑO " << anio << " ** " << endl
+    cout << "\n\n\t** REPORTES HORARIOS DE SALIDA DE '" << nombreEfimeridad << "' EN EL ANIO " << anio << " ** " << endl
          << endl;
     efimeridad *lista = listaEfimeridades;
     if (lista == NULL)
@@ -1552,7 +1552,7 @@ void impReporteEfimeridadAnio(int anio, string nombreEfimeridad)
             {
                 if(mesActual != temp->fecha->tm_mon){
                     mesActual = temp->fecha->tm_mon;
-                    cout << "[" << mes[temp->fecha->tm_mon] << "]" << endl;
+                    cout << "\n-------------\n[" << mes[temp->fecha->tm_mon] << "]\n-------------" << endl;
                 }
                 cout << "Fecha: " << devolverFecha(temp->fecha) << endl;
                 cout << "Hora Salida: " << devolverHora(temp->horaSalida) << endl;
@@ -1567,7 +1567,7 @@ void reporteEfimeridadAnio()
 {
     int anio;
     string nombre;
-    cout << "\nIngrese el año que desea consultar: ";
+    cout << "\nIngrese el anio que desea consultar: ";
     cin >> anio;
     cout << "\nIngrese el nombre de la efimeridad que desea consultar: ";
     getline(cin >> ws, nombre);
@@ -1577,12 +1577,12 @@ void reporteEfimeridadAnio()
 int obtenerDiferencia(tm *horaTemprano, tm *horaTarde)
 {
     /*
-    Obtiene la diferencia en minutos de las horas que se envían por parámetro
-    Este método se complementa con el segundo método de las consultas
+    Obtiene la diferencia en minutos de las horas que se envian por parametro
+    Este metodo se complementa con el segundo metodo de las consultas
 
-    Ejemplo/guía para sacar la diferencia:
+    Ejemplo/guia para sacar la diferencia:
         Hora temprana:  1:53
-        Hora Tardía:    4:23
+        Hora Tardia:    4:23
 
         4-1 = 3*60 = 180 minutos
         180-53 = 127 (la primera hora no estuvo completa)
@@ -1622,7 +1622,7 @@ void diferenciaSalidaSol()
             {
                 horaTemprano = temp->horaSalida;
             }
-            // Compara con las horas tardías
+            // Compara con las horas tardias
             if (temp->horaSalida->tm_hour > horaTarde->tm_hour)
             {
                 horaTarde = temp->horaSalida;
@@ -1635,16 +1635,16 @@ void diferenciaSalidaSol()
         }
     }
     int diferencia = obtenerDiferencia(horaTemprano, horaTarde);
-    cout << "\nLa diferencia de la salida del sol en  más temprana y más tarde en el año " << anio;
+    cout << "\nLa diferencia de la salida del sol en  mas temprana y mas tarde en el anio " << anio;
     cout << " es de: " << diferencia << " minutos";
 }
 
 void imprimirExtremos()
 {
     /*
-    Determinar e imprimir el mes que más externos de lluvia tiene de un año X para un lugar Z.
+    Determinar e imprimir el mes que mas externos de lluvia tiene de un año X para un lugar Z.
     Debe imprimir ambos:extremo seco y extremo lluvioso. En caso de empate imprimir todos los
-    meses que tiene el empate máximo.
+    meses que tiene el empate maximo.
     */
     string lugarParaBuscar;
     int anioParaBuscar;
@@ -1663,7 +1663,7 @@ void imprimirExtremos()
     }
 }
 
-/*Determinar e imprimir la persona que más registros del tiempo tiene.*/
+/*Determinar e imprimir la persona que mas registros del tiempo tiene.*/
 void personaMayorRegistrosTiempo()
 {
 
@@ -1693,7 +1693,7 @@ void personaMayorRegistrosTiempo()
         tempPersona = tempPersona->sig;
     } while (tempPersona->sig != NULL);
 
-    cout << "La persona con más registros de tiempo es " << masRegistros->nombre;
+    cout << "La persona con mas registros de tiempo es " << masRegistros->nombre;
 }
 
 // Menu de Borrado
@@ -1708,7 +1708,7 @@ void menuBorrado()
     cout << "\n5. Borrar lugar";
     cout << "\n6. Borrar efimeridad" << endl;
 
-    cout << "\nDigite su opción a ejecutar: ";
+    cout << "\nDigite su opcion a ejecutar: ";
     cin >> opcion;
     cout << endl;
 
@@ -1786,7 +1786,7 @@ void menuModificar()
     cout << "\n5. Modificar Efimeridad";
     cout << "\n6. Modificar Tiempo" << endl;
 
-    cout << "\nDigite su opción a ejecutar: ";
+    cout << "\nDigite su opcion a ejecutar: ";
     cin >> opcion;
     cout << endl;
 
@@ -2014,7 +2014,7 @@ void menuInserciones(personas *personaLogeada)
     cout << "\n8. Insertar en sublista tiempo (Personas)";
     cout << "\n9. Insertar en sublista Lugar (Region)" << endl;
 
-    cout << "\nDigite su opción a ejecutar: ";
+    cout << "\nDigite su opcion a ejecutar: ";
     cin >> opcion;
     cout << endl;
 
@@ -2253,7 +2253,7 @@ void menuInserciones(personas *personaLogeada)
     }
     else
     {
-        cout << "La opción digitada es inválida";
+        cout << "La opcion digitada es invalida";
     }
 }
 // Menu impresiones
@@ -2273,7 +2273,7 @@ void menuImprimir()
     cout << "\n9. Imprimir sublista Lugar (Region)";
     cout << "\n10. Imprimir sublista lluvia (Tiempo)" << endl;
 
-    cout << "\nDigite su opción a ejecutar: ";
+    cout << "\nDigite su opcion a ejecutar: ";
     cin >> opcion;
     cout << endl;
 
@@ -2311,7 +2311,7 @@ void menuImprimir()
     else if (opcion == 8)
     {
         int cedula;
-        cout << "\n\nEscriba la cédula de la persona: ";
+        cout << "\n\nEscriba la cedula de la persona: ";
         cin >> cedula;
         imprimirTimepoPorPersona(cedula);
     }
@@ -2332,7 +2332,7 @@ void menuImprimir()
     }
     else
     {
-        cout << "La opción digitada es inválida";
+        cout << "La opcion digitada es invalida";
         // main();
     }
 }
@@ -2341,12 +2341,12 @@ void menuConsultas()
 {
     cout << "\n--------------------BIENVENIDO AL MENU DE CONSULTAS------------------------" << endl;
     int opcion;
-    cout << "\n1. Imprimir el día en el sol sale más temprano y el día en el que el sol se oculta más temprano.";
-    cout << "\n2. Imprimir las horas con mayor diferencia de salida del sol en un año.";
-    cout << "\n3. Imprimir los extremos (seco/lluvioso) de un lugar en un determinado año.";
+    cout << "\n1. Imprimir el dia en el sol sale mas temprano y el dia en el que el sol se oculta mas temprano.";
+    cout << "\n2. Imprimir las horas con mayor diferencia de salida del sol en un anio.";
+    cout << "\n3. Imprimir los extremos (seco/lluvioso) de un lugar en un determinado anio.";
     cout << "\n4. Imprimir la persona que ha hecho mayor caantidad de registros de tiempo." << endl;
 
-    cout << "\nDigite su opción a ejecutar: ";
+    cout << "\nDigite su opcion a ejecutar: ";
     cin >> opcion;
     cout << endl;
 
@@ -2368,7 +2368,7 @@ void menuConsultas()
     }
     else
     {
-        cout << "La opción digitada es inválida";
+        cout << "La opcion digitada es invalida";
         // main();
     }
 }
@@ -2377,12 +2377,12 @@ void menuReportes()
 {
     cout << "\n--------------------BIENVENIDO AL MENU DE REPORTES------------------------" << endl;
     int opcion;
-    cout << "\n1. Imprimir la información de todas las listas.";
-    cout << "\n2. Imprimir de los horarios de la salida de X y de la puesta de X por mes separado por año.";
+    cout << "\n1. Imprimir la informacion de todas las listas.";
+    cout << "\n2. Imprimir de los horarios de la salida de X y de la puesta de X por mes separado por anio.";
     // cout << "\n3. Imprimir los extremos (seco/lluvioso) de un lugar en un determinado año.";
     cout << "\n4. Imprimir la persona que ha hecho mayor caantidad de registros de tiempo." << endl;
 
-    cout << "\nDigite su opción a ejecutar: ";
+    cout << "\nDigite su opcion a ejecutar: ";
     cin >> opcion;
     cout << endl;
 
@@ -2404,7 +2404,7 @@ void menuReportes()
     }
     else
     {
-        cout << "La opción digitada es inválida";
+        cout << "La opcion digitada es invalida";
         // main();
     }
 }
@@ -2426,9 +2426,9 @@ int main()
 
     while (true)
     {
-        cout << "\n------------ESCRIBA SU NÚMERO DE CÉDULA PARA INGRESAR -------------" << endl;
+        cout << "\n------------ESCRIBA SU NUMERO DE CEDULA PARA INGRESAR -------------" << endl;
         int cedula;
-        cout << "\nCédula: ";
+        cout << "\nCedula: ";
         cin >> cedula;
         cout << endl;
         loginPersona = buscarPersona(cedula);
@@ -2450,7 +2450,7 @@ int main()
                 cout << "\n6. Menu de reportes.";
                 cout << "\n0. Salir" << endl;
                 cout << "\n========================";
-                cout << "\nDigite su opción: ";
+                cout << "\nDigite su opcion: ";
                 cin >> opcion;
                 cout << endl;
 
