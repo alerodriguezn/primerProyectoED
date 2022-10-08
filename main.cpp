@@ -195,10 +195,10 @@ struct tiempo
         this->humedadRelativa = humedadRelativa;
         this->siLlovio = siLlovio;
         sig = NULL;
+        sublistasLluvias = NULL;
     }
 
 } * listaTiempo;
-
 
 /*  INSERTAR DE CADA UNA DE LAS ESTRUCTURAS */
 
@@ -267,6 +267,7 @@ personas *insertarPersona(string nombre, int cedula, string lugarResidencia, str
         }
         nuevaPersona->ant = te;
         te->sig = nuevaPersona;
+
         if (temp != NULL)
         {
             nuevaPersona->sig = temp;
@@ -307,25 +308,24 @@ tiempo *insertarTiempo(tm *fecha, int precipitacion, int tempMaxima, int tempMin
     else
     {
         tiempo *temp = listaTiempo;
+        tiempo* ant = listaTiempo;
 
-        while (calcularFechaMayor(fecha,temp->fecha))
+        while ((temp != NULL) && calcularFechaMayor(fecha,temp->fecha))
         {
-            if (temp->sig != NULL)
-            {
-                temp = temp->sig;
-            }
-            if (temp->sig == NULL)
-            {
-                temp->sig = nuevoTiempo;
-                
-                break;
-            }
+            ant = temp;
+            temp = temp->sig;
         }
-        nuevoTiempo->sig = temp;
-        temp = nuevoTiempo;
+
+        ant->sig = nuevoTiempo;
+        if (temp != NULL)
+        {
+            nuevoTiempo->sig = temp;
+        }
+        
     }
     return listaTiempo;
 }
+
 
 // Inserta la efimeridad ordenada por fecha
 efimeridad *insertarEfimeridad(string nombre, tm *fecha, tm *horaSalida, tm *horaOcultamiento)
@@ -340,6 +340,7 @@ efimeridad *insertarEfimeridad(string nombre, tm *fecha, tm *horaSalida, tm *hor
 
     else if (calcularFechaMayor(listaEfimeridades->fecha,fecha))
     {
+
         nuevaEfimeridad->sig = listaEfimeridades;
         listaEfimeridades->ant = nuevaEfimeridad;
         listaEfimeridades = nuevaEfimeridad;
@@ -347,22 +348,26 @@ efimeridad *insertarEfimeridad(string nombre, tm *fecha, tm *horaSalida, tm *hor
     else
     {
         efimeridad *temp = listaEfimeridades;
-        while (calcularFechaMayor(fecha,listaEfimeridades->fecha))
+        efimeridad *te = listaEfimeridades;
+
+        while ((temp != NULL) && (calcularFechaMayor(fecha,temp->fecha)))
         {
-            if (temp->sig != NULL)
-            {
-                temp = temp->sig;
-            }
-            if (temp->sig == NULL)
-            {
-                temp->sig = nuevaEfimeridad;
-                nuevaEfimeridad->ant = temp;
-                break;
-            }
+            te = temp;
+            temp = temp->sig;
         }
+        nuevaEfimeridad->ant = te;
+        te->sig = nuevaEfimeridad;
+        if (temp != NULL)
+        {
+            nuevaEfimeridad->sig = temp;
+            temp->ant = nuevaEfimeridad;
+        }
+        
     }
     return listaEfimeridades;
 }
+
+
 
 // Se encarga de pedir una fecha y la valida. Ademas crea y retorna una nueva instancia de tipo tm para manipular la fecha mas facil.
 
@@ -880,11 +885,21 @@ void imprimirListaTiempo(tiempo *listaTiempoParametro) {
                     cout << "\t LLuvia: " << tempLluvia->codigo << endl;
                     tempLluvia = tempLluvia->sig;
                 } while (tempLluvia->sig != NULL);
+
                 
             }
             contador = contador + 1;
             temp = temp->sig;
         } while (temp->sig != NULL);
+        cout << "Tiempo número " << contador<<endl;
+        cout << "Fecha: " << devolverFecha(temp->fecha) << endl;
+        cout << "Precipitación: " << temp->precipitacion << endl;
+        cout << "Temperatura máxima: " << temp->tempMaxima << endl;
+        cout << "Temperatura mínima: " << temp->tempMinima << endl;
+        cout << "Velocidad del viento: " << temp->velocidadViento << endl;
+        cout << "Dirección del viento: " << temp->direccionViento << endl;
+        cout << "Lluvia: " << temp->siLlovio << endl;
+        cout << "Lista de lluvias: " << temp->tempMinima << endl;
     }
 }
 
@@ -1138,7 +1153,7 @@ tm *crearFecha(int y, int m, int d)
 {
     tm *fecha = new tm();
     fecha->tm_year = y;
-    fecha->tm_mon = m;
+    fecha->tm_mon = m-1;
     fecha->tm_mday = d;
     return fecha;
 }
@@ -1153,6 +1168,7 @@ tm *crearHora(int h, int m)
 
 //Retorna la fecha apartir de un string
 tm *obtenerFechadeString(string fecha){
+
     int agno = (fecha[0] -48)*1000 + (fecha[1] -48)*100 + (fecha[2] -48)*10 + fecha[3] -48;
     int mes =  (fecha[5] -48)*10 + fecha[6] -48 ;
     int dia = (fecha[8] -48)*10 + fecha[9] -48 ;
@@ -1265,6 +1281,28 @@ void cargarDatos()
     listaLluvia = insertarLluvia("COD-4-27", "Lluvia fuerte", 27, listaLluvia);
     listaLluvia = insertarLluvia("COD-4-22", "Lluvia fuerte", 22, listaLluvia);
 
+    listaRegion = insertarRegion(12, "Quesada", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(14, "Florencia", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(3, "Buenavista", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "Aguas Zarcas", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "Venecia", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "Pital", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "La Fortuna", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "La Tigra", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "La Palmera", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(4, "Pocosol", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
+
+    listaLugar = insertarLugar("Santa Rosa", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("Buenos Aires", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("Santa Clara", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("Barrio Baltazar", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
+
     listaRegion = insertarRegion(12, "San José", "Provincia de San José, Costa Rica", listaRegion);
     listaRegion = insertarRegion(14, "Escazú", "Provincia de San José, Costa Rica", listaRegion);
     listaRegion = insertarRegion(3, "San Carlos", "Provincia de Alajuela, Costa Rica", listaRegion);
@@ -1299,17 +1337,19 @@ void cargarDatos()
     listaPersonas = insertarPersona("Carlos Ruiz", 3011230735, "Florencia","2021");
     listaPersonas = insertarPersona("Bianca Ruiz", 1234, "Florencia","2022");
 
-    listaTiempo = insertarTiempo(crearFecha(2020, 9, 23), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2018, 11, 7), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2018, 8, 12), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2020, 9, 23), 1, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2018, 11, 7), 2, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2018, 8, 12), 3, 30, 24, 14, -45, -3, true);
     listaTiempo = insertarTiempo(crearFecha(2018, 3, 21), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2021, 7, 15), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2021, 8,  8), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2019, 8, 21), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2019, 2,  7), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2019, 12,15), 4, 30, 24, 14, -45, -3, true);
-    listaTiempo = insertarTiempo(crearFecha(2018, 11,18), 4, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2021, 7, 15), 5, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2021, 8,  8), 6, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2019, 8, 21), 7, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2019, 2,  7), 8, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2019, 11,15), 9, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2018, 11,18), 10, 30, 24, 14, -45, -3, true);
 
+    
+    // OK
     relacionarTiempoPersona(crearFecha(2020, 9, 23), 208360735);
     relacionarTiempoPersona(crearFecha(2018, 11, 7), 208360735);
     relacionarTiempoPersona(crearFecha(2018, 8, 12), 2081230735);
@@ -1318,8 +1358,10 @@ void cargarDatos()
     relacionarTiempoPersona(crearFecha(2021, 8,  8), 1011230735);
     relacionarTiempoPersona(crearFecha(2019, 8, 21), 1011230735);
     relacionarTiempoPersona(crearFecha(2019, 2,  7), 4011230735);
-    relacionarTiempoPersona(crearFecha(2019, 12,15), 3011230735);
+    relacionarTiempoPersona(crearFecha(2019, 11,15), 3011230735);
     relacionarTiempoPersona(crearFecha(2018, 11,18), 3011230735);
+
+
 
     relacionarTiempoLugar(crearFecha(2020, 9, 23), "Carmen");
     relacionarTiempoLugar(crearFecha(2018, 11, 7), "Carmen");
@@ -1329,8 +1371,10 @@ void cargarDatos()
     relacionarTiempoLugar(crearFecha(2021, 8,  8), "Buenos Aires");
     relacionarTiempoLugar(crearFecha(2019, 8, 21), "San Antonio");
     relacionarTiempoLugar(crearFecha(2019, 2,  7), "Quebrada Honda");
-    relacionarTiempoLugar(crearFecha(2019, 12,15), "La Ribera");
+    relacionarTiempoLugar(crearFecha(2019, 11,15), "La Ribera");
     relacionarTiempoLugar(crearFecha(2018, 11,18), "Aguas Zarcas");
+
+
 
     listaEfimeridades = insertarEfimeridad("Efimeridad 1", crearFecha(2020, 9, 23), crearHora(7, 25), crearHora(17, 9));
     listaEfimeridades = insertarEfimeridad("Efimeridad 2", crearFecha(2018, 11, 7), crearHora(5, 37), crearHora(17, 20));
@@ -1338,11 +1382,16 @@ void cargarDatos()
     listaEfimeridades = insertarEfimeridad("Efimeridad 4", crearFecha(2018, 3, 21), crearHora(6, 12), crearHora(20, 12));
     listaEfimeridades = insertarEfimeridad("Efimeridad 5", crearFecha(2021, 7, 15), crearHora(6, 12), crearHora(20, 12));
     listaEfimeridades = insertarEfimeridad("Efimeridad 6", crearFecha(2021, 8, 8), crearHora(6, 12), crearHora(20, 12));
-    listaEfimeridades = insertarEfimeridad("Efimeridad 7", crearFecha(2019, 8, 21), crearHora(6, 12), crearHora(20, 12));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 7", crearFecha(2019, 8, 21), crearHora(6, 12), crearHora(20, 12));//Este
     listaEfimeridades = insertarEfimeridad("Efimeridad 8", crearFecha(2019, 2, 7), crearHora(6, 12), crearHora(20, 12));
-    listaEfimeridades = insertarEfimeridad("Efimeridad 9", crearFecha(2019, 12, 15), crearHora(6, 12), crearHora(20, 12));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 9", crearFecha(2019, 11, 15), crearHora(6, 12), crearHora(20, 12));
     listaEfimeridades = insertarEfimeridad("Efimeridad 10", crearFecha(2018, 11, 18), crearHora(6, 12), crearHora(20, 12));
+
+   
+    
+
 }
+
 
 void impOcultamientoSalidaSol()
 {
