@@ -1730,7 +1730,7 @@ void personaMayorRegistrosTiempo()
             {
                 contadorRegistros = contadorRegistros + 1;
                 tempRegistro = tempRegistro->sig;
-            } while (tempRegistro->sig != NULL);
+            } while (tempRegistro != NULL);
             if (contadorRegistros > registrosAnterior)
             {
                 masRegistros = tempPersona;
