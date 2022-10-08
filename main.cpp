@@ -1950,8 +1950,7 @@ void menuImprimir()
         string nombre;
         cout << "\n\nEscriba el nombre del lugar: ";
         getline(cin >> ws,nombre);
-        imprimirTiempoPorLugar(nombre);
-        
+        imprimirTiempoPorLugar(nombre); 
     }
     else if(opcion ==8)
     {
