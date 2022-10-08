@@ -1574,6 +1574,56 @@ void reporteEfimeridadAnio()
     impReporteEfimeridadAnio(anio, nombre);
 }
 
+void reportesPromedioMensualLugaresAnioX(int anio){
+    
+    if (listaLugar == NULL)
+    {
+        cout << "\nLa lista está vacía";
+    }
+    else
+    {
+        lugar *temp = listaLugar;
+        do
+        {
+            int meses[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
+            int contador[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
+            relTiempoLugar*tempTiempo = temp->sublistasTiempos;
+            while (tempTiempo != NULL)
+            {
+                if (tempTiempo->enlace->fecha->tm_year == anio)
+                {
+                    meses[tempTiempo->enlace->fecha->tm_mon] += tempTiempo->enlace->precipitacion;
+                    contador[tempTiempo->enlace->fecha->tm_mon] += 1;
+                }
+
+                 tempTiempo = tempTiempo->sig;
+            }
+            int totalResultados = 0;
+            for (int x = 0; x < 12; x++)
+            {
+                totalResultados += contador[x];
+            }
+            if (totalResultados != 0)
+            {
+                cout<<"\n============== PROMEDIO MENSUAL DE UN ANIO ============"<<endl;
+                cout<<"Lugar: "<<temp->nombre<<endl;
+
+                for (int i = 0; i < 12; i++)
+                {
+                    if (contador[i] != 0)
+                    {
+                        cout<<"Promedio Mes de "<<mes[i]<<": ( "<<meses[i]/contador[i]<<" )"<<endl ;
+                    }
+                }
+                cout<<"=========================================================";
+            }
+            temp = temp->sig;
+            
+            
+        } while (temp != listaLugar);
+    }
+}
+
 int obtenerDiferencia(tm *horaTemprano, tm *horaTarde)
 {
     /*
@@ -2396,7 +2446,10 @@ void menuReportes()
     }
     else if (opcion == 3)
     {
-        imprimirExtremos();
+        int anioRep;
+        cout << "\nDigite el anio: ";
+        cin >> anioRep;
+        reportesPromedioMensualLugaresAnioX(anioRep);
     }
     else if (opcion == 4)
     {
