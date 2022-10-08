@@ -2429,8 +2429,7 @@ void menuReportes()
     int opcion;
     cout << "\n1. Imprimir la informacion de todas las listas.";
     cout << "\n2. Imprimir de los horarios de la salida de X y de la puesta de X por mes separado por anio.";
-    // cout << "\n3. Imprimir los extremos (seco/lluvioso) de un lugar en un determinado año.";
-    cout << "\n4. Imprimir la persona que ha hecho mayor caantidad de registros de tiempo." << endl;
+    cout << "\n3. Imprimir la precipitación mensual promedio de cada lugar en un año X"<<endl;
 
     cout << "\nDigite su opcion a ejecutar: ";
     cin >> opcion;
