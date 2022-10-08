@@ -276,25 +276,39 @@ personas *insertarPersona(string nombre, int cedula, string lugarResidencia, str
     return listaPersonas;
 }
 
+// Me dice si la fecha 1 es mayor que la fecha 2
+bool calcularFechaMayor(tm * fecha1, tm * fecha2)
+{
+    if (fecha1->tm_year>fecha2->tm_year)
+        return true;
+    if ((fecha1->tm_year==fecha2->tm_year) && (fecha1->tm_mon>fecha2->tm_mon))
+        return true;
+    if ((fecha1->tm_year==fecha2->tm_year) && (fecha1->tm_mon>=fecha2->tm_mon)&& (fecha1->tm_mday>=fecha2->tm_mday))
+        return true;
+    return false;
+}
+
 // TERMINAR EL INSERTAR TIEMPO
 tiempo *insertarTiempo(tm *fecha, int precipitacion, int tempMaxima, int tempMinima, int velocidadViento, int direccionViento, int humedadRelativa, bool siLlovio)
 {
+    
     tiempo *nuevoTiempo = new tiempo(fecha, precipitacion, tempMaxima, tempMinima, velocidadViento, direccionViento, humedadRelativa, siLlovio);
     if (listaTiempo == NULL)
     {
         listaTiempo = nuevoTiempo;
+        
     }
-    else if ((fecha->tm_year <= listaTiempo->fecha->tm_year) && (fecha->tm_mon <= listaTiempo->fecha->tm_mon) && (fecha->tm_mday <= listaTiempo->fecha->tm_mday))
+    else if (calcularFechaMayor(listaTiempo->fecha,fecha))
     {
         nuevoTiempo->sig = listaTiempo;
         listaTiempo = nuevoTiempo;
+        
     }
     else
     {
         tiempo *temp = listaTiempo;
-        tiempo *te = listaTiempo;
 
-        while ((fecha->tm_year > listaTiempo->fecha->tm_year) || ((fecha->tm_year == listaTiempo->fecha->tm_year) && (fecha->tm_mon > listaTiempo->fecha->tm_mon)) || ((fecha->tm_year == listaTiempo->fecha->tm_year) && (fecha->tm_mon == listaTiempo->fecha->tm_mon) && ((fecha->tm_mday > listaTiempo->fecha->tm_mday))))
+        while (calcularFechaMayor(fecha,temp->fecha))
         {
             if (temp->sig != NULL)
             {
@@ -303,9 +317,12 @@ tiempo *insertarTiempo(tm *fecha, int precipitacion, int tempMaxima, int tempMin
             if (temp->sig == NULL)
             {
                 temp->sig = nuevoTiempo;
+                
                 break;
             }
         }
+        nuevoTiempo->sig = temp;
+        temp = nuevoTiempo;
     }
     return listaTiempo;
 }
@@ -321,7 +338,7 @@ efimeridad *insertarEfimeridad(string nombre, tm *fecha, tm *horaSalida, tm *hor
         listaEfimeridades = nuevaEfimeridad;
     }
 
-    else if ((fecha->tm_year <= listaEfimeridades->fecha->tm_year) && (fecha->tm_mon <= listaEfimeridades->fecha->tm_mon) && (fecha->tm_mday <= listaEfimeridades->fecha->tm_mday))
+    else if (calcularFechaMayor(listaEfimeridades->fecha,fecha))
     {
         nuevaEfimeridad->sig = listaEfimeridades;
         listaEfimeridades->ant = nuevaEfimeridad;
@@ -330,19 +347,8 @@ efimeridad *insertarEfimeridad(string nombre, tm *fecha, tm *horaSalida, tm *hor
     else
     {
         efimeridad *temp = listaEfimeridades;
-        efimeridad *te = listaEfimeridades;
-
-        /*
-        Analisis del siguiente while
-        Datos del Elemento nuevo:          x1=2022 x2=12 x3=16
-        Datos del Elemento en la lista:    y1=2022 y2=11 y3=17
-
-        Así se representaría para validar que sea mayor :
-        (   (x1>y1) || (  (x1 == y1) && (x2 > y2)  ) || (  (x1 == y1) && (x2 == y2) && (x3 > y3)  )  )
-        */
-        while ((fecha->tm_year > listaEfimeridades->fecha->tm_year) || ((fecha->tm_year == listaEfimeridades->fecha->tm_year) && (fecha->tm_mon > listaEfimeridades->fecha->tm_mon)) || ((fecha->tm_year == listaEfimeridades->fecha->tm_year) && (fecha->tm_mon == listaEfimeridades->fecha->tm_mon) && ((fecha->tm_mday > listaEfimeridades->fecha->tm_mday))))
+        while (calcularFechaMayor(fecha,listaEfimeridades->fecha))
         {
-            te = temp;
             if (temp->sig != NULL)
             {
                 temp = temp->sig;
@@ -354,13 +360,6 @@ efimeridad *insertarEfimeridad(string nombre, tm *fecha, tm *horaSalida, tm *hor
                 break;
             }
         }
-        // nuevaEfimeridad->ant = te;
-        // te->sig = nuevaEfimeridad;
-        // if (temp != NULL)
-        // {
-        //     nuevaEfimeridad->sig = temp;
-        //     temp->ant = nuevaEfimeridad;
-        // }
     }
     return listaEfimeridades;
 }
@@ -611,7 +610,7 @@ tiempo *buscarTiempo(int anio, int mes, int dia)
         {
             if ((temp->fecha->tm_year == anio) && (temp->fecha->tm_mon == mes) && (temp->fecha->tm_mday == dia))
             {
-                cout << "\nTiempo ENcontrado" << endl;
+                cout << "\nTiempo Encontrado" << endl;
                 return temp;
             }
             temp = temp->sig;
@@ -1336,13 +1335,13 @@ void cargarDatos()
     listaEfimeridades = insertarEfimeridad("Efimeridad 1", crearFecha(2020, 9, 23), crearHora(7, 25), crearHora(17, 9));
     listaEfimeridades = insertarEfimeridad("Efimeridad 2", crearFecha(2018, 11, 7), crearHora(5, 37), crearHora(17, 20));
     listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2018, 8, 12), crearHora(6, 12), crearHora(20, 12));
-    listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2018, 3, 21), crearHora(6, 12), crearHora(20, 12));
-    listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2021, 7, 15), crearHora(6, 12), crearHora(20, 12));
-    listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2021, 8, 8), crearHora(6, 12), crearHora(20, 12));
-    listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2019, 8, 21), crearHora(6, 12), crearHora(20, 12));
-    listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2019, 2, 7), crearHora(6, 12), crearHora(20, 12));
-    listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2019, 12, 15), crearHora(6, 12), crearHora(20, 12));
-    listaEfimeridades = insertarEfimeridad("Efimeridad 3", crearFecha(2018, 11, 18), crearHora(6, 12), crearHora(20, 12));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 4", crearFecha(2018, 3, 21), crearHora(6, 12), crearHora(20, 12));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 5", crearFecha(2021, 7, 15), crearHora(6, 12), crearHora(20, 12));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 6", crearFecha(2021, 8, 8), crearHora(6, 12), crearHora(20, 12));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 7", crearFecha(2019, 8, 21), crearHora(6, 12), crearHora(20, 12));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 8", crearFecha(2019, 2, 7), crearHora(6, 12), crearHora(20, 12));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 9", crearFecha(2019, 12, 15), crearHora(6, 12), crearHora(20, 12));
+    listaEfimeridades = insertarEfimeridad("Efimeridad 10", crearFecha(2018, 11, 18), crearHora(6, 12), crearHora(20, 12));
 }
 
 void impOcultamientoSalidaSol()
@@ -2016,6 +2015,7 @@ int main()
 {
 
     llenarVectorMeses();
+
     cargarDatos();
 
 
