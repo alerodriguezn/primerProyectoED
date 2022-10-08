@@ -55,6 +55,15 @@ struct relRegionLugar
 
 };
 
+struct relTiempoLluvia
+{
+    relTiempoLluvia*sig;
+    struct lluvia*enlace;
+    relTiempoLluvia(){
+    }
+
+};
+
 
 // Estructura de Personas
 struct personas
@@ -181,7 +190,7 @@ struct tiempo
     int direccionViento;
     int humedadRelativa;
     bool siLlovio;
-    lluvia *sublistasLluvias;
+    relTiempoLluvia *sublistasLluvias;
     tiempo *sig;
 
     tiempo(tm *fecha, int precipitacion, int tempMaxima, int tempMinima, int velocidadViento, int direccionViento, int humedadRelativa, bool siLlovio)
@@ -750,7 +759,9 @@ void imprimirTiempoPorLugar(string nombre) {
         relTiempoLugar *temp = lugar->sublistasTiempos;
         do        
         {
-            cout << "Tiempo número " << contador;
+            cout << "=================================" << endl;
+
+            cout << "Tiempo número " << contador<<endl;
             cout << "Fecha: " << devolverFecha(temp->enlace->fecha) << endl;
             cout << "Precipitación: " << temp->enlace->precipitacion << endl;
             cout << "Temperatura máxima: " << temp->enlace->tempMaxima << endl;
@@ -762,20 +773,21 @@ void imprimirTiempoPorLugar(string nombre) {
             if (temp->enlace->sublistasLluvias == NULL)
             {
                 cout << "No tiene sublistas de lluvia" << endl;
+            cout << "=================================" << endl;
+
             }
             else
             {
-                lluvia *tempLluvia = temp->enlace->sublistasLluvias;
+                relTiempoLluvia *tempLluvia = temp->enlace->sublistasLluvias;
                 do
                 {
-                    cout << "\t LLuvia: " << tempLluvia->codigo << endl;
+                    cout << "\t LLuvia: " << tempLluvia->enlace->codigo << endl;
                     tempLluvia = tempLluvia->sig;
-                } while (tempLluvia->sig != NULL);
-                
+                } while (tempLluvia != NULL);
             }
             contador = contador + 1;
             temp = temp->sig;
-        } while (temp->sig != NULL);
+        } while (temp != NULL);
     }
 }
 
@@ -796,7 +808,9 @@ void imprimirTimepoPorPersona(int cedula)
         relTiempoPersona *temp = personaElegida->sublistasTiempos;
         do        
         {
-            cout << "Tiempo número " << contador;
+            cout << "=================================" << endl;
+
+            cout << "Tiempo número " << contador<<endl;
             cout << "Fecha: " << devolverFecha(temp->enlace->fecha) << endl;
             cout << "Precipitación: " << temp->enlace->precipitacion << endl;
             cout << "Temperatura máxima: " << temp->enlace->tempMaxima << endl;
@@ -808,20 +822,22 @@ void imprimirTimepoPorPersona(int cedula)
             if (temp->enlace->sublistasLluvias == NULL)
             {
                 cout << "No tiene sublistas de lluvia" << endl;
+            cout << "=================================" << endl;
+
             }
             else
             {
-                lluvia *tempLluvia = temp->enlace->sublistasLluvias;
+                relTiempoLluvia *l = temp->enlace->sublistasLluvias;
                 do
                 {
-                    cout << "\t LLuvia: " << tempLluvia->codigo << endl;
-                    tempLluvia = tempLluvia->sig;
-                } while (tempLluvia->sig != NULL);
+                    cout << "\t LLuvia: " << l->enlace->codigo << endl;
+                    l = l->sig;
+                } while (l != NULL);
                 
             }
             contador = contador + 1;
             temp = temp->sig;
-        } while (temp->sig != NULL);
+        } while (temp != NULL);
     }
 }
 
@@ -842,14 +858,47 @@ void imprimirLugaresPorRegion(int id)
         relRegionLugar *temp = regionElegida->sublistasLugares;
         do        
         {
+            cout << "=================================" << endl;
             cout << "Lugar número: " << contador;
             cout << "Nombre: " << temp->enlace->nombre << endl;
             cout << "Poblacion: " << temp->enlace->poblacion << endl;
             cout << "Metros Cuadrados : " << temp->enlace->metrosCuadrados << endl;
+            cout << "=================================" << endl;
+
        
             contador = contador + 1;
             temp = temp->sig;
-        } while (temp->sig != NULL);
+        } while (temp != NULL);
+    }
+}
+
+void imprimirLluviasPorTiempo(tm*fecha)
+{
+    tiempo *tiempoElegido = buscarTiempo(fecha->tm_year,fecha->tm_mon,fecha->tm_mday);
+    if (tiempoElegido == NULL)
+    {
+        cout << "\nLo sentimos, intente de nuevo" << endl;
+    }
+    else if (tiempoElegido->sublistasLluvias == NULL) 
+    {
+        cout << "\nEsta lista está vacía" << endl;
+    }
+    else
+    {
+        int contador = 1;
+        relTiempoLluvia *temp = tiempoElegido->sublistasLluvias;
+        do        
+        {
+            cout << "=================================" << endl;
+            cout << "Lluvia número: " << contador;
+            cout << "Codigo: " << temp->enlace->codigo << endl;
+            cout << "Nombre: " << temp->enlace->nombre << endl;
+            cout << "Rango Promedio en MM : " << temp->enlace->rangoPromedioEn_mm << endl;
+            cout << "=================================" << endl;
+
+            contador = contador + 1;
+            temp = temp->sig;
+        } while (temp != NULL);
     }
 }
 
@@ -879,27 +928,19 @@ void imprimirListaTiempo(tiempo *listaTiempoParametro) {
             }
             else
             {
-                lluvia *tempLluvia = temp->sublistasLluvias;
+                relTiempoLluvia *l = temp->sublistasLluvias;
                 do
                 {
-                    cout << "\t LLuvia: " << tempLluvia->codigo << endl;
-                    tempLluvia = tempLluvia->sig;
-                } while (tempLluvia->sig != NULL);
+                    cout << "\t LLuvia: " << l->enlace->codigo << endl;
+                    l = l->sig;
+                } while (l != NULL);
 
                 
             }
             contador = contador + 1;
             temp = temp->sig;
-        } while (temp->sig != NULL);
-        cout << "Tiempo número " << contador<<endl;
-        cout << "Fecha: " << devolverFecha(temp->fecha) << endl;
-        cout << "Precipitación: " << temp->precipitacion << endl;
-        cout << "Temperatura máxima: " << temp->tempMaxima << endl;
-        cout << "Temperatura mínima: " << temp->tempMinima << endl;
-        cout << "Velocidad del viento: " << temp->velocidadViento << endl;
-        cout << "Dirección del viento: " << temp->direccionViento << endl;
-        cout << "Lluvia: " << temp->siLlovio << endl;
-        cout << "Lista de lluvias: " << temp->tempMinima << endl;
+        } while (temp != NULL);
+        
     }
 }
 
@@ -1235,6 +1276,30 @@ void relacionarTiempoPersona(tm*fecha,int cedula){
 
 }
 
+void relacionarTiempoLluvia(tm*fecha,string codigo){
+    tiempo*t = buscarTiempo(fecha->tm_year,fecha->tm_mon,fecha->tm_mday);
+    lluvia*l = buscarLluvia(codigo);
+    if (t == NULL)
+    {
+        cout<<"Tiempo no valida";
+        return;
+    }
+    if (l == NULL)
+    {
+        cout<<"LLuvia no valida";
+        return;
+    }
+
+    relTiempoLluvia*nuevo = new relTiempoLluvia;
+    nuevo->enlace = l;
+    nuevo->sig = t->sublistasLluvias;
+    t->sublistasLluvias = nuevo;
+    cout<<"====================";
+    cout<<"Relacion Completada";
+    cout<<"====================";
+
+}
+
 void relacionarLugarRegion(string nombre,int id){
     region*r = buscarRegion(id);
     lugar*l = buscarLugar(nombre);
@@ -1303,16 +1368,16 @@ void cargarDatos()
     listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
     listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
 
-    listaRegion = insertarRegion(12, "San José", "Provincia de San José, Costa Rica", listaRegion);
-    listaRegion = insertarRegion(14, "Escazú", "Provincia de San José, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(1, "San José", "Provincia de San José, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(2, "Escazú", "Provincia de San José, Costa Rica", listaRegion);
     listaRegion = insertarRegion(3, "San Carlos", "Provincia de Alajuela, Costa Rica", listaRegion);
     listaRegion = insertarRegion(4, "Palmares", "Provincia de Alajuela, Costa Rica", listaRegion);
-    listaRegion = insertarRegion(4, "Paraíso", "Provincia de Cartago, Costa Rica", listaRegion);
-    listaRegion = insertarRegion(4, "La unión", "Provincia de Cartago, Costa Rica", listaRegion);
-    listaRegion = insertarRegion(4, "Belén", "Provincia de Heredia, Costa Rica", listaRegion);
-    listaRegion = insertarRegion(4, "Puntarenas", "Provincia de Puntarenas, Costa Rica", listaRegion);
-    listaRegion = insertarRegion(4, "Nicoya", "Provincia de Guanacaste, de Costa Rica", listaRegion);
-    listaRegion = insertarRegion(4, "Talamanca", "Provincia de Limón, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(5, "Paraíso", "Provincia de Cartago, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(6, "La unión", "Provincia de Cartago, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(7, "Belén", "Provincia de Heredia, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(8, "Puntarenas", "Provincia de Puntarenas, Costa Rica", listaRegion);
+    listaRegion = insertarRegion(9, "Nicoya", "Provincia de Guanacaste, de Costa Rica", listaRegion);
+    listaRegion = insertarRegion(10, "Talamanca", "Provincia de Limón, de Costa Rica", listaRegion);
 
     listaLugar = insertarLugar("Carmen", 370, 1.47, listaLugar); //San josé
     listaLugar = insertarLugar("Merced", 446, 2.17, listaLugar);
@@ -1325,7 +1390,7 @@ void cargarDatos()
 
     listaLugar = insertarLugar("San Antonio", 300, 4.91, listaLugar); //Belen
     listaLugar = insertarLugar("La Ribera", 389, 3.9, listaLugar);
-    listaLugar = insertarLugar("La Asunción", 433, 4.47, listaLugar);
+    listaLugar = insertarLugar("La Asuncion", 433, 4.47, listaLugar);
 
     listaLugar = insertarLugar("Quebrada Honda", 287, 3.31, listaLugar); //Nicoya
 
@@ -1361,6 +1426,8 @@ void cargarDatos()
     relacionarTiempoPersona(crearFecha(2019, 11,15), 3011230735);
     relacionarTiempoPersona(crearFecha(2018, 11,18), 3011230735);
 
+    
+
 
 
     relacionarTiempoLugar(crearFecha(2020, 9, 23), "Carmen");
@@ -1373,6 +1440,34 @@ void cargarDatos()
     relacionarTiempoLugar(crearFecha(2019, 2,  7), "Quebrada Honda");
     relacionarTiempoLugar(crearFecha(2019, 11,15), "La Ribera");
     relacionarTiempoLugar(crearFecha(2018, 11,18), "Aguas Zarcas");
+
+    relacionarLugarRegion("Carmen",1);
+    relacionarLugarRegion("Pocosol",1);
+    relacionarLugarRegion("Buenos Aires",2);
+    relacionarLugarRegion("San Antonio",3);
+    relacionarLugarRegion("Quebrada Honda",4);
+    relacionarLugarRegion("La Ribera",5);
+    relacionarLugarRegion("Aguas Zarcas",6);
+    relacionarLugarRegion("Merced",6);
+    relacionarLugarRegion("Zaragoza",7);
+    relacionarLugarRegion("La Asuncion",7);
+
+
+    relacionarTiempoLluvia(crearFecha(2020, 9, 23), "COD-5-55");
+    relacionarTiempoLluvia(crearFecha(2020, 9, 23), "COD-4-16");
+    relacionarTiempoLluvia(crearFecha(2018, 8, 12), "COD-3-03");
+    relacionarTiempoLluvia(crearFecha(2018, 3, 21), "COD-6-60");
+    relacionarTiempoLluvia(crearFecha(2021, 7, 15), "COD-2-10");
+    relacionarTiempoLluvia(crearFecha(2021, 8,  8), "COD-2-06");
+    relacionarTiempoLluvia(crearFecha(2019, 8, 21), "COD-3-09");
+    relacionarTiempoLluvia(crearFecha(2019, 2,  7), "COD-4-20");
+    relacionarTiempoLluvia(crearFecha(2019, 11,15), "COD-4-27");
+    relacionarTiempoLluvia(crearFecha(2018, 11,18), "COD-4-22");
+
+  
+
+ 
+
 
 
 
@@ -1961,7 +2056,9 @@ void menuImprimir()
     cout << "\n6. Imprimir lista tiempo";
     cout << "\n7. Imprimir sublista tiempo (Lugar)";
     cout << "\n8. Imprimir sublista tiempo (Personas)";
-    cout << "\n9. Imprimir sublista Lugar (Region)" << endl;
+    cout << "\n9. Imprimir sublista Lugar (Region)";
+    cout << "\n10. Imprimir sublista lluvia (Tiempo)" << endl;
+
 
 
 
@@ -2014,6 +2111,14 @@ void menuImprimir()
         cout << "\n\nEscriba el ID de de la region : ";
         cin >> id;
         imprimirLugaresPorRegion(id);
+    }
+    else if(opcion ==10)
+    {
+        string fecha;
+        cout << "\n\nEscriba la fecha del tiempo(YYYY/MM/DD) : ";
+        cin >> fecha;
+        tm *fechaB = obtenerFechadeString(fecha);
+        imprimirLluviasPorTiempo(fechaB);
     }
     else
     {
