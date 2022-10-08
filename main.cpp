@@ -1467,7 +1467,7 @@ void cargarDatos()
     relacionarLugarRegion("La Asuncion", 7);
 
     relacionarTiempoLluvia(crearFecha(2020, 9, 23), "COD-5-55");
-    relacionarTiempoLluvia(crearFecha(2020, 9, 23), "COD-4-16");
+    relacionarTiempoLluvia(crearFecha(2018, 11, 7), "COD-4-16");
     relacionarTiempoLluvia(crearFecha(2018, 8, 12), "COD-3-03");
     relacionarTiempoLluvia(crearFecha(2018, 3, 21), "COD-6-60");
     relacionarTiempoLluvia(crearFecha(2021, 7, 15), "COD-2-10");
@@ -1487,51 +1487,6 @@ void cargarDatos()
     listaEfimeridades = insertarEfimeridad("Sol", crearFecha(2019, 8, 7), crearHora(6, 12), crearHora(20, 12));
     listaEfimeridades = insertarEfimeridad("Sol", crearFecha(2019, 11, 15), crearHora(6, 12), crearHora(20, 12));
     listaEfimeridades = insertarEfimeridad("Efimeridad 10", crearFecha(2018, 11, 18), crearHora(6, 12), crearHora(20, 12));
-}
-
-void impOcultamientoSalidaSol()
-{
-    /*
-    Determinar e imprimir el dia(fecha completa)con la salida de “sol”mas temprano de un año Y,
-    y el ocultamientomastardio del “sol”en el año Y.
-    */
-    tm *horaTempranoOcultamiento = new tm;
-    tm *horaTardioSalida = new tm;
-
-    if (listaEfimeridades == NULL)
-    {
-        cout << "\nLa lista esta vacia" << endl;
-    }
-    else
-    {
-        efimeridad *temp = listaEfimeridades;
-        horaTempranoOcultamiento = temp->horaOcultamiento;
-        horaTardioSalida = temp->horaSalida;
-        while (temp->sig != NULL)
-        {
-            temp = temp->sig;
-            // Comparando las horas para determinar el ocultamiento mas temprano
-            if (temp->horaOcultamiento->tm_hour < horaTempranoOcultamiento->tm_hour)
-            {
-                horaTempranoOcultamiento = temp->horaOcultamiento;
-            }
-            else if ((temp->horaOcultamiento->tm_hour == horaTempranoOcultamiento->tm_hour) && (temp->horaOcultamiento->tm_min < horaTempranoOcultamiento->tm_min))
-            {
-                horaTempranoOcultamiento = temp->horaOcultamiento;
-            }
-            // Comparando las horas para determinar la salida del sol mas tranquila
-            if (temp->horaSalida->tm_hour > horaTardioSalida->tm_hour)
-            {
-                horaTardioSalida = temp->horaSalida;
-            }
-            else if ((temp->horaSalida->tm_hour == horaTardioSalida->tm_hour) && (temp->horaSalida->tm_min > horaTardioSalida->tm_min))
-            {
-                horaTardioSalida = temp->horaSalida;
-            }
-        }
-    }
-    cout << "\nLa hora de ocultamiento del sol mas temprano es: " << devolverHora(horaTempranoOcultamiento);
-    cout << "\nLa hora de salida del sol mas tardia es: " << devolverHora(horaTardioSalida) << endl;
 }
 
 void impReporteEfimeridadAnio(int anio, string nombreEfimeridad)
@@ -1624,6 +1579,113 @@ void reportesPromedioMensualLugaresAnioX(int anio){
     }
 }
 
+void impPrecipitacionRegio (int anio) {
+    if (listaRegion == NULL)
+    {
+        cout << "\nLa lista está vacía";
+    }
+    else
+    {
+        region *tempRegion = listaRegion;
+        while (tempRegion != NULL)
+        {
+            cout << "\nDENTRO DEL WHILE REGION" << endl;
+            int meses[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
+            int contador[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
+            if (tempRegion->sublistasLugares != NULL)
+            {
+                relRegionLugar* tempLugar = tempRegion->sublistasLugares;
+                do
+                {
+                    cout << "\nDENTRO DEL WHILE LUGAR" << endl;
+                    relTiempoLugar *tempTiempo = tempLugar->enlace->sublistasTiempos;
+                    cout << "\nDESPUÉS DE CREAR TIEMPO" << endl;
+                    do
+                    {
+                        cout << "\nDENTRO DEL WHILE TIEMPO" << endl;
+                        if (tempTiempo->enlace->fecha->tm_year == anio)
+                        {
+                            cout << "\nDENTRO DEL IF AÑO" << endl;
+                            meses[tempTiempo->enlace->fecha->tm_mon] += tempTiempo->enlace->precipitacion;
+                            contador[tempTiempo->enlace->fecha->tm_mon] += 1;
+                        }
+                        tempTiempo = tempTiempo->sig;
+                    } while (tempTiempo != NULL);
+                    
+                    tempLugar = tempLugar->sig;
+                } while (tempLugar != tempRegion->sublistasLugares);
+                cout << "\nSALÍ DEL WHILE LUGAR" << endl;
+
+                int totalResultados = 0;
+                for (int x = 0; x < 12; x++)
+                {
+                    cout << "\nDENTRO DEL PRIMER FOR" << endl;
+                    totalResultados = totalResultados + contador[x];
+                }
+                {
+                    cout<<"\n============== PROMEDIO MENSUAL DE UN ANIO ============"<<endl;
+                    cout<<"Región: "<<tempRegion->nombre <<endl;
+
+                    for (int i = 0; i < 12; i++)
+                    {
+                        if (contador[i] != 0)
+                        {
+                            cout<<"Promedio Mes de "<<mes[i]<<": ( "<<meses[i]/contador[i]<<" )"<<endl ;
+                        }
+                    }
+                    cout<<"=========================================================";
+                }
+            }
+            tempRegion = tempRegion->sig;
+        }
+    }
+}
+
+void impOcultamientoSalidaSol()
+{
+    /*
+    Determinar e imprimir el dia(fecha completa)con la salida de “sol”mas temprano de un año Y,
+    y el ocultamientomastardio del “sol”en el año Y.
+    */
+    tm *horaTempranoOcultamiento = new tm;
+    tm *horaTardioSalida = new tm;
+
+    if (listaEfimeridades == NULL)
+    {
+        cout << "\nLa lista esta vacia" << endl;
+    }
+    else
+    {
+        efimeridad *temp = listaEfimeridades;
+        horaTempranoOcultamiento = temp->horaOcultamiento;
+        horaTardioSalida = temp->horaSalida;
+        while (temp->sig != NULL)
+        {
+            temp = temp->sig;
+            // Comparando las horas para determinar el ocultamiento mas temprano
+            if (temp->horaOcultamiento->tm_hour < horaTempranoOcultamiento->tm_hour)
+            {
+                horaTempranoOcultamiento = temp->horaOcultamiento;
+            }
+            else if ((temp->horaOcultamiento->tm_hour == horaTempranoOcultamiento->tm_hour) && (temp->horaOcultamiento->tm_min < horaTempranoOcultamiento->tm_min))
+            {
+                horaTempranoOcultamiento = temp->horaOcultamiento;
+            }
+            // Comparando las horas para determinar la salida del sol mas tranquila
+            if (temp->horaSalida->tm_hour > horaTardioSalida->tm_hour)
+            {
+                horaTardioSalida = temp->horaSalida;
+            }
+            else if ((temp->horaSalida->tm_hour == horaTardioSalida->tm_hour) && (temp->horaSalida->tm_min > horaTardioSalida->tm_min))
+            {
+                horaTardioSalida = temp->horaSalida;
+            }
+        }
+    }
+    cout << "\nLa hora de ocultamiento del sol mas temprano es: " << devolverHora(horaTempranoOcultamiento);
+    cout << "\nLa hora de salida del sol mas tardia es: " << devolverHora(horaTardioSalida) << endl;
+}
+
 int obtenerDiferencia(tm *horaTemprano, tm *horaTarde)
 {
     /*
@@ -1681,8 +1743,8 @@ void diferenciaSalidaSol()
             {
                 horaTarde = temp->horaSalida;
             }
-            temp = temp->sig;
         }
+        temp = temp->sig;
     }
     int diferencia = obtenerDiferencia(horaTemprano, horaTarde);
     cout << "\nLa diferencia de la salida del sol en  mas temprana y mas tarde en el anio " << anio;
@@ -1692,31 +1754,72 @@ void diferenciaSalidaSol()
 void imprimirExtremos()
 {
     /*
-    Determinar e imprimir el mes que mas externos de lluvia tiene de un año X para un lugar Z.
+    Determinar e imprimir el mes que mas extremos de lluvia tiene de un año X para un lugar Z.
     Debe imprimir ambos:extremo seco y extremo lluvioso. En caso de empate imprimir todos los
     meses que tiene el empate maximo.
     */
     string lugarParaBuscar;
     int anioParaBuscar;
-    cout << "\nDigite el lugar del que desea imprimir los extremos: ";
+    cout << "\nDigite el lugar en el que desea buscar: ";
     getline(cin >> ws, lugarParaBuscar);
     lugar *lugarEscogido = buscarLugar(lugarParaBuscar);
     if (lugarEscogido == NULL)
     {
-        cout << "\nLo sentimos" << endl;
+        cout << "\nLo sentimos, no hemos encontrado el lugar." << endl;
     }
-    else if (lugarEscogido != NULL)
+    else if (lugarEscogido->sublistasTiempos != NULL)
     {
         relTiempoLugar *tempTiempo = lugarEscogido->sublistasTiempos;
-        tiempo *extLluvioso = tempTiempo->enlace;
-        tiempo *extSeco = tempTiempo->enlace;
+        int extLluvioso = 0;
+        int extSeco = 0;
+        int conAnterioLluvioso = 0;
+        int conAnteriorSeco = 0;
+        int contadorLluvioso = 0;
+        int contadorSeco = 0;
+        cout << "\nDigite el año en el que desea revisar los extremos: ";
+        cin >> anioParaBuscar;
+        do
+        {
+            cout << "ESTOY ENCICLADO EN EL WHILE GRANDE" << endl;
+            if (tempTiempo->enlace->fecha->tm_year == anioParaBuscar)
+            {
+                relTiempoLluvia *tempLluvia = tempTiempo->enlace->sublistasLluvias;
+                do
+                {
+                    cout << "ESTOY ENCICLADO EN EL WHILE PEQUEÑO" << endl;
+                    if (tempLluvia->enlace->rangoPromedioEn_mm <= 0)
+                    {
+                        contadorSeco = contadorSeco + 1;
+                    }
+                    else if (tempLluvia->enlace->rangoPromedioEn_mm >= 60)
+                    {
+                        contadorLluvioso = contadorLluvioso + 1;
+                    }
+                    tempLluvia = tempLluvia->sig;
+                } while (tempLluvia->sig != NULL);
+                if (contadorLluvioso > conAnterioLluvioso)
+                {
+                    cout << "ENTRÉ A UN IF" << endl;
+                    extLluvioso = tempTiempo->enlace->fecha->tm_mon;
+                    conAnterioLluvioso = contadorLluvioso;
+                }
+                if (contadorSeco > conAnteriorSeco)
+                {
+                    cout << "ENTRÉ A UN IF" << endl;
+                    extSeco = tempTiempo->enlace->fecha->tm_mon;
+                    conAnteriorSeco = contadorSeco;
+                }
+            }
+            tempTiempo = tempTiempo->sig;
+        } while (tempTiempo->sig != NULL);
+        cout << "\nEl mes con mayor extremos lluvioso es: " << mes[extLluvioso];
+        cout << "\nEl mes con mayor extremos secos es: " << mes[extSeco];
     }
 }
 
 /*Determinar e imprimir la persona que mas registros del tiempo tiene.*/
 void personaMayorRegistrosTiempo()
 {
-
     personas *tempPersona = listaPersonas;
     personas *masRegistros;
     int registrosAnterior = 0;
@@ -1735,8 +1838,6 @@ void personaMayorRegistrosTiempo()
             {
                 masRegistros = tempPersona;
                 registrosAnterior = contadorRegistros;
-                cout << "REGISTROS ANTERIOR " << registrosAnterior << endl;
-                cout << "CONTADOR REGISTROS " << contadorRegistros << endl;
             }
             contadorRegistros = 0;
         }
@@ -2429,7 +2530,8 @@ void menuReportes()
     int opcion;
     cout << "\n1. Imprimir la informacion de todas las listas.";
     cout << "\n2. Imprimir de los horarios de la salida de X y de la puesta de X por mes separado por anio.";
-    cout << "\n3. Imprimir la precipitación mensual promedio de cada lugar en un año X"<<endl;
+    cout << "\n3. Imprimir la precipitación mensual promedio de cada lugar en un año X";
+    cout << "\n4. Imprimir la precipitación mensual promedio de cada región en un año X"<<endl; 
 
     cout << "\nDigite su opcion a ejecutar: ";
     cin >> opcion;
@@ -2452,7 +2554,10 @@ void menuReportes()
     }
     else if (opcion == 4)
     {
-        personaMayorRegistrosTiempo();
+        int anioPR;
+        cout << "\n Digite el año en que desea buscar: ";
+        cin >> anioPR;
+        impPrecipitacionRegio(anioPR);
     }
     else
     {
