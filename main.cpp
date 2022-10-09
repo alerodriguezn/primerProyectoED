@@ -1872,7 +1872,6 @@ void impPrecipitacionRegio (int anio) {
                     tempLugar = tempLugar->sig;
                 } while (tempLugar != tempRegion->sublistasLugares);
                 cout << "\nSALÍ DEL WHILE LUGAR" << endl;
-
                 int totalResultados = 0;
                 for (int x = 0; x < 12; x++)
                 {
