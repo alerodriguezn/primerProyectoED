@@ -1514,6 +1514,136 @@ void cargarDatos()
     listaEfimeridades = insertarEfimeridad("Efimeridad 10", crearFecha(2018, 11, 18), crearHora(6, 12), crearHora(20, 12));
 }
 
+
+void imprimirDiasLluvias(int anio, string nombre){
+    
+    if (listaLugar == NULL)
+    {
+        cout << "\nLa lista está vacía";
+    }
+    else
+    {
+        lugar *temp = buscarLugar(nombre);
+        
+        int contador[12] = {0,0,0,0,0,0,0,0,0,0,0,0};
+        
+        relTiempoLugar*tempTiempo = temp->sublistasTiempos;
+        while (tempTiempo != NULL)
+        {
+            if (tempTiempo->enlace->fecha->tm_year == anio && tempTiempo->enlace->siLlovio == true)
+            {
+                contador[tempTiempo->enlace->fecha->tm_mon] += 1;
+            }
+             tempTiempo = tempTiempo->sig;
+        }
+        int totalResultados = 0;
+        for (int x = 0; x < 12; x++)
+        {
+            totalResultados += contador[x];
+        }
+        if (totalResultados != 0)
+        {
+            cout<<"\n============== Dias de lluvia Por Mes En Anio Especifico ============"<<endl;
+            cout<<"Lugar: "<<temp->nombre<<" Anio: "<<anio<<endl;
+            for (int i = 0; i < 12; i++)
+            {
+                if (contador[i] != 0)
+                {
+                    cout<<"Mes de "<<mes[i]<<"| Dias de lluvia "<<contador[i]<<endl ;
+                }
+            }
+            cout<<"=========================================================";
+        }
+    
+       
+    }
+}
+
+
+
+int determinarTipoLluvia(string n ){
+    if (n == "Lluvia torrencial")
+    {
+        return 4;
+    }else if ( n == "Lluvia muy fuerte")
+    {
+        return 3;
+        
+    }else if (n == "Lluvia fuerte")
+    {
+        return 2;
+        
+    }else if (n == "Lluvia normal")
+    {
+        return 1;
+        
+    }else if (n == "Lluvia debil")
+    {
+        return 0;
+
+    }
+
+}
+
+void reporteCambiodeLLuvia(int anio){
+    
+    if (listaTiempo == NULL)
+    {
+        cout << "\nLa lista está vacía";
+    }
+    else
+    {
+        tiempo *temp = listaTiempo;
+        
+        
+        tm* fechasIncial[5] ;
+        tm* fechaFinal[5] ;
+        int contadores[5] = {0,0,0,0,0};
+
+        string tipoAnterior = "";
+        while (temp != NULL ){
+            
+
+            if (temp->fecha->tm_year == anio && temp->sublistasLluvias != NULL)
+            {   
+                if(tipoAnterior != temp->sublistasLluvias->enlace->nombre){
+                    contadores[determinarTipoLluvia(temp->sublistasLluvias->enlace->nombre)] = 0;
+                    fechasIncial[determinarTipoLluvia(temp->sublistasLluvias->enlace->nombre)] = temp->fecha;
+                    fechaFinal[determinarTipoLluvia(temp->sublistasLluvias->enlace->nombre)] = NULL;
+                    tipoAnterior = temp->sublistasLluvias->enlace->nombre;
+                }
+                else{
+                    fechaFinal[determinarTipoLluvia(temp->sublistasLluvias->enlace->nombre)] = temp->fecha;
+                    contadores[determinarTipoLluvia(temp->sublistasLluvias->enlace->nombre)]++;
+                }
+            }
+            temp = temp->sig;
+        } 
+        cout<<"-----------------"<<endl;
+        cout<<"Anio: "<< anio<<endl;
+        if (contadores[4] >= 6)
+        {
+            cout<<"Lluvia Torrencial Desde: "<<mes[fechasIncial[4]->tm_mon]<<" "<<fechasIncial[4]->tm_mday<<" Hasta "<<mes[fechaFinal[4]->tm_mon]<<" "<<fechaFinal[4]->tm_mday;
+        }else if (contadores[3] >= 6)
+        {
+            cout<<"Lluvia muy fuerte Desde: "<<mes[fechasIncial[3]->tm_mon]<<" "<<fechasIncial[3]->tm_mday<<" Hasta "<<mes[fechaFinal[3]->tm_mon]<<" "<<fechaFinal[3]->tm_mday<<endl;
+        }else if (contadores[2] >= 6)
+        {
+            cout<<"Lluvia fuerte Desde: "<<mes[fechasIncial[2]->tm_mon]<<" "<<fechasIncial[2]->tm_mday<<" Hasta "<<mes[fechaFinal[2]->tm_mon]<<" "<<fechaFinal[2]->tm_mday;
+
+        }else if (contadores[1] >= 6)
+        {
+            cout<<"Lluvia normal Desde: "<<mes[fechasIncial[1]->tm_mon]<<" "<<fechasIncial[1]->tm_mday<<" Hasta "<<mes[fechaFinal[1]->tm_mon]<<" "<<fechaFinal[1]->tm_mday;
+
+        }else if (contadores[0] >= 6)
+        {
+            cout<<"Lluvia Debil Desde:  "<<mes[fechasIncial[0]->tm_mon]<<" "<<fechasIncial[0]->tm_mday<<" Hasta "<<mes[fechaFinal[0]->tm_mon]<<" "<<fechaFinal[0]->tm_mday;
+        }
+        
+        
+    }
+}
+
 void impReporteVariablesClimaticas(region *r, int anio1, int anio2)
 {
     relRegionLugar *lugares = r->sublistasLugares;
@@ -2659,6 +2789,10 @@ void menuReportes()
     cout << "\n3. Imprimir la precipitación mensual promedio de cada lugar en un año X";
     cout << "\n4. Imprimir la precipitación mensual promedio de cada región en un año X"; 
     cout << "\n5. Imprimir las variables climatológicas de una region X y un periodo Y";
+    cout << "\n6. imprimir si hay periodos en un año X de cambios en tipos de días de lluvia";
+    cout << "\n8. Imprimir los días de lluvia de cada mes de un año X para un lugar Z";
+
+
 
 
     cout << "\nDigite su opcion a ejecutar: ";
@@ -2690,6 +2824,22 @@ void menuReportes()
     else if (opcion == 5)
     {
         reporteVariablesClimaticas();
+    }else if (opcion == 6)
+    {
+        int anioP;
+        cout << "\n Digite el año: ";
+        cin >> anioP;
+        reporteCambiodeLLuvia(anioP);
+
+    }else if (opcion == 8)
+    {
+        int a;
+        string nombre;
+        cout << "\n Digite el año: ";
+        cin >> a;
+        cout << "\n Digite el nombre: ";
+        getline(cin >> ws, nombre);
+        imprimirDiasLluvias(a,nombre);
     }
     else
     {
