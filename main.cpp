@@ -1852,11 +1852,9 @@ void impPrecipitacionRegio (int anio) {
             if (tempRegion->sublistasLugares != NULL)
             {
                 relRegionLugar* tempLugar = tempRegion->sublistasLugares;
-                do
+                while (tempLugar->sig != tempRegion->sublistasLugares);
                 {
                     cout << "\nDENTRO DEL WHILE LUGAR" << endl;
-                    //relTiempoLugar *tempTiempo = tempLugar->enlace->sublistasTiempos;
-                    //cout << "\nDESPUÉS DE CREAR TIEMPO" << endl;
                     while (tempLugar->enlace->sublistasTiempos != NULL)
                     {
                         cout << "\nDENTRO DEL WHILE TIEMPO" << endl;
@@ -1870,8 +1868,9 @@ void impPrecipitacionRegio (int anio) {
                     }
                     cout << "\nSALÍ DEL WHILE TIEMPO" << endl;
                     tempLugar = tempLugar->sig;
-                } while (tempLugar != tempRegion->sublistasLugares);
+                }
                 cout << "\nSALÍ DEL WHILE LUGAR" << endl;
+
                 int totalResultados = 0;
                 for (int x = 0; x < 12; x++)
                 {
@@ -1893,6 +1892,54 @@ void impPrecipitacionRegio (int anio) {
                 }
             }
             tempRegion = tempRegion->sig;
+        }
+    }
+}
+
+void reporteExtremosAnioLugar(int anioE, string lugarE)
+{
+    lugar *lugarEscogido = buscarLugar(lugarE);
+    if (lugarEscogido == NULL)
+    {
+        cout << "\nLo sentimos, no hemos encontrado el lugar." << endl;
+    }
+    else if (lugarEscogido->sublistasTiempos != NULL)
+    {
+        int mesesMinimo[12] = {NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
+        int mesesMaximo[12] = {NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL};
+        relTiempoLugar *tempTiempo = lugarEscogido->sublistasTiempos;
+        do
+        {
+            if (tempTiempo->enlace->fecha->tm_year == anioE)
+            {
+                if (mesesMaximo[tempTiempo->enlace->fecha->tm_mon] == NULL)
+                {
+                    mesesMaximo[tempTiempo->enlace->fecha->tm_mon] = tempTiempo->enlace->tempMaxima;
+                }
+                if (mesesMinimo[tempTiempo->enlace->fecha->tm_mon] == NULL)
+                {
+                    mesesMinimo[tempTiempo->enlace->fecha->tm_mon] = tempTiempo->enlace->tempMinima;
+                }
+                if (mesesMinimo[tempTiempo->enlace->fecha->tm_mon] < tempTiempo->enlace->tempMinima)
+                {
+                    mesesMinimo[tempTiempo->enlace->fecha->tm_mon] = tempTiempo->enlace->tempMinima;
+                }
+                if (mesesMaximo[tempTiempo->enlace->fecha->tm_mon] > tempTiempo->enlace->tempMaxima)
+                {
+                    mesesMaximo[tempTiempo->enlace->fecha->tm_mon] = tempTiempo->enlace->tempMaxima;
+                }
+            }
+            tempTiempo = tempTiempo->sig;
+        } while (tempTiempo->sig != NULL);
+
+        for (int i = 0; i < 12; i++)
+        {
+            cout << "\nPara el mes " << mes[i] << endl;
+            if ((mesesMaximo[i] != NULL) && (mesesMinimo[i] != NULL))
+            {
+                cout << "\nLa temperatura Minima es " << mesesMinimo[i] << endl;
+                cout << "\nLa temperatura Máxima es " << mesesMaximo[i] << endl;
+            }
         }
     }
 }
@@ -2026,8 +2073,8 @@ void imprimirExtremos()
     else if (lugarEscogido->sublistasTiempos != NULL)
     {
         relTiempoLugar *tempTiempo = lugarEscogido->sublistasTiempos;
-        int extLluvioso = 0;
-        int extSeco = 0;
+        int extLluvioso = NULL;
+        int extSeco = NULL;
         int conAnterioLluvioso = 0;
         int conAnteriorSeco = 0;
         int contadorLluvioso = 0;
@@ -2036,13 +2083,11 @@ void imprimirExtremos()
         cin >> anioParaBuscar;
         do
         {
-            cout << "ESTOY ENCICLADO EN EL WHILE GRANDE" << endl;
             if (tempTiempo->enlace->fecha->tm_year == anioParaBuscar)
             {
                 relTiempoLluvia *tempLluvia = tempTiempo->enlace->sublistasLluvias;
-                do
+                while (tempLluvia != NULL)
                 {
-                    cout << "ESTOY ENCICLADO EN EL WHILE PEQUEÑO" << endl;
                     if (tempLluvia->enlace->rangoPromedioEn_mm <= 0)
                     {
                         contadorSeco = contadorSeco + 1;
@@ -2052,24 +2097,38 @@ void imprimirExtremos()
                         contadorLluvioso = contadorLluvioso + 1;
                     }
                     tempLluvia = tempLluvia->sig;
-                } while (tempLluvia->sig != NULL);
+                }
                 if (contadorLluvioso > conAnterioLluvioso)
                 {
-                    cout << "ENTRÉ A UN IF" << endl;
                     extLluvioso = tempTiempo->enlace->fecha->tm_mon;
                     conAnterioLluvioso = contadorLluvioso;
                 }
                 if (contadorSeco > conAnteriorSeco)
                 {
-                    cout << "ENTRÉ A UN IF" << endl;
                     extSeco = tempTiempo->enlace->fecha->tm_mon;
                     conAnteriorSeco = contadorSeco;
                 }
             }
             tempTiempo = tempTiempo->sig;
         } while (tempTiempo->sig != NULL);
-        cout << "\nEl mes con mayor extremos lluvioso es: " << mes[extLluvioso];
-        cout << "\nEl mes con mayor extremos secos es: " << mes[extSeco];
+
+        if (extSeco == NULL)
+        {
+            cout << "\nEn este año no tenemos extremos secos";
+        }
+        else
+        {
+            cout << "\nEl mes con mayor extremos secos es: " << mes[extSeco];
+        }
+
+        if (extLluvioso == NULL)
+        {
+            cout << "\nEn este año no tenemos extremos lluviosos";
+        }
+        else
+        {
+            cout << "\nEl mes con mayor extremos lluvioso es: " << mes[extLluvioso];
+        }
     }
 }
 
@@ -2790,6 +2849,7 @@ void menuReportes()
     cout << "\n5. Imprimir las variables climatológicas de una region X y un periodo Y";
     cout << "\n6. imprimir si hay periodos en un año X de cambios en tipos de días de lluvia";
     cout << "\n8. Imprimir los días de lluvia de cada mes de un año X para un lugar Z";
+    cout << "\n9. Obtenga e imprima los extremos de temperatura de cada mes de un año X para un lugar Z" <<endl;
 
 
 
@@ -2839,6 +2899,17 @@ void menuReportes()
         cout << "\n Digite el nombre: ";
         getline(cin >> ws, nombre);
         imprimirDiasLluvias(a,nombre);
+    }
+    else if (opcion == 9)
+    {
+        string lugarE;
+        int anioE;
+        cout << "\n Digite el año en que desea buscar: ";
+        cin >> anioE;
+        cout << endl;
+        cout << "\n Digite el lugar en el que desea buscar: ";
+        cin >> lugarE;
+        reporteExtremosAnioLugar(anioE, lugarE);
     }
     else
     {
