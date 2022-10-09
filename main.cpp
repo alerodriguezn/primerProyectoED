@@ -1598,20 +1598,20 @@ void impPrecipitacionRegio (int anio) {
                 do
                 {
                     cout << "\nDENTRO DEL WHILE LUGAR" << endl;
-                    relTiempoLugar *tempTiempo = tempLugar->enlace->sublistasTiempos;
-                    cout << "\nDESPUÉS DE CREAR TIEMPO" << endl;
-                    do
+                    //relTiempoLugar *tempTiempo = tempLugar->enlace->sublistasTiempos;
+                    //cout << "\nDESPUÉS DE CREAR TIEMPO" << endl;
+                    while (tempLugar->enlace->sublistasTiempos != NULL)
                     {
                         cout << "\nDENTRO DEL WHILE TIEMPO" << endl;
-                        if (tempTiempo->enlace->fecha->tm_year == anio)
+                        if (tempLugar->enlace->sublistasTiempos->enlace->fecha->tm_year == anio)
                         {
                             cout << "\nDENTRO DEL IF AÑO" << endl;
-                            meses[tempTiempo->enlace->fecha->tm_mon] += tempTiempo->enlace->precipitacion;
-                            contador[tempTiempo->enlace->fecha->tm_mon] += 1;
+                            meses[tempLugar->enlace->sublistasTiempos->enlace->fecha->tm_mon] += tempLugar->enlace->sublistasTiempos->enlace->precipitacion;
+                            contador[tempLugar->enlace->sublistasTiempos->enlace->fecha->tm_mon] += 1;
                         }
-                        tempTiempo = tempTiempo->sig;
-                    } while (tempTiempo != NULL);
-                    
+                        tempLugar->enlace->sublistasTiempos = tempLugar->enlace->sublistasTiempos->sig;
+                    }
+                    cout << "\nSALÍ DEL WHILE TIEMPO" << endl;
                     tempLugar = tempLugar->sig;
                 } while (tempLugar != tempRegion->sublistasLugares);
                 cout << "\nSALÍ DEL WHILE LUGAR" << endl;
