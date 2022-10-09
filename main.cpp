@@ -1364,6 +1364,11 @@ void cargarDatos()
     listaLluvia = insertarLluvia("COD-4-20", "Lluvia fuerte", 20, listaLluvia);
     listaLluvia = insertarLluvia("COD-4-27", "Lluvia fuerte", 27, listaLluvia);
     listaLluvia = insertarLluvia("COD-4-22", "Lluvia fuerte", 22, listaLluvia);
+    listaLluvia = insertarLluvia("COD-4-17", "Lluvia fuerte", 22, listaLluvia);
+    listaLluvia = insertarLluvia("COD-4-18", "Lluvia fuerte", 21, listaLluvia);
+    listaLluvia = insertarLluvia("COD-4-19", "Lluvia fuerte", 23, listaLluvia);
+    listaLluvia = insertarLluvia("COD-4-14", "Lluvia fuerte", 23, listaLluvia);
+    listaLluvia = insertarLluvia("COD-4-20", "Lluvia fuerte", 22, listaLluvia);
 
     listaRegion = insertarRegion(12, "Quesada", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
     listaRegion = insertarRegion(14, "Florencia", "San Carlos, provincia de Alajuela, de Costa Rica", listaRegion);
@@ -1381,11 +1386,10 @@ void cargarDatos()
     listaLugar = insertarLugar("Santa Clara", 100, 2.5, listaLugar);
     listaLugar = insertarLugar("Barrio Baltazar", 100, 2.5, listaLugar);
     listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
-    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
-    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
-    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
-    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
-    listaLugar = insertarLugar("San Juan", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("Santa Rita", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("Florencia", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("Cuestillas", 100, 2.5, listaLugar);
+    listaLugar = insertarLugar("Platanar", 100, 2.5, listaLugar);
 
     listaRegion = insertarRegion(1, "San Jose", "Provincia de San Jose, Costa Rica", listaRegion);
     listaRegion = insertarRegion(2, "Escazu", "Provincia de San Jose, Costa Rica", listaRegion);
@@ -1414,6 +1418,7 @@ void cargarDatos()
     listaLugar = insertarLugar("Quebrada Honda", 287, 3.31, listaLugar); // Nicoya
 
     listaPersonas = insertarPersona("Alejandro Rodriguez", 208360735, "El Tanque", "2018");
+    listaPersonas = insertarPersona("Persona Prueba", 123, "Santa Clara", "2020");
     listaPersonas = insertarPersona("Juan Ca", 2081230735, "La Fortuna", "2013");
     listaPersonas = insertarPersona("Beto Beto", 1011230735, "San Rafael", "2022");
     listaPersonas = insertarPersona("Roberto Jimenez", 3011230735, "Florencia", "2021");
@@ -1431,7 +1436,11 @@ void cargarDatos()
     listaTiempo = insertarTiempo(crearFecha(2019, 2, 7), 8, 30, 24, 14, -45, -3, true);
     listaTiempo = insertarTiempo(crearFecha(2019, 11, 15), 9, 30, 24, 14, -45, -3, true);
     listaTiempo = insertarTiempo(crearFecha(2018, 11, 18), 10, 30, 24, 14, -45, -3, true);
-
+    listaTiempo = insertarTiempo(crearFecha(2020, 6, 11), 10, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2021, 5, 10), 10, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2022, 2, 27), 10, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2022, 9, 18), 10, 30, 24, 14, -45, -3, true);
+    listaTiempo = insertarTiempo(crearFecha(2022, 1, 2), 10, 30, 24, 14, -45, -3, true);
     // OK
     relacionarTiempoPersona(crearFecha(2020, 9, 23), 208360735);
     relacionarTiempoPersona(crearFecha(2018, 11, 7), 208360735);
@@ -1451,6 +1460,11 @@ void cargarDatos()
     relacionarTiempoLugar(crearFecha(2021, 7, 15), "Pocosol");
     relacionarTiempoLugar(crearFecha(2021, 8, 8), "Buenos Aires");
     relacionarTiempoLugar(crearFecha(2019, 8, 21), "San Antonio");
+    relacionarTiempoLugar(crearFecha(2020, 6, 11), "Santa Clara");
+    relacionarTiempoLugar(crearFecha(2021, 5, 10), "Florencia");
+    relacionarTiempoLugar(crearFecha(2022, 2, 27), "Santa Rita");
+    relacionarTiempoLugar(crearFecha(2022, 9, 18), "Cuestillas");
+    relacionarTiempoLugar(crearFecha(2022, 1, 2), "Platanar");
     relacionarTiempoLugar(crearFecha(2019, 2, 7), "Quebrada Honda");
     relacionarTiempoLugar(crearFecha(2019, 11, 15), "La Ribera");
     relacionarTiempoLugar(crearFecha(2018, 11, 18), "Aguas Zarcas");
@@ -1459,6 +1473,11 @@ void cargarDatos()
     relacionarLugarRegion("Pocosol", 1);
     relacionarLugarRegion("Buenos Aires", 2);
     relacionarLugarRegion("San Antonio", 3);
+    relacionarLugarRegion("Santa Clara", 3);
+    relacionarLugarRegion("Florencia", 3);
+    relacionarLugarRegion("Platanar", 3);
+    relacionarLugarRegion("Cuestillas", 3);
+    relacionarLugarRegion("Santa Rita", 3);
     relacionarLugarRegion("Quebrada Honda", 4);
     relacionarLugarRegion("La Ribera", 5);
     relacionarLugarRegion("Aguas Zarcas", 6);
@@ -1476,6 +1495,12 @@ void cargarDatos()
     relacionarTiempoLluvia(crearFecha(2019, 2, 7), "COD-4-20");
     relacionarTiempoLluvia(crearFecha(2019, 11, 15), "COD-4-27");
     relacionarTiempoLluvia(crearFecha(2018, 11, 18), "COD-4-22");
+    relacionarTiempoLluvia(crearFecha(2020, 6, 11), "COD-4-16");
+    relacionarTiempoLluvia(crearFecha(2021, 5, 10), "COD-4-17");
+    relacionarTiempoLluvia(crearFecha(2022, 2, 27), "COD-4-18");
+    relacionarTiempoLluvia(crearFecha(2022, 2, 27), "COD-4-19");
+    relacionarTiempoLluvia(crearFecha(2022, 9, 18), "COD-4-14");
+    relacionarTiempoLluvia(crearFecha(2022, 1, 2), "COD-4-20");
 
     listaEfimeridades = insertarEfimeridad("Sol", crearFecha(2020, 9, 23), crearHora(7, 25), crearHora(17, 9));
     listaEfimeridades = insertarEfimeridad("Efimeridad 2", crearFecha(2018, 11, 7), crearHora(5, 37), crearHora(17, 20));
@@ -1488,6 +1513,108 @@ void cargarDatos()
     listaEfimeridades = insertarEfimeridad("Sol", crearFecha(2019, 11, 15), crearHora(6, 12), crearHora(20, 12));
     listaEfimeridades = insertarEfimeridad("Efimeridad 10", crearFecha(2018, 11, 18), crearHora(6, 12), crearHora(20, 12));
 }
+
+void impReporteVariablesClimaticas(region *r, int anio1, int anio2)
+{
+    relRegionLugar *lugares = r->sublistasLugares;
+    string nombreRegion = "";
+
+    int promedioPrecipitaciones = 0;
+    int promedioDiasLluviosos = 0;
+    int promedioTemperaturaMayor = 0;
+    int promedioTemperaturaMenor = 0;
+    int cantidadValidos = 0;
+
+    if (lugares == NULL)
+    {
+        cout << "\nNo hay lugares registrados en esta region";
+    }
+    else
+    {
+        relRegionLugar *temp = lugares;
+        int cont = 0;
+        do
+        {
+            if (temp->enlace->sublistasTiempos != NULL)
+            {
+                int anioTemp = temp->enlace->sublistasTiempos->enlace->fecha->tm_year;
+                if ((anioTemp >= anio1) && (anioTemp <= anio2))
+                {
+                    if (nombreRegion == "")
+                    {
+                        nombreRegion = r->nombre;
+                        cout << "\nREGION: [ " << nombreRegion << " ]" << endl;
+                        cont++;
+                    }
+                    cout << "\n\nLUGAR: " << temp->enlace->nombre << endl;
+                    cout << "Precipitacion: " << temp->enlace->sublistasTiempos->enlace->precipitacion << endl;
+                    promedioPrecipitaciones+=temp->enlace->sublistasTiempos->enlace->precipitacion;
+                    cantidadValidos++;
+                    int diasLluviosos = 0;
+                    if (temp->enlace->sublistasTiempos->enlace->sublistasLluvias != NULL)
+                    {
+                        relTiempoLluvia *tempLluvia = temp->enlace->sublistasTiempos->enlace->sublistasLluvias;
+                        do
+                        {
+                            diasLluviosos++;
+                            tempLluvia = tempLluvia->sig;
+                        } while (tempLluvia != NULL);
+                    }
+                    cout << "Dias con lluvia: " << diasLluviosos << endl;
+                    promedioDiasLluviosos+=diasLluviosos;
+                    cout << "Temperatura Maxima: " << temp->enlace->sublistasTiempos->enlace->tempMaxima << endl;
+                    promedioTemperaturaMayor+=temp->enlace->sublistasTiempos->enlace->tempMaxima;
+                    cout << "Temperatura Minima: " << temp->enlace->sublistasTiempos->enlace->tempMinima << endl;
+                    promedioTemperaturaMenor+=temp->enlace->sublistasTiempos->enlace->tempMinima;
+                }
+            }
+            temp = temp->sig;
+        } while (temp != NULL);
+        if (cont == 0)
+            cout << "NO SE A ENCONTRADO NINGUN REGISTRO VALIDO";
+        else
+        {
+            // revisar que esto no sirve
+            cout << "\n\n- Promedios de la Region " << r->nombre << " -" << endl;
+            
+            cout << "Precipitaciones: "
+                 << (promedioPrecipitaciones/cantidadValidos) << endl;
+            cout << "Dias Lluviosos: "
+                 << (promedioDiasLluviosos/cantidadValidos) << endl;
+            cout << "Temperatura Maxima: "
+                 << (promedioTemperaturaMayor/cantidadValidos) << endl;
+            cout << "Temperatura Minima: "
+                 << (promedioTemperaturaMenor/cantidadValidos) << endl;
+        }
+    }
+
+}
+
+void reporteVariablesClimaticas()
+{
+    region *r;
+    int id;
+    int anio1, anio2;
+
+    while (true)
+    {
+        cout << "Ingrese el ID de la region: ";
+        cin >> id;
+        r = buscarRegion(id);
+        if (r != NULL)
+            break;
+        cout << "Id no valido, vuelve a intentarlo!: " << endl;
+    }
+
+    cout << "\n* PERIODO A CONSULTAR *\n";
+    cout << "Ingrese el primer anio del periodo: ";
+    cin >> anio1;
+    cout << "Ingrese el segundo anio del periodo: ";
+    cin >> anio2;
+
+    impReporteVariablesClimaticas(r, anio1, anio2);
+}
+
 
 void impReporteEfimeridadAnio(int anio, string nombreEfimeridad)
 {
@@ -2496,7 +2623,6 @@ void menuConsultas()
     cout << "\n2. Imprimir las horas con mayor diferencia de salida del sol en un anio.";
     cout << "\n3. Imprimir los extremos (seco/lluvioso) de un lugar en un determinado anio.";
     cout << "\n4. Imprimir la persona que ha hecho mayor caantidad de registros de tiempo." << endl;
-
     cout << "\nDigite su opcion a ejecutar: ";
     cin >> opcion;
     cout << endl;
@@ -2531,7 +2657,9 @@ void menuReportes()
     cout << "\n1. Imprimir la informacion de todas las listas.";
     cout << "\n2. Imprimir de los horarios de la salida de X y de la puesta de X por mes separado por anio.";
     cout << "\n3. Imprimir la precipitación mensual promedio de cada lugar en un año X";
-    cout << "\n4. Imprimir la precipitación mensual promedio de cada región en un año X"<<endl; 
+    cout << "\n4. Imprimir la precipitación mensual promedio de cada región en un año X"; 
+    cout << "\n5. Imprimir las variables climatológicas de una region X y un periodo Y";
+
 
     cout << "\nDigite su opcion a ejecutar: ";
     cin >> opcion;
@@ -2558,6 +2686,10 @@ void menuReportes()
         cout << "\n Digite el año en que desea buscar: ";
         cin >> anioPR;
         impPrecipitacionRegio(anioPR);
+    }
+    else if (opcion == 5)
+    {
+        reporteVariablesClimaticas();
     }
     else
     {
