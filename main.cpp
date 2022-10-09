@@ -1644,6 +1644,73 @@ void reporteCambiodeLLuvia(int anio){
     }
 }
 
+void imprimirClasificacionLluvia(int a, lugar *l)
+{
+
+    string nombres[5] = {"Nada de lluvia", "Lluvia debil", "Lluvia normal", "Lluvia fuerte", "Lluvia muy fuerte"};
+    int cantidades[5] = {0, 0, 0, 0, 0};
+
+    if (l == NULL)
+    {
+        cout << "\nLa lista esta vacia";
+    }
+    else
+    {
+        lugar *temp = l;
+        do
+        {
+            relTiempoLluvia *lista = l->sublistasTiempos->enlace->sublistasLluvias;
+            if (temp->sublistasTiempos != NULL)
+            {
+                if (temp->sublistasTiempos->enlace->fecha->tm_year == a)
+                {
+                    if (lista == NULL)
+                    {
+                        cout << "\nLa lista se encuentra vacia..." << endl;
+                    }
+                    else
+                    {
+                        relTiempoLluvia *temp2 = lista;
+                        int indice;
+
+                        do
+                        {
+                            for (int x = 0; x < 5; x++)
+                            {
+                                if (temp2->enlace->nombre == nombres[x])
+                                {
+                                    cantidades[x]++;
+                                }
+                            }
+                            temp2 = temp2->sig;
+                        } while (temp2 != NULL);
+                    }
+                }
+            }
+            temp = temp->sig;
+        } while (temp != l);
+        cout << "\n *** Porcentajes de Lluvias en " << l->nombre << " en el anio " << a << " ***"<< endl;
+
+        int total = 0;
+
+        if(l->sublistasTiempos != NULL)
+        {
+           cout << "Mes: " << mes[l->sublistasTiempos->enlace->fecha->tm_mon]<<endl; 
+        }
+         for (int x = 0; x < 5; x++)
+        {
+            total += cantidades[x];
+        }
+
+        for (int x = 0; x < 5; x++)
+        {
+            cout << nombres[x]<< " -> " << (cantidades[x] * 100 / total) << "%" << endl;
+        }
+
+    }
+}
+
+
 void impReporteVariablesClimaticas(region *r, int anio1, int anio2)
 {
     relRegionLugar *lugares = r->sublistasLugares;
@@ -2848,6 +2915,7 @@ void menuReportes()
     cout << "\n4. Imprimir la precipitación mensual promedio de cada región en un año X"; 
     cout << "\n5. Imprimir las variables climatológicas de una region X y un periodo Y";
     cout << "\n6. imprimir si hay periodos en un año X de cambios en tipos de días de lluvia";
+    cout << "\n7. imprimir si hay periodos en un año X de cambios en tipos de días de lluvia";
     cout << "\n8. Imprimir los días de lluvia de cada mes de un año X para un lugar Z";
     cout << "\n9. Obtenga e imprima los extremos de temperatura de cada mes de un año X para un lugar Z" <<endl;
 
@@ -2890,7 +2958,27 @@ void menuReportes()
         cin >> anioP;
         reporteCambiodeLLuvia(anioP);
 
-    }else if (opcion == 8)
+    }
+    else if (opcion == 7)
+    {
+        int a; // Año X
+        string nombreLugar;
+        lugar *l; // lugar Z
+        cout << "\n Digite el anio: ";
+        cin >> a;
+        while (true)
+        {
+            cout << "\n Digite el nombre del lugar: ";
+            getline(cin >> ws, nombreLugar);
+            if (buscarLugar(nombreLugar) != NULL)
+            {
+                l = buscarLugar(nombreLugar);
+                break;
+            }
+        }
+        imprimirClasificacionLluvia(a, l);
+    }
+    else if (opcion == 8)
     {
         int a;
         string nombre;
